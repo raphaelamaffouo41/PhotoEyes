@@ -6,6 +6,81 @@
 
 ---
 
+## 0. Expliqué très simplement (pour tout le monde)
+
+> Cette section raconte tout le document avec des images de la vie de tous les jours.
+> Si tu ne lis que ça, tu auras déjà compris l'essentiel.
+
+### L'histoire : un grand magasin de photos avec un gardien
+
+Imagine un **grand magasin** où on réserve des photographes. À l'entrée, il y a un **gardien**.
+Le gardien, c'est le programme qui vérifie **qui tu es** avant de te laisser entrer.
+
+Il y a **4 sortes de gens** :
+
+- 🚶 **Le visiteur** : il passe devant la vitrine et regarde. Il n'entre pas, il n'a pas de carte de membre.
+- 🙋 **Le client** : il veut réserver un photographe. Il a une carte de membre « client ».
+- 📷 **Le photographe** : il veut travailler. Il a une carte de membre « photographe ».
+- 👑 **L'admin (le patron)** : c'est le chef. C'est lui qui décide tout au milieu.
+
+**Règle très importante du magasin** : le client et le photographe **ne se parlent jamais directement**.
+Ils parlent **toujours au patron**, qui fait le lien. (C'est ce que le projet appelle le « principe d'opacité ».)
+
+### C'est quoi « se connecter » ?
+
+- **S'inscrire** = fabriquer sa carte de membre (donner son nom, son email, un mot de passe secret).
+- **Se connecter** = montrer sa carte pour entrer.
+- Quand tu te connectes, le gardien te donne un **bracelet magique** (on l'appelle le **jeton / JWT**).
+  Tant que tu portes le bracelet, tu peux circuler sans re-montrer ta carte à chaque porte.
+- Le bracelet **s'efface tout seul après un moment** (pour la sécurité). Un **deuxième bracelet de secours**
+  (le « refresh token ») permet d'en refaire un neuf sans devoir se reconnecter.
+
+### Le rôle (ta couleur de bracelet) VS le statut (est-ce que ta carte marche)
+
+Ce sont **deux choses différentes**, et c'est le point le plus important à comprendre :
+
+- **Le rôle** = **la couleur de ton bracelet**. Elle dit **où tu as le droit d'aller**.
+  Bracelet client → rayon « réservations ». Bracelet photographe → rayon « missions ». Bracelet patron → partout.
+- **Le statut** = **est-ce que ta carte est valable aujourd'hui**.
+  Un photographe a bien le bracelet « photographe »… mais tant que **le patron n'a pas vérifié son dossier**,
+  sa carte affiche « en attente » et il **ne peut pas encore travailler**.
+
+> Résumé : le rôle dit *quelle porte*, le statut dit *si la porte est ouverte pour toi maintenant*.
+
+### Pourquoi on ne choisit pas d'être patron soi-même
+
+Quand tu fabriques ta carte, tu **ne peux pas écrire « patron » dessus**. Sinon n'importe qui deviendrait chef !
+- Le client et le photographe **choisissent leur porte d'inscription** (client OU photographe).
+- Le bracelet « patron » est **donné à la main**, jamais choisi tout seul.
+
+### Les deux gardiens (le vrai et le faux)
+
+- Le **vrai gardien** est **derrière** (le serveur / backend). C'est lui qui décide pour de vrai. On ne peut pas le tromper.
+- Devant (le site / frontend), il y a juste un **panneau** qui cache les portes interdites pour que ce soit joli et pratique.
+  Mais ce panneau **ne protège rien** : c'est toujours le vrai gardien derrière qui vérifie.
+
+### Le gardien qui compte les erreurs
+
+Si quelqu'un essaie plein de mots de passe pour voler une carte, le gardien **compte**.
+Après **5 essais ratés**, il ferme la porte **15 minutes** et demande un petit test « je ne suis pas un robot » (**CAPTCHA**).
+
+### Et le mot de passe secret ?
+
+On ne garde **jamais** le mot de passe écrit en clair. On le transforme en **charabia impossible à relire** (**BCrypt**),
+comme un cadenas dont on a jeté la clé. On peut vérifier qu'il est bon, mais on ne peut pas le relire.
+
+### Ce qu'il faut réparer dans le programme actuel
+
+Aujourd'hui, dans le code déjà écrit :
+1. La carte de membre **n'a pas de couleur de bracelet** (pas de rôle) → à ajouter.
+2. Le mot de passe est **écrit en clair** (dangereux) → à cacher avec BCrypt.
+3. La porte « se connecter » **tourne en rond toute seule** (un bug qui s'appelle lui-même à l'infini) → à corriger.
+4. Il **n'y a pas encore de bracelet** (pas de jeton JWT fabriqué) → à ajouter.
+
+> La suite du document (sections 1 à 6) redit tout ça, mais avec les **mots techniques** et les **détails** pour construire.
+
+---
+
 ## 1. Analyse (maquette + CDC)
 
 ### Acteurs (4)
