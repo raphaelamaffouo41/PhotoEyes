@@ -1,17 +1,55 @@
-<div class="login-page">
-  <div class="right_form" >
-    <h3>Studio</h3><span> Link</span>
-    <h2>Ravis de vous revoir.</h2>
-    <p>Créez votre compte en 1 minute. Profils vérifiés, tarifs transparents, coordination assurée par l'admin.</p>
-    <nav>
-      <ul>
-        <li>Photographes vérifié</li>
-        <li>Photographes vérifié</li>
-        <li>Photographes vérifié</li>
+<div class="overlay" *ngIf="isOpen">
+  <div class="modal">
+    <div class="left-panel">
+      <h2>StudioLink</h2>
+      <div class="welcome">
+        <h3>Ravi de vous revoir.</h3>
+        <p>
+          Connectez-vous pour suivre vos réservations, missions et échanges avec l'administration.
+        </p>
+      </div>
+      <ul class="features">
+        <li>Photographes vérifiés</li>
+        <li>Principe d'opacité garanti</li>
+        <li>Paiement sécurisé (Orange/MTN)</li>
       </ul>
-    </nav>
-  </div>
-  <div class="left_form"  >
+    </div>
+    <div class="right-panel">
+      <div class="tabs">
+        <button class="active">Se connecter</button>
+        <button>Créer un compte</button>
+      </div>
+      <h2>Connexion</h2>
+      <p class="subtitle">Accédez à votre espace personnel.</p>
+      <button class="google-btn">
+        Continuer avec Google
+      </button>
+      <div class="separator">ou par e-mail</div>
+      <form>
+        <label>Adresse e-mail</label>
+        <input type="email" placeholder="vous@exemple.com" />
 
+        <label>Mot de passe</label>
+        <div class="password-box">
+          <input type="password" placeholder="Votre mot de passe" />
+          <span class="eye"></span>
+        </div>
+        <div class="options">
+          <label>
+            <input type="checkbox" /> Se souvenir de moi
+          </label>
+          <a href="#">Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" class="login-btn">
+          Se connecter →
+        </button>
+        <p class="footer-text">
+          Connexion sécurisée (JWT). Après 5 tentatives échouées, le compte est temporairement bloqué (CAPTCHA).
+        </p>
+      </form>
+      <p class="signup">
+        Pas encore de compte ? <a href="#">Créer un compte</a>
+      </p>
+    </div>
   </div>
 </div>

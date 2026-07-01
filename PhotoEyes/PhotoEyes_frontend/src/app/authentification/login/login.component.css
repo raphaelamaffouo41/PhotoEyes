@@ -1,0 +1,170 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  width: 900px;
+  height: 600px;
+  background: white;
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+/* LEFT */
+.left-panel {
+  width: 40%;
+  background: linear-gradient(180deg, #0b1f4d, #1e3a8a);
+  color: white;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.left-panel h2 {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.welcome h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.welcome p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.features {
+  margin-top: 30px;
+  list-style: none;
+  padding: 0;
+}
+
+.features li {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+/* RIGHT */
+.right-panel {
+  width: 60%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #eee;
+}
+
+.tabs .active {
+  background: #1e3a8a;
+  color: white;
+}
+
+h2 {
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.google-btn {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.separator {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 12px;
+  color: gray;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+input {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.password-box {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.login-btn {
+  margin-top: 20px;
+  background: #1e3a8a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.footer-text {
+  font-size: 11px;
+  color: gray;
+  margin-top: 15px;
+}
+
+.signup {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 13px;
+}
