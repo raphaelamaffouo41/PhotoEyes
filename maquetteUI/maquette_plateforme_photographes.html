@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maquettes — Plateforme Photographes (Opacité)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+<style>
+  :root{
+    /* Charte bleue (BuildConnect) */
+    --bg:#F8FAFC; --surface:#FFFFFF; --ink:#1E293B; --ink2:#475569; --ink3:#94A3B8;
+    --blue:#2563EB; --blue-700:#1D4ED8; --blue-500:#3B82F6; --blue-100:#DBEAFE; --blue-50:#EFF6FF;
+    --line:#E2E8F0; --slate:#0F172A;
+    --ok:#16A34A; --ok-bg:#DCFCE7; --warn:#B45309; --warn-bg:#FEF3C7;
+    --info:#1D4ED8; --info-bg:#EFF6FF; --danger:#DC2626; --danger-bg:#FEE2E2;
+    --neutral:#64748B; --neutral-bg:#F1F5F9;
+    --shadow:0 12px 32px rgba(15,23,42,.12); --shadow-sm:0 1px 2px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.serif{font-family:'Outfit',sans-serif;letter-spacing:-.02em}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
+  .hov{transition:all .18s ease}
+  .card-hov:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .nav-it:hover{background:rgba(255,255,255,.07)}
+  .btn-blue:hover{background:var(--blue-700);transform:translateY(-2px)}
+  .lift:hover{box-shadow:var(--shadow-sm);border-color:var(--blue-500)!important}
+  .phone-shell{box-shadow:0 30px 60px rgba(15,23,42,.28)}
+  .fade{animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const {useState} = React;
+
+/* ============================ ICONS (inline SVG) ============================ */
+const Ic = ({d, size=20, sw=1.9, fill="none", style}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor"
+       strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" style={style}>{d}</svg>
+);
+const I = {
+  aperture:(p)=><Ic {...p} d={<><circle cx="12" cy="12" r="9"/><path d="M14.3 9.6 19 8M9.6 9.7 7 5.5M9.7 14.4 5 16M14.4 14.3 17 18.5M8 12l-1-3M16 12l1 3"/></>}/>,
+  search:(p)=><Ic {...p} d={<><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></>}/>,
+  calendar:(p)=><Ic {...p} d={<><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></>}/>,
+  camera:(p)=><Ic {...p} d={<><path d="M3 8.5a2 2 0 0 1 2-2h2l1.2-2h7.6L19 6.5h0a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.3"/></>}/>,
+  heart:(p)=><Ic {...p} d={<path d="M12 20s-7-4.4-9.3-8.4C1 8.3 2.6 5 6 5c2 0 3.2 1.3 4 2.4C10.8 6.3 12 5 14 5c3.4 0 5 3.3 3.3 6.6C19 15.6 12 20 12 20Z"/>}/>,
+  user:(p)=><Ic {...p} d={<><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></>}/>,
+  grid:(p)=><Ic {...p} d={<><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></>}/>,
+  briefcase:(p)=><Ic {...p} d={<><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5M3 13h18"/></>}/>,
+  wallet:(p)=><Ic {...p} d={<><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 14h2"/></>}/>,
+  upload:(p)=><Ic {...p} d={<><path d="M12 16V4m0 0L8 8m4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></>}/>,
+  shield:(p)=><Ic {...p} d={<><path d="M12 3 5 6v5c0 4.4 3 7.6 7 9 4-1.4 7-4.6 7-9V6z"/><path d="m9.2 12 2 2 3.6-4"/></>}/>,
+  bell:(p)=><Ic {...p} d={<><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10.5 20a2 2 0 0 0 3 0"/></>}/>,
+  star:(p)=><Ic {...p} fill="currentColor" sw={0} d={<path d="M12 3.5l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.9 6.9 19.2l1-5.7-4.1-4 5.7-.8z"/>}/>,
+  starO:(p)=><Ic {...p} d={<path d="M12 3.5l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.9 6.9 19.2l1-5.7-4.1-4 5.7-.8z"/>}/>,
+  pin:(p)=><Ic {...p} d={<><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></>}/>,
+  check:(p)=><Ic {...p} d={<path d="m5 12 4.5 4.5L19 7"/>}/>,
+  x:(p)=><Ic {...p} d={<path d="M6 6 18 18M18 6 6 18"/>}/>,
+  arrow:(p)=><Ic {...p} d={<path d="M5 12h14m-6-6 6 6-6 6"/>}/>,
+  chev:(p)=><Ic {...p} d={<path d="m9 6 6 6-6 6"/>}/>,
+  lock:(p)=><Ic {...p} d={<><rect x="4.5" y="10" width="15" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></>}/>,
+  msg:(p)=><Ic {...p} d={<path d="M21 11.5a8.5 8.5 0 0 1-12 7.7L3 21l1.8-6A8.5 8.5 0 1 1 21 11.5Z"/>}/>,
+  download:(p)=><Ic {...p} d={<><path d="M12 4v10m0 0 4-4m-4 4-4-4"/><path d="M4 18h16"/></>}/>,
+  clock:(p)=><Ic {...p} d={<><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></>}/>,
+  users:(p)=><Ic {...p} d={<><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 5.2A3.2 3.2 0 0 1 16 11M21 20c0-2.6-1.5-4.2-4-4.8"/></>}/>,
+  scale:(p)=><Ic {...p} d={<><path d="M12 4v16M7 20h10M5 8h14M5 8l-2.5 5a2.5 2.5 0 0 0 5 0L5 8Zm14 0-2.5 5a2.5 2.5 0 0 0 5 0L19 8ZM8 5l8-1.5"/></>}/>,
+  logout:(p)=><Ic {...p} d={<><path d="M14 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8"/><path d="M17 15l3-3-3-3M9 12h11"/></>}/>,
+  filter:(p)=><Ic {...p} d={<path d="M3 5h18l-7 8v5l-4 2v-7z"/>}/>,
+  trend:(p)=><Ic {...p} d={<path d="M3 16l5-5 3.5 3.5L20 7m0 0h-5m5 0v5"/>}/>,
+  eye:(p)=><Ic {...p} d={<><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></>}/>,
+  eyeOff:(p)=><Ic {...p} d={<><path d="M3 3l18 18M10.6 6.2A9.8 9.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.3 4.2M6.6 6.7C3.9 8.3 2 12 2 12s3.5 7 10 7a9.8 9.8 0 0 0 4-.9"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></>}/>,
+  mail:(p)=><Ic {...p} d={<><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></>}/>,
+  phone:(p)=><Ic {...p} d={<path d="M6.5 3.5 9 4l1 4-2 1.5a12 12 0 0 0 6 6L15.5 13l4 1 .5 2.6A2 2 0 0 1 18 19 15 15 0 0 1 5 6 2 2 0 0 1 6.5 3.5Z"/>}/>,
+  google:(p)=><Ic {...p} sw={0} fill="currentColor" d={<path d="M21.6 12.2c0-.7-.06-1.2-.2-1.8H12v3.4h5.4c-.1.9-.7 2.2-1.9 3.1l-.02.1 2.8 2.2.2.02c1.8-1.6 2.8-4 2.8-6.9"/>}/>,
+};
+
+/* ============================ DATA ============================ */
+const PHOTOGRAPHERS = [
+  {id:1, nom:"Marlène Atangana", spec:"Mariage & Événementiel", ville:"Yaoundé", note:4.9, avis:128, prix:45000, seed:"marlene", certifie:true,
+   bio:"12 ans d'expérience dans la captation de mariages traditionnels et religieux. Style intemporel et lumineux.", cats:["Mariage","Cérémonie","Couple"]},
+  {id:2, nom:"Hervé Nkoulou", spec:"Portrait & Corporate", ville:"Douala", note:4.7, avis:86, prix:35000, seed:"herve", certifie:true,
+   bio:"Spécialiste du portrait corporate et des shootings d'entreprise. Studio mobile disponible.", cats:["Portrait","Corporate","Studio"]},
+  {id:3, nom:"Sandrine Bilong", spec:"Mode & Studio", ville:"Yaoundé", note:4.8, avis:97, prix:60000, seed:"sandrine", certifie:true,
+   bio:"Direction artistique mode et éditorial. Collaborations avec créateurs locaux.", cats:["Mode","Éditorial","Beauté"]},
+  {id:4, nom:"Aïcha Fouda", spec:"Grossesse & Naissance", ville:"Douala", note:5.0, avis:54, prix:40000, seed:"aicha", certifie:true,
+   bio:"Photographe maternité et nouveau-né, séances douces en studio cocooning.", cats:["Grossesse","Naissance","Famille"]},
+  {id:5, nom:"Patrick Mbarga", spec:"Événementiel", ville:"Bafoussam", note:4.6, avis:71, prix:30000, seed:"patrick", certifie:false,
+   bio:"Couverture d'événements culturels et concerts. Livraison rapide.", cats:["Concert","Festival","Soirée"]},
+  {id:6, nom:"Joël Tchamba", spec:"Immobilier & Produit", ville:"Yaoundé", note:4.5, avis:43, prix:25000, seed:"joel", certifie:true,
+   bio:"Photographie immobilière et packshot produit pour e-commerce.", cats:["Immobilier","Produit","Drone"]},
+];
+
+const RESAS_CLIENT = [
+  {id:"#RS-2048", photo:"Marlène Atangana", type:"Mariage", date:"05 juil. 2026", lieu:"Yaoundé", montant:180000, statut:"CONFIRMÉE"},
+  {id:"#RS-2041", photo:"Hervé Nkoulou", type:"Corporate", date:"28 juin 2026", lieu:"Douala", montant:70000, statut:"ACCEPTÉE"},
+  {id:"#RS-2033", photo:"En cours d'attribution", type:"Anniversaire", date:"12 juil. 2026", lieu:"Yaoundé", montant:0, statut:"EN_ATTENTE"},
+  {id:"#RS-1990", photo:"Aïcha Fouda", type:"Grossesse", date:"02 juin 2026", lieu:"Douala", montant:40000, statut:"LIVRÉE"},
+  {id:"#RS-1954", photo:"Sandrine Bilong", type:"Mode", date:"18 mai 2026", lieu:"Yaoundé", montant:120000, statut:"CLÔTURÉE"},
+];
+
+const MISSIONS_PHOTO = [
+  {id:"#RS-2048", type:"Mariage", date:"05 juil. 2026 · 10h–18h", ville:"Yaoundé", net:162000, statut:"CONFIRMÉE", new:false},
+  {id:"#RS-2052", type:"Baptême", date:"09 juil. 2026 · 14h–17h", ville:"Yaoundé", net:31500, statut:"À_CONFIRMER", new:true},
+  {id:"#RS-2019", type:"Corporate", date:"21 juin 2026 · 09h–12h", ville:"Yaoundé", net:54000, statut:"TERMINÉE", new:false},
+  {id:"#RS-1990", type:"Portrait", date:"02 juin 2026 · 15h–17h", ville:"Yaoundé", net:36000, statut:"LIVRÉE", new:false},
+];
+
+const ADMIN_DEMANDES = [
+  {id:"#RS-2033", client:"Client #C-318", type:"Anniversaire", date:"12 juil. 2026", ville:"Yaoundé", il:"il y a 12 min"},
+  {id:"#RS-2054", client:"Client #C-402", type:"Mariage", date:"26 juil. 2026", ville:"Douala", il:"il y a 48 min"},
+  {id:"#RS-2055", client:"Client #C-377", type:"Corporate", date:"30 juin 2026", ville:"Yaoundé", il:"il y a 2 h"},
+];
+
+const STATUS = {
+  EN_ATTENTE:{l:"En attente",c:"var(--warn)",bg:"var(--warn-bg)"},
+  ACCEPTÉE:{l:"Acceptée — payez l'acompte",c:"var(--info)",bg:"var(--info-bg)"},
+  CONFIRMÉE:{l:"Confirmée",c:"var(--ok)",bg:"var(--ok-bg)"},
+  À_CONFIRMER:{l:"À confirmer",c:"var(--warn)",bg:"var(--warn-bg)"},
+  TERMINÉE:{l:"Terminée",c:"var(--neutral)",bg:"var(--neutral-bg)"},
+  LIVRÉE:{l:"Livrée",c:"var(--ok)",bg:"var(--ok-bg)"},
+  CLÔTURÉE:{l:"Clôturée",c:"var(--neutral)",bg:"var(--neutral-bg)"},
+};
+const fcfa = n => n.toLocaleString('fr-FR') + " FCFA";
+
+/* ============================ SMALL UI ============================ */
+const Badge = ({s}) => { const o=STATUS[s]||{l:s,c:"var(--ink2)",bg:"#eee"};
+  return <span style={{background:o.bg,color:o.c,fontSize:11.5,fontWeight:600,padding:"4px 10px",borderRadius:999,whiteSpace:"nowrap"}}>{o.l}</span>; };
+
+const Stars = ({n,size=14}) => (
+  <span style={{display:"inline-flex",gap:1,color:"#FBBF24"}}>
+    {[1,2,3,4,5].map(i=> i<=Math.round(n) ? <I.star key={i} size={size}/> : <I.starO key={i} size={size}/>)}
+  </span>
+);
+
+const Avatar = ({name,hue="var(--blue)",size=44}) => {
+  const ini = name.split(" ").map(w=>w[0]).slice(0,2).join("");
+  return <div style={{width:size,height:size,borderRadius:"50%",flexShrink:0,
+    background:hue==="var(--blue)"?"var(--blue-100)":hue,color:hue==="var(--blue)"?"var(--blue-700)":"#fff",fontWeight:700,
+    display:"flex",alignItems:"center",justifyContent:"center",fontSize:size*.36}}>{ini}</div>;
+};
+
+// "photo" = vraie image thématique (loremflickr par mot-clé) + dégradé bleu de repli (hors-ligne)
+const PKW=[["marlene","wedding"],["herve","portrait"],["sandrine","fashion"],["aicha","pregnancy"],["patrick","concert"],["joel","architecture"],["linda","fashion"]];
+function imgKw(s){s=(""+s).toLowerCase();for(const[k,v]of PKW){if(s.includes(k))return v;}return "photography";}
+function imgLock(s){let h=0;s=""+s;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h%99+1;}
+const imgUrl=(seed,kw)=>`https://loremflickr.com/640/480/${encodeURIComponent(kw||imgKw(seed))}?lock=${imgLock((seed||"")+(kw||""))}`;
+const Photo = ({seed="studio",h=150,label,big,radius=12,kw}) => (
+  <div className="ph" style={{height:h,borderRadius:radius,position:"relative",overflow:"hidden",
+    background:"linear-gradient(135deg, var(--blue-100), #c7d2fe)"}}>
+    <img src={imgUrl(seed,kw)} alt="" loading="lazy"
+      style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+    {label && <div style={{position:"absolute",left:10,bottom:8,color:"#fff",fontSize:12,fontWeight:600,
+      textShadow:"0 1px 4px rgba(0,0,0,.5)",background:"rgba(15,23,42,.35)",padding:"2px 8px",borderRadius:999,backdropFilter:"blur(2px)"}}>{label}</div>}
+  </div>
+);
+
+const Stat = ({icon:Ico,label,value,sub,tone="var(--blue)"}) => (
+  <div style={{background:"var(--surface)",border:"1px solid var(--line)",borderRadius:18,padding:18,flex:1,minWidth:0,boxShadow:"var(--shadow-sm)"}}>
+    <span style={{color:tone,background:"var(--blue-50)",borderRadius:12,padding:9,display:"inline-flex"}}><Ico size={18}/></span>
+    <div style={{fontSize:24,fontWeight:800,marginTop:12,letterSpacing:-.5,fontFamily:"'Outfit',sans-serif",color:"var(--ink)"}}>{value}</div>
+    <div style={{color:"var(--ink3)",fontSize:12.5,fontWeight:500,marginTop:2}}>{label}</div>
+    {sub && <div style={{color:"var(--blue)",fontSize:11.5,marginTop:4,fontWeight:600}}>{sub}</div>}
+  </div>
+);
+
+const GoldBtn = ({children,onClick,full,small,ghost}) => (
+  <button onClick={onClick} className={ghost?"lift hov":"btn-blue hov"} style={{
+    width:full?"100%":"auto",padding:small?"9px 16px":"12px 20px",borderRadius:999,fontWeight:600,fontSize:small?13:14,
+    display:"inline-flex",alignItems:"center",justifyContent:"center",gap:8,
+    background:ghost?"var(--blue-50)":"var(--blue)",color:ghost?"var(--blue-700)":"#fff",
+    border:ghost?"1px solid transparent":"none",boxShadow:ghost?"none":"0 8px 18px rgba(37,99,235,.28)"}}>{children}</button>
+);
+
+const OpacityNote = ({children}) => (
+  <div style={{display:"flex",gap:10,alignItems:"flex-start",background:"var(--blue-50)",
+    border:"1px solid var(--blue-100)",borderRadius:12,padding:"11px 13px",color:"var(--blue-700)",fontSize:12.5,lineHeight:1.5}}>
+    <I.lock size={16} style={{marginTop:1,flexShrink:0}}/><span>{children}</span>
+  </div>
+);
+
+/* ============================ NAV CONFIG ============================ */
+const NAV = {
+  visiteur:[["search","Découvrir","Recherche"],["camera","Profil photographe","Profil"]],
+  client:[["search","Recherche","Recherche"],["calendar","Mes réservations","Réservations"],["heart","Favoris","Favoris"],["msg","Messages admin","Messages"]],
+  photographe:[["grid","Tableau de bord","Dashboard"],["shield","Mon dossier","Dossier"],["briefcase","Missions","Missions"],["calendar","Disponibilités","Agenda"],["wallet","Finances","Finances"]],
+  admin:[["grid","Tableau de bord","Dashboard"],["bell","Demandes (matching)","Demandes"],["shield","Validations","Validations"],["scale","Litiges","Litiges"]],
+};
+const ROLES = [["visiteur","Visiteur"],["client","Client"],["photographe","Photographe"],["admin","Admin"]];
+const ROLE_NET = {visiteur:"Espace public",client:"Espace Client",photographe:"Espace Pro",admin:"Espace Admin"};
+
+/* ============================ SCREENS ============================ */
+
+function ScreenRecherche({onOpen, mobile}){
+  return (
+    <div className="fade">
+      <div style={{background:"linear-gradient(120deg,#0F172A,#1D4ED8)",borderRadius:24,padding:mobile?"24px 18px":"38px 32px",color:"#fff",position:"relative",overflow:"hidden"}}>
+        <div style={{position:"absolute",right:-20,top:-20,opacity:.14,color:"#fff"}}><I.aperture size={mobile?150:220}/></div>
+        <div style={{position:"relative"}}>
+          <span style={{background:"rgba(255,255,255,.15)",padding:"5px 12px",borderRadius:999,fontWeight:600,fontSize:12,display:"inline-flex",alignItems:"center",gap:6}}><I.shield size={14}/>Photographes vérifiés · Cameroun</span>
+          <h1 style={{fontSize:mobile?21:38,margin:"14px 0 8px",lineHeight:1.15}}>Trouvez le photographe parfait pour votre moment.</h1>
+          <p style={{color:"#cbd5e1",fontSize:14.5,maxWidth:440,margin:0}}>Profils vérifiés, portfolios, tarifs transparents. Vous réservez, la plateforme coordonne tout.</p>
+          <div style={{display:"flex",gap:8,marginTop:22,flexWrap:"wrap",background:"#fff",padding:8,borderRadius:999,maxWidth:560,boxShadow:"var(--shadow)"}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,flex:1,minWidth:120,color:"var(--ink3)",padding:"0 12px"}}>
+              <I.search size={18}/><span style={{color:"var(--ink2)",fontSize:14}}>Mariage, portrait…</span></div>
+            <div style={{display:"flex",alignItems:"center",gap:6,color:"var(--ink3)",padding:"0 12px",borderLeft:"1px solid var(--line)"}}>
+              <I.pin size={16}/><span style={{color:"var(--ink2)",fontSize:14}}>Yaoundé</span></div>
+            <GoldBtn small>Rechercher</GoldBtn>
+          </div>
+        </div>
+      </div>
+
+      <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"20px 0",alignItems:"center"}}>
+        <span style={{display:"inline-flex",alignItems:"center",gap:6,color:"var(--ink2)",fontWeight:600,fontSize:13}}><I.filter size={16}/>Filtres :</span>
+        {["Toutes villes","Spécialité","Prix","Note 4+"].map((f,i)=>(
+          <button key={i} className="lift hov" style={{border:"1px solid var(--line)",background:"#fff",borderRadius:999,padding:"7px 14px",fontSize:13,color:"var(--ink2)",display:"inline-flex",alignItems:"center",gap:6}}>
+            {f}<I.chev size={14}/></button>))}
+        <span style={{marginLeft:"auto",color:"var(--ink3)",fontSize:13}}>{PHOTOGRAPHERS.length} photographes vérifiés</span>
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"repeat(auto-fill,minmax(250px,1fr))",gap:18}}>
+        {PHOTOGRAPHERS.map(p=>(
+          <div key={p.id} onClick={()=>onOpen(p)} className="card-hov hov" style={{background:"var(--surface)",border:"1px solid var(--line)",borderRadius:18,overflow:"hidden",cursor:"pointer",boxShadow:"var(--shadow-sm)"}}>
+            <Photo seed={p.seed+"-cover"} h={150} radius={0} label={p.cats[0]}/>
+            <div style={{padding:16}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:8}}>
+                <div style={{display:"flex",alignItems:"center",gap:6,minWidth:0}}>
+                  <strong style={{fontSize:15,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{p.nom}</strong>
+                  {p.certifie && <span title="Photographe vérifié" style={{color:"var(--ok)",display:"flex"}}><I.shield size={15}/></span>}
+                </div>
+                <span style={{display:"inline-flex",alignItems:"center",gap:3,fontSize:13,fontWeight:700}}><I.star size={13} style={{color:"#FBBF24"}}/>{p.note}</span>
+              </div>
+              <div style={{color:"var(--ink3)",fontSize:12.5,margin:"5px 0 12px",display:"flex",alignItems:"center",gap:5}}>
+                <I.pin size={13}/>{p.ville} · {p.spec}</div>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",borderTop:"1px solid var(--line)",paddingTop:12}}>
+                <span><span style={{color:"var(--ink3)",fontSize:11}}>à partir de</span><br/><strong style={{fontSize:14}}>{fcfa(p.prix)}</strong></span>
+                <span style={{color:"var(--blue)",fontWeight:600,fontSize:13,display:"inline-flex",alignItems:"center",gap:4}}>Voir <I.arrow size={15}/></span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ScreenProfil({p, onReserve, mobile}){
+  p = p || PHOTOGRAPHERS[0];
+  const reviews = [
+    {n:"Estelle N.",r:5,t:"Marlène a sublimé notre mariage. Photos livrées dans les délais, qualité exceptionnelle.",d:"il y a 2 sem."},
+    {n:"Boris K.",r:5,t:"Très professionnelle, à l'écoute. Je recommande vivement.",d:"il y a 1 mois"},
+    {n:"Christelle A.",r:4,t:"Belles photos, ambiance détendue le jour J.",d:"il y a 2 mois"},
+  ];
+  return (
+    <div className="fade">
+      <div style={{position:"relative",borderRadius:24,overflow:"hidden"}}>
+        <Photo seed={p.seed+"-hero"} h={mobile?160:210} radius={0}/>
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(180deg,transparent,rgba(15,23,42,.5))"}}/>
+      </div>
+      <div style={{display:"flex",gap:16,flexDirection:mobile?"column":"row",marginTop:-44,padding:"0 18px",alignItems:mobile?"flex-start":"flex-end",position:"relative"}}>
+        <div style={{borderRadius:24,overflow:"hidden",border:"5px solid #fff",boxShadow:"var(--shadow)",width:mobile?86:104,height:mobile?86:104,flexShrink:0}}>
+          <Photo seed={p.seed} h={mobile?86:104} radius={0}/>
+        </div>
+        <div style={{flex:1,paddingBottom:6}}>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <h1 style={{margin:0,fontSize:mobile?24:30}}>{p.nom}</h1>
+            {p.certifie && <span style={{background:"var(--ok-bg)",color:"var(--ok)",borderRadius:999,padding:"3px 10px",fontSize:11.5,fontWeight:700,display:"inline-flex",alignItems:"center",gap:4}}><I.shield size={13}/>Vérifié</span>}
+          </div>
+          <div style={{color:"var(--ink2)",fontSize:14,marginTop:5,display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
+            <span style={{display:"inline-flex",gap:5,alignItems:"center"}}><I.camera size={15}/>{p.spec}</span>
+            <span style={{display:"inline-flex",gap:5,alignItems:"center"}}><I.pin size={15}/>{p.ville}</span>
+            <span style={{display:"inline-flex",gap:5,alignItems:"center"}}><Stars n={p.note}/> <b>{p.note}</b> ({p.avis} avis)</span>
+          </div>
+        </div>
+        {!mobile && <GoldBtn onClick={onReserve}><I.calendar size={17}/>Réserver</GoldBtn>}
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"2fr 1fr",gap:18,marginTop:24}}>
+        <div>
+          <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,boxShadow:"var(--shadow-sm)"}}>
+            <h3 style={{margin:"0 0 8px",fontSize:18}}>À propos</h3>
+            <p style={{color:"var(--ink2)",fontSize:14,lineHeight:1.6,margin:0}}>{p.bio}</p>
+            <div style={{display:"flex",gap:7,flexWrap:"wrap",marginTop:12}}>
+              {p.cats.map(c=><span key={c} style={{background:"var(--blue-50)",color:"var(--blue-700)",borderRadius:999,padding:"5px 12px",fontSize:12.5,fontWeight:500}}>{c}</span>)}
+            </div>
+          </div>
+
+          <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,marginTop:16,boxShadow:"var(--shadow-sm)"}}>
+            <h3 style={{margin:"0 0 12px",fontSize:18}}>Portfolio</h3>
+            <div style={{display:"grid",gridTemplateColumns:mobile?"1fr 1fr":"repeat(3,1fr)",gap:10}}>
+              {[0,1,2,3,4,5].map(i=><Photo key={i} seed={p.seed+"-pf"+i} h={mobile?110:120} label={p.cats[i%p.cats.length]}/>)}
+            </div>
+          </div>
+
+          <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,marginTop:16,boxShadow:"var(--shadow-sm)"}}>
+            <h3 style={{margin:"0 0 10px",fontSize:18}}>Avis clients <span style={{color:"var(--ink3)",fontWeight:400,fontSize:14}}>· modérés par l'admin</span></h3>
+            {reviews.map((rv,i)=>(
+              <div key={i} style={{padding:"12px 0",borderBottom:i<reviews.length-1?"1px solid var(--line)":"none"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:10}}><Avatar name={rv.n} size={34}/><strong style={{fontSize:14}}>{rv.n}</strong></div>
+                  <Stars n={rv.r}/>
+                </div>
+                <p style={{margin:"9px 0 4px",fontSize:13.5,color:"var(--ink2)",lineHeight:1.5}}>{rv.t}</p>
+                <span style={{color:"var(--ink3)",fontSize:11.5}}>{rv.d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,position:mobile?"static":"sticky",top:10,boxShadow:"var(--shadow-sm)"}}>
+            <h3 style={{margin:"0 0 12px",fontSize:18}}>Tarifs</h3>
+            {[["Séance portrait (1h)",p.prix],["Demi-journée",p.prix*2.6],["Journée complète",p.prix*4]].map((t,i)=>(
+              <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"10px 0",borderBottom:i<2?"1px dashed var(--line)":"none",fontSize:13.5}}>
+                <span style={{color:"var(--ink2)"}}>{t[0]}</span><strong>{fcfa(Math.round(t[1]/1000)*1000)}</strong>
+              </div>
+            ))}
+            <div style={{marginTop:14}}><GoldBtn full onClick={onReserve}><I.calendar size={17}/>Réserver</GoldBtn></div>
+            <div style={{marginTop:12}}>
+              <OpacityNote>Aucune coordonnée directe du photographe n'est affichée. Le bouton « Réserver » est l'unique point de contact — votre demande est traitée par l'administrateur.</OpacityNote>
+            </div>
+          </div>
+        </div>
+      </div>
+      {mobile && <div style={{position:"sticky",bottom:0,marginTop:16,paddingTop:10}}><GoldBtn full onClick={onReserve}><I.calendar size={17}/>Réserver ce photographe</GoldBtn></div>}
+    </div>
+  );
+}
+
+function ScreenReservation({p, onBack, mobile}){
+  p = p || PHOTOGRAPHERS[0];
+  const Field = ({label,value,icon:Ico}) => (
+    <label style={{display:"block",marginBottom:14}}>
+      <span style={{fontSize:12.5,fontWeight:600,color:"var(--ink)"}}>{label}</span>
+      <div className="lift hov" style={{marginTop:6,display:"flex",alignItems:"center",gap:9,border:"1px solid var(--line)",borderRadius:12,padding:"11px 13px",background:"#fff",color:"var(--ink)",fontSize:14}}>
+        {Ico && <Ico size={17} style={{color:"var(--ink3)"}}/>}{value}</div>
+    </label>
+  );
+  return (
+    <div className="fade" style={{maxWidth:620,margin:"0 auto"}}>
+      <button onClick={onBack} className="hov" style={{color:"var(--blue)",fontWeight:600,fontSize:13,display:"flex",alignItems:"center",gap:6,marginBottom:14}}>
+        <I.chev size={16} style={{transform:"rotate(180deg)"}}/>Retour au profil</button>
+      <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:20,padding:mobile?18:26,boxShadow:"var(--shadow-sm)"}}>
+        <h1 style={{margin:"0 0 4px",fontSize:24}}>Demande de réservation</h1>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 0",borderBottom:"1px solid var(--line)",marginBottom:18}}>
+          <div style={{borderRadius:12,overflow:"hidden",width:42,height:42}}><Photo seed={p.seed} h={42} radius={0}/></div>
+          <div><strong style={{fontSize:14}}>{p.nom}</strong><div style={{color:"var(--ink3)",fontSize:12.5}}>{p.spec} · {p.ville}</div></div>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:"0 16px"}}>
+          <Field label="Date souhaitée" value="05 juillet 2026" icon={I.calendar}/>
+          <Field label="Créneau" value="10:00 — 18:00" icon={I.clock}/>
+          <Field label="Type de prestation" value="Mariage" icon={I.camera}/>
+          <Field label="Lieu" value="Yaoundé, Bastos" icon={I.pin}/>
+        </div>
+        <Field label="Délai de livraison souhaité" value="14 jours (défaut)" icon={I.clock}/>
+        <label style={{display:"block",marginBottom:16}}>
+          <span style={{fontSize:12.5,fontWeight:600,color:"var(--ink)"}}>Instructions particulières</span>
+          <div style={{marginTop:6,border:"1px solid var(--line)",borderRadius:12,padding:13,background:"#fff",color:"var(--ink2)",fontSize:14,minHeight:72}}>
+            Cérémonie traditionnelle puis réception. Prévoir couverture de l'arrivée des mariés.</div>
+        </label>
+        <OpacityNote>Votre demande est transmise à <b>l'administrateur</b>, pas au photographe. Réponse sous 24h ouvrées. Vous ne payez l'acompte (30%) qu'après confirmation.</OpacityNote>
+        <div style={{display:"flex",gap:10,marginTop:18,flexDirection:mobile?"column":"row"}}>
+          <GoldBtn full>Envoyer ma demande <I.arrow size={17}/></GoldBtn>
+          <GoldBtn ghost full onClick={onBack}>Annuler</GoldBtn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScreenResasClient({mobile}){
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Mes réservations</h1>
+      <p style={{color:"var(--ink3)",margin:"0 0 18px",fontSize:14}}>Suivez le cycle de vie de chaque demande, de l'envoi à la livraison.</p>
+      <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
+        {["Toutes (5)","En cours (3)","Terminées (2)"].map((t,i)=>(
+          <button key={i} style={{padding:"8px 14px",borderRadius:999,fontSize:13,fontWeight:600,border:"1px solid "+(i===0?"var(--blue)":"var(--line)"),background:i===0?"var(--blue)":"#fff",color:i===0?"#fff":"var(--ink2)"}}>{t}</button>))}
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {RESAS_CLIENT.map(r=>(
+          <div key={r.id} className="lift hov" style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:16,display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row",boxShadow:"var(--shadow-sm)"}}>
+            <div style={{width:50,height:50,borderRadius:14,background:"var(--blue-50)",color:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.camera size={22}/></div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+                <strong style={{fontSize:15}}>{r.type}</strong>
+                <span style={{color:"var(--ink3)",fontSize:12.5}}>{r.id}</span>
+              </div>
+              <div style={{color:"var(--ink2)",fontSize:13,marginTop:4,display:"flex",gap:12,flexWrap:"wrap"}}>
+                <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.user size={13}/>{r.photo}</span>
+                <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.calendar size={13}/>{r.date}</span>
+                <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.pin size={13}/>{r.lieu}</span>
+              </div>
+            </div>
+            <div style={{textAlign:mobile?"left":"right",display:"flex",flexDirection:mobile?"row":"column",gap:8,alignItems:mobile?"center":"flex-end",width:mobile?"100%":"auto",justifyContent:"space-between"}}>
+              <Badge s={r.statut}/>
+              {r.montant>0 && <strong style={{fontSize:14}}>{fcfa(r.montant)}</strong>}
+              {r.statut==="ACCEPTÉE" && <GoldBtn small><I.wallet size={15}/>Payer l'acompte</GoldBtn>}
+              {r.statut==="LIVRÉE" && <GoldBtn small><I.download size={15}/>Mes photos</GoldBtn>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// État de complétude du dossier (obligatoires) — partagé Dashboard ↔ Dossier
+function dossierReady(d){
+  const pieceOk=d.recto&&d.verso;
+  const oks=[true, d.specs.length>0, true, true, d.photo, true, pieceOk, true];
+  const done=oks.filter(Boolean).length, total=oks.length;
+  return {pieceOk, done, total, ready:done===total};
+}
+
+function ScreenPhotoDash({mobile, go, dossier}){
+  const bars=[42,55,38,61,72,48,80,66,90,74,58,95];
+  const months=["J","F","M","A","M","J","J","A","S","O","N","D"];
+  const dRe = dossier ? dossierReady(dossier) : null;
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Bonjour, Marlène 👋</h1>
+      <p style={{color:"var(--ink3)",margin:"0 0 18px",fontSize:14}}>Voici l'activité de votre studio ce mois-ci.</p>
+      {go && dossier && dossier.submitted && dossier.decision==="validated" && (
+        <div style={{display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row",
+          background:"var(--ok-bg)",border:"1px solid #86EFAC",borderRadius:16,padding:16,marginBottom:16}}>
+          <span style={{width:42,height:42,borderRadius:12,background:"var(--ok)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.shield size={22}/></span>
+          <div style={{flex:1,minWidth:0}}>
+            <strong style={{fontSize:14.5,color:"var(--ok)"}}>Profil vérifié ✔ — visible publiquement</strong>
+            <div style={{color:"#166534",fontSize:12.5,marginTop:2}}>Votre dossier a été validé par l'admin. Vous pouvez désormais recevoir des missions.</div>
+          </div>
+          <GoldBtn ghost small full={mobile} onClick={()=>go("Agenda")}><I.calendar size={15}/>Gérer mes dispos</GoldBtn>
+        </div>
+      )}
+      {go && dossier && dossier.submitted && dossier.decision==="rejected" && (
+        <div style={{display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row",
+          background:"var(--danger-bg)",border:"1px solid #FCA5A5",borderRadius:16,padding:16,marginBottom:16}}>
+          <span style={{width:42,height:42,borderRadius:12,background:"var(--danger)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.x size={22}/></span>
+          <div style={{flex:1,minWidth:0}}>
+            <strong style={{fontSize:14.5,color:"var(--danger)"}}>Dossier rejeté — action requise</strong>
+            <div style={{color:"#991B1B",fontSize:12.5,marginTop:2}}>L'admin a rejeté votre dossier. Corrigez les éléments et resoumettez (max. 3 soumissions).</div>
+          </div>
+          <GoldBtn small full={mobile} onClick={()=>go("Dossier")}><I.arrow size={15}/>Corriger mon dossier</GoldBtn>
+        </div>
+      )}
+      {go && dossier && dossier.submitted && !dossier.decision && (
+        <div style={{display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row",
+          background:"var(--info-bg)",border:"1px solid var(--blue-100)",borderRadius:16,padding:16,marginBottom:16}}>
+          <span style={{width:42,height:42,borderRadius:12,background:"var(--blue)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.clock size={22}/></span>
+          <div style={{flex:1,minWidth:0}}>
+            <strong style={{fontSize:14.5,color:"var(--blue-700)"}}>Dossier soumis — en cours de validation</strong>
+            <div style={{color:"var(--info)",fontSize:12.5,marginTop:2}}>Traitement sous 72h ouvrées. Votre profil deviendra public dès la validation de l'admin.</div>
+          </div>
+          <GoldBtn ghost small full={mobile} onClick={()=>go("Dossier")}>Voir mon dossier</GoldBtn>
+        </div>
+      )}
+      {go && dossier && !dossier.submitted && (
+        <div style={{display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row",
+          background:"var(--warn-bg)",border:"1px solid #FDE68A",borderRadius:16,padding:16,marginBottom:16}}>
+          <span style={{width:42,height:42,borderRadius:12,background:"var(--warn)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.shield size={22}/></span>
+          <div style={{flex:1,minWidth:0}}>
+            <strong style={{fontSize:14.5,color:"var(--warn)"}}>Dossier incomplet — Profil non visible</strong>
+            <div style={{color:"#92400E",fontSize:12.5,marginTop:2}}>{dRe&&dRe.ready
+              ? "Votre dossier est complet ("+dRe.done+"/"+dRe.total+"). Soumettez-le à la validation de l'admin."
+              : "Complétez les éléments requis"+(dRe?" ("+dRe.done+"/"+dRe.total+")":"")+", dont la pièce d'identité, pour soumettre votre dossier."}</div>
+          </div>
+          <GoldBtn small full={mobile} onClick={()=>go("Dossier")}><I.arrow size={15}/>{dRe&&dRe.ready?"Soumettre mon dossier":"Compléter mon dossier"}</GoldBtn>
+        </div>
+      )}
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr 1fr":"repeat(4,1fr)",gap:12,marginBottom:16}}>
+        <Stat icon={I.wallet} label="Revenus du mois" value="486 000" sub="↑ 18% net après commission"/>
+        <Stat icon={I.briefcase} label="Missions actives" value="3" sub="confirmées + en cours"/>
+        <Stat icon={I.star} label="Note moyenne" value="4,9" sub="128 avis"/>
+        <Stat icon={I.eye} label="Vues du profil" value="312" sub="↑ 9% (7 jours)"/>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1.5fr 1fr",gap:16}}>
+        <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,boxShadow:"var(--shadow-sm)"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <strong>Revenus mensuels</strong><span style={{color:"var(--ok)",fontSize:12.5,fontWeight:600,display:"inline-flex",gap:4,alignItems:"center"}}><I.trend size={15}/>+18% vs an dernier</span></div>
+          <div style={{display:"flex",alignItems:"flex-end",gap:mobile?5:9,height:150,marginTop:18}}>
+            {bars.map((b,i)=>(
+              <div key={i} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
+                <div className="hov" style={{width:"100%",height:b+"%",borderRadius:"6px 6px 0 0",background:i===11?"var(--blue)":"var(--blue-100)"}}></div>
+                <span style={{fontSize:10,color:"var(--ink3)"}}>{months[i]}</span>
+              </div>))}
+          </div>
+        </div>
+        <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,boxShadow:"var(--shadow-sm)"}}>
+          <strong>Prochaines missions</strong>
+          <div style={{marginTop:14,display:"flex",flexDirection:"column",gap:12}}>
+            {MISSIONS_PHOTO.filter(m=>["CONFIRMÉE","À_CONFIRMER"].includes(m.statut)).map(m=>(
+              <div key={m.id} style={{display:"flex",gap:10,alignItems:"center"}}>
+                <div style={{width:40,height:40,borderRadius:12,background:"var(--blue-50)",color:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.calendar size={18}/></div>
+                <div style={{flex:1,minWidth:0}}><strong style={{fontSize:13.5}}>{m.type}</strong><div style={{color:"var(--ink3)",fontSize:12}}>{m.date}</div></div>
+                <Badge s={m.statut}/>
+              </div>))}
+          </div>
+          <div style={{marginTop:14}}><OpacityNote>L'identité complète du client ne vous est jamais communiquée — seules les informations de mission transmises par l'admin.</OpacityNote></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScreenMissions({mobile}){
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Missions</h1>
+      <p style={{color:"var(--ink3)",margin:"0 0 18px",fontSize:14}}>Missions assignées par l'administrateur. Acceptez ou signalez un empêchement.</p>
+      <div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {MISSIONS_PHOTO.map(m=>(
+          <div key={m.id} className="lift hov" style={{background:"#fff",border:"1px solid "+(m.new?"var(--blue)":"var(--line)"),borderRadius:18,padding:16,boxShadow:"var(--shadow-sm)"}}>
+            <div style={{display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row"}}>
+              <div style={{flex:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+                  <strong style={{fontSize:15}}>{m.type}</strong><span style={{color:"var(--ink3)",fontSize:12.5}}>{m.id}</span>
+                  {m.new && <span style={{background:"var(--blue)",color:"#fff",fontSize:10.5,fontWeight:700,padding:"2px 8px",borderRadius:999}}>NOUVELLE</span>}
+                </div>
+                <div style={{color:"var(--ink2)",fontSize:13,marginTop:5,display:"flex",gap:12,flexWrap:"wrap"}}>
+                  <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.calendar size={13}/>{m.date}</span>
+                  <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.pin size={13}/>{m.ville}</span>
+                  <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.wallet size={13}/>Net : <b style={{color:"var(--ink)"}}>{fcfa(m.net)}</b></span>
+                </div>
+              </div>
+              <div style={{display:"flex",gap:8,alignItems:"center",width:mobile?"100%":"auto"}}>
+                {m.statut==="À_CONFIRMER" ? <>
+                  <GoldBtn small full={mobile}><I.check size={15}/>Accepter</GoldBtn>
+                  <GoldBtn ghost small full={mobile}>Empêchement</GoldBtn>
+                </> : m.statut==="TERMINÉE" ? <GoldBtn small full={mobile}><I.upload size={15}/>Livrer les photos</GoldBtn>
+                : <Badge s={m.statut}/>}
+              </div>
+            </div>
+          </div>))}
+      </div>
+    </div>
+  );
+}
+
+const DossierCard=({title,tag,children,sub})=>(
+  <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,marginBottom:16,boxShadow:"var(--shadow-sm)"}}>
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:sub?4:12,flexWrap:"wrap"}}>
+      <h3 style={{margin:0,fontSize:17}}>{title}</h3>
+      {tag && <span style={{fontSize:10,fontWeight:700,color:tag==="obl"?"var(--danger)":"var(--neutral)",
+        background:tag==="obl"?"var(--danger-bg)":"var(--neutral-bg)",padding:"2px 8px",borderRadius:999}}>{tag==="obl"?"Obligatoire":"Optionnel"}</span>}
+    </div>
+    {sub && <p style={{margin:"0 0 12px",color:"var(--ink3)",fontSize:12.5}}>{sub}</p>}
+    {children}
+  </div>
+);
+const DossierField=({label,value,area})=>(
+  <label style={{display:"block",marginBottom:12}}>
+    <span style={{fontSize:12.5,fontWeight:600,color:"var(--ink)"}}>{label}</span>
+    {area
+      ? <textarea defaultValue={value} rows={3} style={{marginTop:6,width:"100%",border:"1px solid var(--line)",borderRadius:12,padding:"11px 13px",fontSize:13.5,fontFamily:"inherit",color:"var(--ink)",resize:"vertical",outline:"none"}}/>
+      : <input defaultValue={value} style={{marginTop:6,width:"100%",border:"1px solid var(--line)",borderRadius:12,padding:"11px 13px",fontSize:14,fontFamily:"inherit",color:"var(--ink)",outline:"none"}}/>}
+  </label>
+);
+const DossierDrop=({label,sub,done,onClick})=>(
+  <div onClick={onClick} className="lift hov" style={{flex:1,minWidth:0,border:"1.5px dashed "+(done?"var(--ok)":"#cbd5e1"),borderRadius:14,padding:"18px 14px",
+    textAlign:"center",background:done?"var(--ok-bg)":"var(--blue-50)",cursor:"pointer"}}>
+    <span style={{display:"inline-flex",width:38,height:38,borderRadius:11,alignItems:"center",justifyContent:"center",
+      background:done?"var(--ok)":"var(--blue)",color:"#fff",marginBottom:8}}>{done?<I.check size={18}/>:<I.upload size={18}/>}</span>
+    <div style={{fontSize:13,fontWeight:700,color:"var(--ink)"}}>{label}</div>
+    <div style={{fontSize:11.5,color:done?"var(--ok)":"var(--ink3)",marginTop:2,fontWeight:done?600:400}}>{done?"✓ Ajouté · cliquez pour retirer":sub}</div>
+  </div>
+);
+
+function ScreenDossier({mobile, go, dossier, setDossier}){
+  // Dossier interactif (UC-P01 / §10.5) — état partagé avec le Dashboard (remonté dans App)
+  const SPECS=["Mariage","Portrait","Corporate","Mode","Grossesse","Événementiel","Immobilier","Produit"];
+  const up = dossier;              // recto / verso / photo / diplome / references
+  const specs = dossier.specs;
+  const submitted = dossier.submitted;
+  const tog=k=>setDossier(d=>({...d,[k]:!d[k]}));
+  const togSpec=s=>setDossier(d=>({...d,specs:d.specs.includes(s)?d.specs.filter(x=>x!==s):[...d.specs,s]}));
+  const setSubmitted=v=>setDossier(d=>({...d,submitted:v}));
+  const portfolio=["pf0","pf1","pf2","pf3","pf4"]; // 5 / 5 minimum
+  const pieceOk=up.recto&&up.verso;
+  const checklist=[
+    {l:"Description du profil",ok:true,req:"obl"},
+    {l:"Spécialités (≥ 1)",ok:specs.length>0,req:"obl"},
+    {l:"Ville",ok:true,req:"obl"},
+    {l:"Tarifs par prestation",ok:true,req:"obl"},
+    {l:"Photo de profil",ok:up.photo,req:"obl"},
+    {l:"Portfolio (≥ 5 photos)",ok:true,req:"obl"},
+    {l:"Pièce d'identité (recto-verso)",ok:pieceOk,req:"obl"},
+    {l:"Téléphone vérifié (SMS)",ok:true,req:"obl"},
+    {l:"Diplôme / attestation",ok:up.diplome,req:"opt"},
+    {l:"Références clients",ok:up.references,req:"opt"},
+  ];
+  const done=checklist.filter(c=>c.req==="obl"&&c.ok).length;
+  const total=checklist.filter(c=>c.req==="obl").length;
+  const pct=Math.round(done/total*100);
+  const ready=done===total;
+
+  // ---- Confirmation après soumission (UC-P01 étape 8 → décision admin UC-A01) ----
+  if(submitted){
+    const dec=dossier.decision;
+    const cfg = dec==="validated"
+      ? {icon:I.shield,bg:"var(--ok-bg)",fg:"var(--ok)",title:"Dossier validé 🎉",statutC:"var(--ok)",statut:"VALIDÉ · PROFIL VISIBLE",visi:"Visible publiquement",
+         text:"Votre dossier a été validé par l'administrateur. Votre profil est désormais vérifié et visible publiquement — vous pouvez recevoir des missions.",
+         note:"Félicitations ! Votre badge « Photographe Vérifié » est actif. Gérez vos disponibilités pour recevoir des missions."}
+      : dec==="rejected"
+      ? {icon:I.x,bg:"var(--danger-bg)",fg:"var(--danger)",title:"Dossier à corriger",statutC:"var(--danger)",statut:"REJETÉ",visi:"Non visible",
+         text:"Votre dossier a été rejeté par l'administrateur. Vérifiez les éléments requis et resoumettez votre dossier.",
+         note:"Vous pouvez corriger puis resoumettre (maximum 3 soumissions — au 3e refus, le compte est bloqué)."}
+      : {icon:I.check,bg:"var(--ok-bg)",fg:"var(--ok)",title:"Dossier soumis 🎉",statutC:"var(--warn)",statut:"EN ATTENTE DE VALIDATION",visi:"Après validation admin",
+         text:"Votre dossier a été transmis à l'administrateur. Traitement sous 72h ouvrées. Vous recevrez une notification dès la décision.",
+         note:"Votre profil reste invisible du public jusqu'à validation. En cas de refus, vous pourrez corriger et resoumettre (max. 3 soumissions)."};
+    const Ico=cfg.icon;
+    return (
+      <div className="fade" style={{maxWidth:560,margin:"0 auto",textAlign:"center",paddingTop:mobile?10:30}}>
+        <div style={{width:76,height:76,borderRadius:"50%",background:cfg.bg,color:cfg.fg,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 18px"}}><Ico size={40}/></div>
+        <h1 style={{fontSize:26,margin:"0 0 8px"}}>{cfg.title}</h1>
+        <p style={{color:"var(--ink2)",fontSize:14.5,lineHeight:1.6,margin:"0 auto 20px",maxWidth:420}}>{cfg.text}</p>
+        <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,textAlign:"left",boxShadow:"var(--shadow-sm)"}}>
+          {[["Statut",cfg.statut],["Éléments transmis",total+" / "+total+" obligatoires"],["Délai de traitement","72h ouvrées"],["Visibilité du profil",cfg.visi]].map((r,i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",gap:10,padding:"10px 0",borderBottom:i<3?"1px dashed var(--line)":"none",fontSize:13.5}}>
+              <span style={{color:"var(--ink3)"}}>{r[0]}</span><strong style={{color:i===0?cfg.statutC:"var(--ink)"}}>{r[1]}</strong></div>))}
+        </div>
+        <div style={{marginTop:16}}><OpacityNote>{cfg.note}</OpacityNote></div>
+        <div style={{display:"flex",gap:10,marginTop:18,flexDirection:mobile?"column":"row"}}>
+          {go && <GoldBtn full onClick={()=>go("Dashboard")}>Aller au tableau de bord <I.arrow size={17}/></GoldBtn>}
+          {dec==="rejected"
+            ? <GoldBtn ghost full onClick={()=>setDossier(d=>({...d,submitted:false,decision:null}))}>Corriger et resoumettre</GoldBtn>
+            : <GoldBtn ghost full onClick={()=>setSubmitted(false)}>Revoir mon dossier</GoldBtn>}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Compléter mon dossier</h1>
+      <p style={{color:"var(--ink3)",margin:"0 0 16px",fontSize:14}}>Renseignez votre profil et joignez les pièces requises. L'admin valide sous 72h ouvrées.</p>
+
+      {/* bandeau statut + progression (dynamique) */}
+      <div style={{display:"flex",gap:14,alignItems:mobile?"flex-start":"center",flexDirection:mobile?"column":"row",
+        background:ready?"var(--ok-bg)":"var(--warn-bg)",border:"1px solid "+(ready?"#86EFAC":"#FDE68A"),borderRadius:16,padding:16,marginBottom:18}}>
+        <span style={{width:42,height:42,borderRadius:12,background:ready?"var(--ok)":"var(--warn)",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><I.shield size={22}/></span>
+        <div style={{flex:1,minWidth:0,width:mobile?"100%":"auto"}}>
+          <strong style={{fontSize:14.5,color:ready?"var(--ok)":"var(--warn)"}}>{ready?"Dossier complet — prêt à être soumis":"Dossier incomplet — Profil non visible"}</strong>
+          <div style={{color:ready?"#166534":"#92400E",fontSize:12.5,margin:"3px 0 8px"}}>{done} / {total} éléments obligatoires complétés</div>
+          <div style={{height:8,borderRadius:999,background:ready?"#86EFAC":"#FDE68A",overflow:"hidden"}}>
+            <div style={{height:"100%",width:pct+"%",background:ready?"var(--ok)":"var(--warn)",borderRadius:999,transition:"width .3s"}}/>
+          </div>
+        </div>
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1.6fr 1fr",gap:18,alignItems:"start"}}>
+        {/* colonne formulaire */}
+        <div>
+          <DossierCard title="Informations du profil" tag="obl">
+            <DossierField label="Description" area value="Photographe mariage & événementiel, 12 ans d'expérience. Style intemporel et lumineux."/>
+            <span style={{fontSize:12.5,fontWeight:600,color:"var(--ink)"}}>Spécialités <span style={{color:"var(--ink3)",fontWeight:400}}>· cliquez pour (dé)sélectionner</span></span>
+            <div style={{display:"flex",gap:7,flexWrap:"wrap",margin:"8px 0 14px"}}>
+              {SPECS.map(s=>{const on=specs.includes(s);return (
+                <span key={s} onClick={()=>togSpec(s)} className="hov" style={{cursor:"pointer",fontSize:12.5,fontWeight:on?600:500,padding:"6px 12px",borderRadius:999,
+                  border:"1px solid "+(on?"var(--blue)":"var(--line)"),background:on?"var(--blue-50)":"#fff",color:on?"var(--blue-700)":"var(--ink2)",
+                  display:"inline-flex",alignItems:"center",gap:5}}>{on&&<I.check size={13}/>}{s}</span>);})}
+            </div>
+            {specs.length===0 && <div style={{margin:"-6px 0 12px",fontSize:11.5,color:"var(--warn)",display:"flex",gap:5,alignItems:"center"}}><I.clock size={13}/>Sélectionnez au moins une spécialité.</div>}
+            <DossierField label="Ville" value="Yaoundé"/>
+          </DossierCard>
+
+          <DossierCard title="Tarifs par prestation" tag="obl" sub="Le montant net (après commission) vous est présenté avant chaque mission.">
+            {[["Séance portrait (1h)","45 000"],["Demi-journée","120 000"],["Journée complète","180 000"]].map((t,i)=>(
+              <div key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+                <span style={{flex:1,fontSize:13.5,color:"var(--ink2)"}}>{t[0]}</span>
+                <div style={{display:"flex",alignItems:"center",gap:6,border:"1px solid var(--line)",borderRadius:10,padding:"8px 11px"}}>
+                  <input defaultValue={t[1]} style={{width:70,border:"none",outline:"none",fontSize:14,fontFamily:"inherit",textAlign:"right",color:"var(--ink)"}}/>
+                  <span style={{fontSize:12.5,color:"var(--ink3)"}}>FCFA</span>
+                </div>
+              </div>))}
+          </DossierCard>
+
+          <DossierCard title="Photo de profil" tag="obl" sub="Visage visible, fond neutre recommandé.">
+            {up.photo ? (
+              <div style={{display:"flex",gap:14,alignItems:"center",flexDirection:mobile?"column":"row"}}>
+                <div style={{borderRadius:16,overflow:"hidden",width:84,height:84,flexShrink:0,border:"3px solid #fff",boxShadow:"var(--shadow-sm)"}}><Photo seed="marlene" h={84} radius={0}/></div>
+                <div style={{flex:1,minWidth:0,width:mobile?"100%":"auto"}}>
+                  <span style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:12.5,fontWeight:600,color:"var(--ok)"}}><I.check size={15}/>Photo ajoutée</span>
+                  <div style={{marginTop:10,display:"flex",gap:8,flexDirection:mobile?"column":"row"}}>
+                    <GoldBtn ghost small full={mobile}><I.upload size={15}/>Remplacer</GoldBtn>
+                    <GoldBtn ghost small full={mobile} onClick={()=>tog('photo')}><I.x size={15}/>Retirer</GoldBtn>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <DossierDrop label="Ajouter une photo de profil" sub="JPG ou PNG · visage visible, fond neutre" done={false} onClick={()=>tog('photo')}/>
+            )}
+          </DossierCard>
+
+          <DossierCard title="Portfolio" tag="obl" sub="Minimum 5 photos, dans au moins une spécialité.">
+            <div style={{display:"grid",gridTemplateColumns:mobile?"1fr 1fr":"repeat(3,1fr)",gap:10}}>
+              {portfolio.map((s,i)=><Photo key={i} seed={"marlene-"+s} h={mobile?100:104} label={specs.length?specs[i%specs.length]:"Photo"}/>)}
+              <div className="lift hov" style={{height:mobile?100:104,borderRadius:12,border:"1.5px dashed #cbd5e1",background:"var(--blue-50)",
+                display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,cursor:"pointer",color:"var(--blue)"}}>
+                <I.upload size={20}/><span style={{fontSize:11.5,fontWeight:600}}>Ajouter</span></div>
+            </div>
+            <div style={{marginTop:10,fontSize:12.5,fontWeight:600,color:"var(--ok)",display:"inline-flex",alignItems:"center",gap:5}}><I.check size={15}/>5 / 5 minimum atteint</div>
+          </DossierCard>
+
+          <DossierCard title="Pièce d'identité" tag="obl" sub="CNI ou passeport, recto-verso, lisible et non expiré.">
+            <div style={{display:"flex",gap:12,flexDirection:mobile?"column":"row"}}>
+              <DossierDrop label="Recto" sub="JPG ou PDF · max 10 Mo" done={up.recto} onClick={()=>tog('recto')}/>
+              <DossierDrop label="Verso" sub="JPG ou PDF · max 10 Mo" done={up.verso} onClick={()=>tog('verso')}/>
+            </div>
+            {pieceOk
+              ? <div style={{marginTop:10,fontSize:12.5,fontWeight:600,color:"var(--ok)",display:"inline-flex",alignItems:"center",gap:5}}><I.check size={15}/>Pièce d'identité complète (recto-verso)</div>
+              : <div style={{marginTop:10,fontSize:12.5,fontWeight:600,color:"var(--warn)",display:"inline-flex",alignItems:"center",gap:5}}><I.clock size={15}/>Document requis manquant — bloque la soumission</div>}
+          </DossierCard>
+
+          <DossierCard title="Documents valorisants" tag="opt" sub="Facultatif — renforce la confiance lors de la validation.">
+            <div style={{display:"flex",gap:12,flexDirection:mobile?"column":"row"}}>
+              <DossierDrop label="Diplôme / attestation" sub="Formation ou atelier" done={up.diplome} onClick={()=>tog('diplome')}/>
+              <DossierDrop label="Références clients" sub="Contacts (optionnel)" done={up.references} onClick={()=>tog('references')}/>
+            </div>
+          </DossierCard>
+        </div>
+
+        {/* colonne récap / soumission */}
+        <div style={{position:mobile?"static":"sticky",top:10}}>
+          <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,boxShadow:"var(--shadow-sm)"}}>
+            <h3 style={{margin:"0 0 4px",fontSize:17}}>Checklist de validation</h3>
+            <p style={{margin:"0 0 10px",color:"var(--ink3)",fontSize:12.5}}>Complétude : <b style={{color:ready?"var(--ok)":"var(--warn)"}}>{pct}%</b></p>
+            {checklist.map((c,i)=>(
+              <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:i<checklist.length-1?"1px solid var(--line)":"none"}}>
+                <span style={{width:22,height:22,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,
+                  background:c.ok?"var(--ok-bg)":(c.req==="obl"?"var(--warn-bg)":"var(--neutral-bg)"),
+                  color:c.ok?"var(--ok)":(c.req==="obl"?"var(--warn)":"var(--ink3)")}}>{c.ok?<I.check size={13}/>:(c.req==="obl"?<I.clock size={13}/>:<I.x size={12}/>)}</span>
+                <span style={{flex:1,fontSize:12.5,color:"var(--ink2)"}}>{c.l}</span>
+                <span style={{fontSize:9.5,fontWeight:700,color:c.req==="obl"?"var(--danger)":"var(--neutral)",
+                  background:c.req==="obl"?"var(--danger-bg)":"var(--neutral-bg)",padding:"2px 6px",borderRadius:999}}>{c.req==="obl"?"Requis":"Option"}</span>
+              </div>))}
+            <div style={{marginTop:16,display:"flex",flexDirection:"column",gap:9}}>
+              <button disabled={!ready} onClick={()=>ready&&setSubmitted(true)} className={ready?"btn-blue hov":""} style={{width:"100%",padding:"12px 20px",borderRadius:999,fontWeight:600,fontSize:14,
+                display:"inline-flex",alignItems:"center",justifyContent:"center",gap:8,border:"none",
+                background:ready?"var(--blue)":"var(--neutral-bg)",color:ready?"#fff":"var(--ink3)",cursor:ready?"pointer":"not-allowed",
+                boxShadow:ready?"0 8px 18px rgba(37,99,235,.28)":"none"}}>
+                <I.shield size={17}/>Soumettre à validation</button>
+              <GoldBtn ghost full><I.check size={15}/>Enregistrer le brouillon</GoldBtn>
+            </div>
+            {!ready && <div style={{marginTop:10,fontSize:12,color:"var(--warn)",display:"flex",gap:6,alignItems:"flex-start"}}>
+              <I.clock size={14} style={{marginTop:1,flexShrink:0}}/>{total-done} élément(s) obligatoire(s) manquant(s).</div>}
+            <div style={{marginTop:12}}>
+              <OpacityNote>Traitement sous <b>72h ouvrées</b>. Maximum <b>3 soumissions</b> — au 3e refus, le compte est bloqué (contact support). Votre profil reste invisible jusqu'à validation.</OpacityNote>
+            </div>
+          </div>
+          {go && <div style={{marginTop:12}}><GoldBtn ghost full onClick={()=>go("Dashboard")}><I.chev size={15} style={{transform:"rotate(180deg)"}}/>Retour au tableau de bord</GoldBtn></div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScreenAdminDash({mobile, onGo, dossier}){
+  const pending = 2 + (dossier&&dossier.submitted&&!dossier.decision?1:0);
+  const queues=[
+    {ic:I.bell,l:"Demandes à traiter",n:3,go:"Demandes"},
+    {ic:I.shield,l:"Dossiers à valider",n:pending,go:"Validations"},
+    {ic:I.upload,l:"Livraisons à valider",n:4},
+    {ic:I.scale,l:"Litiges ouverts",n:1,go:"Litiges"},
+  ];
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Tableau de bord</h1>
+      <p style={{color:"var(--ink3)",margin:"0 0 18px",fontSize:14}}>Vous êtes le pivot central : demandes, validations, livraisons et litiges.</p>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr 1fr":"repeat(4,1fr)",gap:12,marginBottom:16}}>
+        <Stat icon={I.users} label="Utilisateurs" value="1 284" sub="942 clients · 342 photographes"/>
+        <Stat icon={I.wallet} label="CA plateforme (mois)" value="1,2 M" sub="commissions perçues"/>
+        <Stat icon={I.calendar} label="Réservations (mois)" value="216" sub="↑ 12% vs mois dernier"/>
+        <Stat icon={I.star} label="Satisfaction" value="4,7" sub="moyenne plateforme"/>
+      </div>
+      <h3 style={{margin:"6px 0 12px",fontSize:18}}>Files d'attente</h3>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr 1fr":"repeat(4,1fr)",gap:12,marginBottom:18}}>
+        {queues.map((q,i)=>(
+          <button key={i} onClick={()=>q.go&&onGo(q.go)} className="card-hov hov" style={{textAlign:"left",background:"#fff",border:"1px solid var(--line)",borderRadius:16,padding:16,boxShadow:"var(--shadow-sm)"}}>
+            <span style={{color:"var(--blue)",background:"var(--blue-50)",borderRadius:12,padding:8,display:"inline-flex"}}><q.ic size={18}/></span>
+            <div style={{fontSize:26,fontWeight:800,marginTop:10,fontFamily:"'Outfit',sans-serif",color:"var(--ink)"}}>{q.n}</div>
+            <div style={{color:"var(--ink2)",fontSize:12.5,fontWeight:600}}>{q.l}</div>
+          </button>))}
+      </div>
+      <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,boxShadow:"var(--shadow-sm)"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+          <strong>Demandes récentes</strong>
+          <button onClick={()=>onGo("Demandes")} style={{color:"var(--blue)",fontWeight:600,fontSize:13,display:"inline-flex",gap:4,alignItems:"center"}}>Tout voir <I.arrow size={15}/></button>
+        </div>
+        {ADMIN_DEMANDES.map((d,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 0",borderBottom:i<2?"1px solid var(--line)":"none"}}>
+            <div style={{width:36,height:36,borderRadius:10,background:"var(--warn-bg)",color:"var(--warn)",display:"flex",alignItems:"center",justifyContent:"center"}}><I.bell size={16}/></div>
+            <div style={{flex:1,minWidth:0}}><strong style={{fontSize:13.5}}>{d.type} · {d.id}</strong><div style={{color:"var(--ink3)",fontSize:12}}>{d.client} · {d.date} · {d.ville}</div></div>
+            <span style={{color:"var(--ink3)",fontSize:11.5,whiteSpace:"nowrap"}}>{d.il}</span>
+          </div>))}
+      </div>
+    </div>
+  );
+}
+
+function ScreenMatching({mobile}){
+  const cand=[
+    {p:PHOTOGRAPHERS[0],dispo:true,score:96},
+    {p:PHOTOGRAPHERS[2],dispo:true,score:88},
+    {p:PHOTOGRAPHERS[3],dispo:false,score:71},
+  ];
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Matching — Demande {ADMIN_DEMANDES[0].id}</h1>
+      <p style={{color:"var(--ink3)",margin:"0 0 16px",fontSize:14}}>Identifiez et assignez le photographe le plus adapté.</p>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1.4fr",gap:16}}>
+        <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:18,height:"fit-content",boxShadow:"var(--shadow-sm)"}}>
+          <span style={{fontSize:11.5,fontWeight:700,color:"var(--warn)",background:"var(--warn-bg)",padding:"4px 10px",borderRadius:999}}>EN ATTENTE</span>
+          <h3 style={{margin:"12px 0 12px",fontSize:18}}>Détails de la demande</h3>
+          {[["Client","Client #C-318"],["Type","Anniversaire"],["Date","12 juil. 2026"],["Créneau","16h — 20h"],["Ville","Yaoundé, Odza"],["Budget indicatif","40 000 FCFA"]].map((r,i)=>(
+            <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"9px 0",borderBottom:i<5?"1px dashed var(--line)":"none",fontSize:13.5}}>
+              <span style={{color:"var(--ink3)"}}>{r[0]}</span><strong>{r[1]}</strong></div>))}
+          <div style={{marginTop:14}}><OpacityNote>Vous seul connaissez l'identité du client <b>et</b> du photographe. Aucune des deux parties ne connaîtra l'autre.</OpacityNote></div>
+        </div>
+        <div>
+          <h3 style={{margin:"0 0 12px",fontSize:18}}>Photographes suggérés</h3>
+          <div style={{display:"flex",flexDirection:"column",gap:12}}>
+            {cand.map(({p,dispo,score})=>(
+              <div key={p.id} className="lift hov" style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:15,opacity:dispo?1:.62,boxShadow:"var(--shadow-sm)"}}>
+                <div style={{display:"flex",gap:12,alignItems:"center"}}>
+                  <div style={{borderRadius:14,overflow:"hidden",width:46,height:46,flexShrink:0}}><Photo seed={p.seed} h={46} radius={0}/></div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:"flex",alignItems:"center",gap:6}}><strong style={{fontSize:14.5}}>{p.nom}</strong>{p.certifie&&<I.shield size={14} style={{color:"var(--ok)"}}/>}</div>
+                    <div style={{color:"var(--ink3)",fontSize:12.5,display:"flex",gap:10,marginTop:2,flexWrap:"wrap"}}>
+                      <span style={{display:"inline-flex",gap:3,alignItems:"center"}}><I.star size={12} style={{color:"#FBBF24"}}/>{p.note}</span>
+                      <span>{p.spec}</span><span>{p.ville}</span></div>
+                  </div>
+                  <div style={{textAlign:"right"}}>
+                    <div style={{fontSize:11,color:"var(--ink3)"}}>Compatibilité</div>
+                    <div style={{fontWeight:800,fontSize:17,color:score>90?"var(--ok)":"var(--ink)",fontFamily:"'Outfit',sans-serif"}}>{score}%</div>
+                  </div>
+                </div>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:12,gap:8,flexWrap:"wrap"}}>
+                  <span style={{fontSize:12.5,fontWeight:600,display:"inline-flex",alignItems:"center",gap:5,color:dispo?"var(--ok)":"var(--danger)"}}>
+                    {dispo?<I.check size={15}/>:<I.x size={15}/>}{dispo?"Disponible le 12 juil.":"Indisponible ce jour"}</span>
+                  <GoldBtn small ghost={!dispo}>{dispo?<>Assigner la mission <I.arrow size={15}/></>:"Indisponible"}</GoldBtn>
+                </div>
+              </div>))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ AUTH (Connexion / Inscription) ============================ */
+const AuthField = ({label,type="text",placeholder,icon:Ico,pw,hint,defaultValue}) => {
+  const [show,setShow]=useState(false);
+  return (
+    <label style={{display:"block",marginBottom:13}}>
+      <span style={{fontSize:12.5,fontWeight:600,color:"var(--ink)"}}>{label}</span>
+      <div className="lift hov" style={{marginTop:6,display:"flex",alignItems:"center",gap:9,border:"1px solid var(--line)",borderRadius:12,padding:"0 13px",background:"#fff"}}>
+        {Ico && <Ico size={17} style={{color:"var(--ink3)",flexShrink:0}}/>}
+        <input type={pw?(show?"text":"password"):type} placeholder={placeholder} defaultValue={defaultValue}
+          style={{flex:1,minWidth:0,border:"none",outline:"none",padding:"11px 0",fontSize:14,fontFamily:"inherit",color:"var(--ink)",background:"transparent"}}/>
+        {pw && <button type="button" onClick={()=>setShow(s=>!s)} className="hov" style={{color:"var(--ink3)",display:"flex",padding:0}}>
+          {show?<I.eyeOff size={17}/>:<I.eye size={17}/>}</button>}
+      </div>
+      {hint && <span style={{display:"block",marginTop:5,fontSize:11.5,color:"var(--ink3)"}}>{hint}</span>}
+    </label>
+  );
+};
+
+function AuthModal({mode, switchMode, onClose, onDone, mobile}){
+  const [role,setRole]=useState("client");
+  const isLogin = mode==="login";
+  const isPhoto = role==="photographe";
+  const showGoogle = isLogin || role==="client"; // CDC : OAuth2 Google réservé aux clients
+
+  return (
+    <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:100,background:"rgba(15,23,42,.55)",backdropFilter:"blur(4px)",
+      display:"flex",alignItems:"center",justifyContent:"center",padding:16,overflowY:"auto"}}>
+      <div onClick={e=>e.stopPropagation()} className="fade" style={{background:"#fff",borderRadius:24,overflow:"hidden",
+        width:mobile?"100%":880,maxWidth:"100%",maxHeight:"94vh",display:"flex",boxShadow:"var(--shadow)"}}>
+
+        {/* ---- Brand panel (desktop only) ---- */}
+        {!mobile && (
+          <div style={{width:330,flexShrink:0,background:"linear-gradient(160deg,#0F172A,#1D4ED8)",color:"#fff",padding:32,position:"relative",overflow:"hidden",display:"flex",flexDirection:"column"}}>
+            <div style={{position:"absolute",right:-30,bottom:-30,opacity:.13,color:"#fff"}}><I.aperture size={230}/></div>
+            <div style={{position:"relative",display:"flex",alignItems:"center",gap:10}}>
+              <span style={{width:36,height:36,borderRadius:10,background:"rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><I.aperture size={22}/></span>
+              <span style={{fontWeight:800,fontSize:18,fontFamily:"'Outfit',sans-serif"}}>Studio<span style={{color:"var(--blue-500)"}}>Link</span></span>
+            </div>
+            <div style={{position:"relative",marginTop:"auto"}}>
+              <h2 style={{fontSize:24,margin:"0 0 10px",lineHeight:1.2}}>{isLogin?"Ravi de vous revoir.":"Rejoignez la plateforme."}</h2>
+              <p style={{color:"#cbd5e1",fontSize:13.5,lineHeight:1.55,margin:0}}>
+                {isLogin?"Connectez-vous pour suivre vos réservations, missions et échanges avec l'administration."
+                        :"Créez votre compte en 1 minute. Profils vérifiés, tarifs transparents, coordination assurée par l'admin."}</p>
+              <div style={{marginTop:20,display:"flex",flexDirection:"column",gap:11}}>
+                {[[I.shield,"Photographes vérifiés"],[I.lock,"Principe d'opacité garanti"],[I.wallet,"Paiement sécurisé (Orange/MTN)"]].map(([Ico,t],i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:10,fontSize:13,color:"#e2e8f0"}}>
+                    <span style={{color:"var(--blue-500)",display:"flex"}}><Ico size={16}/></span>{t}</div>))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ---- Form panel ---- */}
+        <div style={{flex:1,minWidth:0,padding:mobile?"20px 20px 26px":"30px 34px",overflowY:"auto",position:"relative"}}>
+          <button onClick={onClose} className="hov" style={{position:"absolute",top:16,right:16,color:"var(--ink3)",padding:6,borderRadius:10}}><I.x size={20}/></button>
+
+          {/* tabs */}
+          <div style={{display:"inline-flex",gap:4,background:"var(--neutral-bg)",padding:4,borderRadius:999,marginBottom:20}}>
+            {[["login","Se connecter"],["signup","Créer un compte"]].map(([k,l])=>(
+              <button key={k} onClick={()=>switchMode(k)} style={{padding:"8px 16px",borderRadius:999,fontSize:13,fontWeight:600,
+                background:mode===k?"#fff":"transparent",color:mode===k?"var(--blue-700)":"var(--ink3)",
+                boxShadow:mode===k?"var(--shadow-sm)":"none"}}>{l}</button>))}
+          </div>
+
+          <h1 style={{fontSize:23,margin:"0 0 4px"}}>{isLogin?"Connexion":"Inscription"}</h1>
+          <p style={{color:"var(--ink3)",fontSize:13.5,margin:"0 0 18px"}}>
+            {isLogin?"Accédez à votre espace personnel.":"Choisissez votre profil et renseignez vos informations."}</p>
+
+          {/* role choice (signup only) */}
+          {!isLogin && (
+            <div style={{display:"flex",gap:10,marginBottom:18}}>
+              {[["client",I.user,"Je suis Client","Je cherche un photographe"],["photographe",I.camera,"Je suis Photographe","Je propose mes services"]].map(([k,Ico,t,s])=>(
+                <button key={k} onClick={()=>setRole(k)} className="hov" style={{flex:1,minWidth:0,textAlign:"left",padding:"13px 14px",borderRadius:14,
+                  border:"1.5px solid "+(role===k?"var(--blue)":"var(--line)"),background:role===k?"var(--blue-50)":"#fff"}}>
+                  <span style={{display:"flex",alignItems:"center",justifyContent:"center",width:34,height:34,borderRadius:10,marginBottom:8,
+                    background:role===k?"var(--blue)":"var(--neutral-bg)",color:role===k?"#fff":"var(--ink3)"}}><Ico size={18}/></span>
+                  <div style={{fontSize:13.5,fontWeight:700,color:role===k?"var(--blue-700)":"var(--ink)"}}>{t}</div>
+                  <div style={{fontSize:11.5,color:"var(--ink3)",marginTop:2}}>{s}</div>
+                </button>))}
+            </div>
+          )}
+          {!isLogin && <p style={{margin:"-8px 0 16px",fontSize:11.5,color:"var(--ink3)",display:"flex",gap:6,alignItems:"flex-start"}}>
+            <I.shield size={13} style={{marginTop:1,flexShrink:0,color:"var(--ink3)"}}/>Un même e-mail ne peut pas être à la fois client et photographe.</p>}
+
+          {/* social — Google (connexion + clients uniquement, cf. CDC OAuth2) */}
+          {showGoogle && <>
+            <button type="button" className="lift hov" style={{width:"100%",display:"inline-flex",alignItems:"center",justifyContent:"center",gap:9,
+              border:"1px solid var(--line)",background:"#fff",borderRadius:12,padding:"11px 12px",fontSize:13.5,fontWeight:600,color:"var(--ink2)",marginBottom:16}}>
+              <I.google size={18}/>Continuer avec Google</button>
+            <div style={{display:"flex",alignItems:"center",gap:12,margin:"0 0 16px",color:"var(--ink3)",fontSize:12}}>
+              <span style={{flex:1,height:1,background:"var(--line)"}}/>ou par e-mail<span style={{flex:1,height:1,background:"var(--line)"}}/>
+            </div>
+          </>}
+
+          {/* fields */}
+          {!isLogin && (
+            <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:"0 14px"}}>
+              <AuthField label="Prénom" placeholder="Ex. Marlène" icon={I.user}/>
+              <AuthField label="Nom" placeholder="Ex. Atangana" icon={I.user}/>
+            </div>
+          )}
+          <AuthField label="Adresse e-mail" type="email" placeholder="vous@exemple.com" icon={I.mail}/>
+          {!isLogin && (
+            <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:"0 14px"}}>
+              <AuthField label="Téléphone" placeholder="+237 6XX XX XX XX" icon={I.phone} hint={isPhoto?"Vérifié par SMS":null}/>
+              <AuthField label="Ville" placeholder="Yaoundé" icon={I.pin}/>
+            </div>
+          )}
+          <AuthField label="Mot de passe" pw icon={I.lock}
+            placeholder={isLogin?"Votre mot de passe":"Créez un mot de passe"}
+            hint={isLogin?null:"Min. 8 caractères, une majuscule et un chiffre."}/>
+          {!isLogin && <AuthField label="Confirmer le mot de passe" pw placeholder="Retapez votre mot de passe" icon={I.lock}/>}
+
+          {/* row: remember / forgot (login) OU consentements (inscription) */}
+          {isLogin ? (
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",margin:"2px 0 16px",flexWrap:"wrap",gap:8}}>
+              <label style={{display:"flex",alignItems:"center",gap:8,fontSize:13,color:"var(--ink2)",cursor:"pointer"}}>
+                <input type="checkbox" style={{width:16,height:16,accentColor:"var(--blue)"}}/>Se souvenir de moi</label>
+              <button type="button" className="hov" style={{color:"var(--blue)",fontWeight:600,fontSize:13}}>Mot de passe oublié ?</button>
+            </div>
+          ) : (
+            <div style={{margin:"2px 0 16px",display:"flex",flexDirection:"column",gap:9}}>
+              <label style={{display:"flex",alignItems:"flex-start",gap:9,fontSize:12.5,color:"var(--ink2)",lineHeight:1.5,cursor:"pointer"}}>
+                <input type="checkbox" style={{width:16,height:16,marginTop:2,accentColor:"var(--blue)",flexShrink:0}}/>
+                <span>Je certifie avoir <b>au moins 18 ans</b>.</span></label>
+              <label style={{display:"flex",alignItems:"flex-start",gap:9,fontSize:12.5,color:"var(--ink2)",lineHeight:1.5,cursor:"pointer"}}>
+                <input type="checkbox" style={{width:16,height:16,marginTop:2,accentColor:"var(--blue)",flexShrink:0}}/>
+                <span>J'accepte les <b style={{color:"var(--blue)"}}>Conditions d'utilisation</b> et la <b style={{color:"var(--blue)"}}>Politique de confidentialité</b>.</span></label>
+            </div>
+          )}
+
+          <GoldBtn full onClick={()=>onDone(isLogin?"client":role, isLogin?"login":"signup")}>
+            {isLogin?<>Se connecter <I.arrow size={17}/></>:<>Créer mon compte <I.arrow size={17}/></>}
+          </GoldBtn>
+
+          {/* note contextuelle (parcours de vérification / validation) */}
+          {isLogin
+            ? <p style={{marginTop:14,fontSize:11.5,color:"var(--ink3)",display:"flex",gap:6,alignItems:"flex-start"}}>
+                <I.lock size={13} style={{marginTop:1,flexShrink:0}}/>Connexion sécurisée (JWT). Après 5 tentatives échouées, le compte est temporairement bloqué (CAPTCHA).</p>
+            : isPhoto
+              ? <div style={{marginTop:14}}><OpacityNote>Après inscription : <b>vérification par SMS puis e-mail</b>, ensuite constitution de votre dossier (pièce d'identité, photo de profil, portfolio ≥ 5 photos, tarifs). Votre profil devient public <b>après validation de l'admin</b> (sous 72h ouvrées).</OpacityNote></div>
+              : <div style={{marginTop:14}}><OpacityNote>Un <b>e-mail de vérification</b> vous sera envoyé pour activer votre compte. La validation est <b>immédiate</b> — vous pourrez réserver aussitôt.</OpacityNote></div>
+          }
+
+          {/* footer switch */}
+          <p style={{textAlign:"center",fontSize:13,color:"var(--ink3)",margin:"16px 0 0"}}>
+            {isLogin?"Pas encore de compte ? ":"Vous avez déjà un compte ? "}
+            <button onClick={()=>switchMode(isLogin?"signup":"login")} className="hov" style={{color:"var(--blue)",fontWeight:700,fontSize:13}}>
+              {isLogin?"Créer un compte":"Se connecter"}</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ ROUTER ============================ */
+function renderScreen(role, screen, ctx){
+  const {selected, setSelected, go, mobile, dossier, setDossier} = ctx;
+  if(role==="visiteur"){
+    if(screen==="Recherche") return <ScreenRecherche mobile={mobile} onOpen={p=>{setSelected(p);go("Profil");}}/>;
+    if(screen==="Profil") return <ScreenProfil mobile={mobile} p={selected} onReserve={()=>go("__resa")}/>;
+  }
+  if(role==="client"){
+    if(screen==="Recherche") return <ScreenRecherche mobile={mobile} onOpen={p=>{setSelected(p);go("__profil");}}/>;
+    if(screen==="__profil") return <ScreenProfil mobile={mobile} p={selected} onReserve={()=>go("__resa")}/>;
+    if(screen==="__resa") return <ScreenReservation mobile={mobile} p={selected} onBack={()=>go("__profil")}/>;
+    if(screen==="Réservations") return <ScreenResasClient mobile={mobile}/>;
+    if(screen==="Favoris") return <ScreenRecherche mobile={mobile} onOpen={p=>{setSelected(p);go("__profil");}}/>;
+    if(screen==="Messages") return <MessagesView mobile={mobile} who="admin"/>;
+  }
+  if(role==="photographe"){
+    if(screen==="Dashboard") return <ScreenPhotoDash mobile={mobile} go={go} dossier={dossier}/>;
+    if(screen==="Dossier") return <ScreenDossier mobile={mobile} go={go} dossier={dossier} setDossier={setDossier}/>;
+    if(screen==="Missions") return <ScreenMissions mobile={mobile}/>;
+    if(screen==="Agenda") return <AgendaView mobile={mobile}/>;
+    if(screen==="Finances") return <ScreenPhotoDash mobile={mobile}/>;
+  }
+  if(role==="admin"){
+    if(screen==="Dashboard") return <ScreenAdminDash mobile={mobile} onGo={go} dossier={dossier}/>;
+    if(screen==="Demandes") return <ScreenMatching mobile={mobile}/>;
+    if(screen==="Validations") return <ValidationsView mobile={mobile} dossier={dossier} setDossier={setDossier}/>;
+    if(screen==="Litiges") return <LitigesView mobile={mobile}/>;
+  }
+  return <div className="fade" style={{color:"var(--ink3)",padding:40,textAlign:"center"}}>Écran « {screen} »</div>;
+}
+
+/* Light secondary views */
+const MessagesView=({mobile})=>(
+  <div className="fade" style={{maxWidth:640}}>
+    <h1 style={{fontSize:26,margin:"0 0 4px"}}>Messages</h1>
+    <p style={{color:"var(--ink3)",fontSize:14,margin:"0 0 14px"}}>Canal sécurisé avec l'administrateur uniquement.</p>
+    <OpacityNote>Vous ne pouvez échanger qu'avec l'administrateur. Tout numéro, email ou lien partagé est automatiquement masqué.</OpacityNote>
+    <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:16,marginTop:14,display:"flex",flexDirection:"column",gap:12,boxShadow:"var(--shadow-sm)"}}>
+      {[["admin","Bonjour, votre demande #RS-2041 a été acceptée. Un photographe corporate est disponible le 28 juin. 🎉"],
+        ["me","Parfait ! Comment procéder pour le paiement ?"],
+        ["admin","Vous pouvez régler l'acompte de 30% directement depuis votre réservation (Orange Money, MTN ou carte)."]].map((m,i)=>(
+        <div key={i} style={{alignSelf:m[0]==="me"?"flex-end":"flex-start",maxWidth:"80%"}}>
+          <div style={{background:m[0]==="me"?"var(--blue)":"var(--neutral-bg)",color:m[0]==="me"?"#fff":"var(--ink)",padding:"10px 13px",borderRadius:m[0]==="me"?"14px 14px 4px 14px":"14px 14px 14px 4px",fontSize:13.5,lineHeight:1.45}}>{m[1]}</div>
+          <div style={{fontSize:10.5,color:"var(--ink3)",marginTop:3,textAlign:m[0]==="me"?"right":"left"}}>{m[0]==="me"?"Vous":"Administration"}</div>
+        </div>))}
+    </div>
+  </div>
+);
+
+const AgendaView=({mobile})=>{
+  const days=["L","M","M","J","V","S","D"]; const cells=Array.from({length:35},(_,i)=>i-2);
+  const conf=[5,12,19]; const blk=[8,9,22];
+  return (<div className="fade">
+    <h1 style={{fontSize:26,margin:"0 0 4px"}}>Disponibilités — Juillet 2026</h1>
+    <p style={{color:"var(--ink3)",fontSize:14,margin:"0 0 14px"}}>Marquez vos créneaux. L'admin les consulte pour le matching (jamais le client).</p>
+    <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:mobile?12:18,maxWidth:520,boxShadow:"var(--shadow-sm)"}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:6}}>
+        {days.map((d,i)=><div key={i} style={{textAlign:"center",fontSize:11,fontWeight:700,color:"var(--ink3)",padding:"4px 0"}}>{d}</div>)}
+        {cells.map((c,i)=>{const valid=c>=1&&c<=31;const isC=conf.includes(c);const isB=blk.includes(c);
+          return <div key={i} style={{aspectRatio:"1",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12.5,fontWeight:600,
+            background:!valid?"transparent":isC?"var(--blue)":isB?"var(--neutral-bg)":"var(--ok-bg)",
+            color:!valid?"transparent":isC?"#fff":isB?"var(--ink3)":"var(--ok)",
+            border:valid&&!isC&&!isB?"1px solid var(--ok)":"none",textDecoration:isB?"line-through":"none"}}>{valid?c:""}</div>;})}
+      </div>
+      <div style={{display:"flex",gap:16,marginTop:14,flexWrap:"wrap",fontSize:12,color:"var(--ink2)"}}>
+        <span style={{display:"inline-flex",gap:6,alignItems:"center"}}><span style={{width:12,height:12,borderRadius:3,background:"var(--ok-bg)",border:"1px solid var(--ok)"}}/>Disponible</span>
+        <span style={{display:"inline-flex",gap:6,alignItems:"center"}}><span style={{width:12,height:12,borderRadius:3,background:"var(--blue)"}}/>Mission confirmée</span>
+        <span style={{display:"inline-flex",gap:6,alignItems:"center"}}><span style={{width:12,height:12,borderRadius:3,background:"var(--neutral-bg)"}}/>Bloqué</span>
+      </div>
+    </div>
+  </div>);
+};
+
+const ValidationsView=({mobile, dossier, setDossier})=>{
+  const live = dossier && dossier.submitted && !dossier.decision; // dossier soumis en attente
+  const decide = v => setDossier(d=>({...d,decision:v}));
+  const statics=[{n:"Patrick Mbarga",v:"Bafoussam",s:"Événementiel",p:8,seed:"patrick"},{n:"Linda Eyenga",v:"Douala",s:"Mode",p:6,seed:"linda"}];
+  const Row=({d,liveCard})=>(
+    <div className="lift hov" style={{background:"#fff",border:"1px solid "+(liveCard?"var(--blue)":"var(--line)"),borderRadius:18,padding:16,marginBottom:12,boxShadow:"var(--shadow-sm)"}}>
+      <div style={{display:"flex",gap:12,alignItems:"center",flexDirection:mobile?"column":"row"}}>
+        <div style={{borderRadius:14,overflow:"hidden",width:48,height:48,flexShrink:0}}><Photo seed={d.seed} h={48} radius={0}/></div>
+        <div style={{flex:1,minWidth:0,width:mobile?"100%":"auto"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+            <strong style={{fontSize:15}}>{d.n}</strong>
+            {liveCard && <span style={{background:"var(--blue)",color:"#fff",fontSize:10.5,fontWeight:700,padding:"2px 8px",borderRadius:999}}>NOUVEAU</span>}
+          </div>
+          <div style={{color:"var(--ink3)",fontSize:12.5,marginTop:3,display:"flex",gap:12,flexWrap:"wrap"}}>
+            <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.pin size={13}/>{d.v}</span>
+            <span style={{display:"inline-flex",gap:4,alignItems:"center"}}><I.camera size={13}/>{d.s}</span>
+            <span style={{display:"inline-flex",gap:4,alignItems:"center",color:"var(--ok)"}}><I.check size={13}/>CNI · Tél vérifié · {d.p} photos</span>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:8,width:mobile?"100%":"auto"}}>
+          <GoldBtn small full={mobile} onClick={liveCard?()=>decide("validated"):undefined}><I.shield size={15}/>Valider</GoldBtn>
+          <GoldBtn ghost small full={mobile} onClick={liveCard?()=>decide("rejected"):undefined}>Rejeter</GoldBtn>
+        </div>
+      </div>
+    </div>
+  );
+  return (
+    <div className="fade">
+      <h1 style={{fontSize:26,margin:"0 0 4px"}}>Validation des photographes</h1>
+      <p style={{color:"var(--ink3)",fontSize:14,margin:"0 0 16px"}}>Vérifiez pièce d'identité, portfolio (min. 5 photos) et téléphone. Traitement sous 72h ouvrées.</p>
+
+      {dossier && dossier.decision && (
+        <div style={{display:"flex",gap:12,alignItems:"center",background:dossier.decision==="validated"?"var(--ok-bg)":"var(--danger-bg)",
+          border:"1px solid "+(dossier.decision==="validated"?"#86EFAC":"#FCA5A5"),borderRadius:14,padding:"12px 14px",marginBottom:14,flexWrap:"wrap"}}>
+          <span style={{color:dossier.decision==="validated"?"var(--ok)":"var(--danger)",display:"flex"}}>{dossier.decision==="validated"?<I.shield size={18}/>:<I.x size={18}/>}</span>
+          <span style={{flex:1,minWidth:0,fontSize:13,color:"var(--ink)"}}>
+            Dossier de <b>Marlène Atangana</b> {dossier.decision==="validated"?"validé — badge « Vérifié » attribué, profil visible publiquement.":"rejeté — le photographe peut corriger et resoumettre."}</span>
+          <button onClick={()=>setDossier(d=>({...d,decision:null}))} className="hov" style={{color:"var(--blue)",fontWeight:600,fontSize:12.5}}>Annuler la décision</button>
+        </div>
+      )}
+
+      {live && <Row d={{n:"Marlène Atangana",v:"Yaoundé",s:(dossier.specs&&dossier.specs.length?dossier.specs.join(", "):"—"),p:5,seed:"marlene"}} liveCard/>}
+      {statics.map((d,i)=><Row key={i} d={d}/>)}
+    </div>
+  );
+};
+
+const LitigesView=({mobile})=>(
+  <div className="fade" style={{maxWidth:680}}>
+    <h1 style={{fontSize:26,margin:"0 0 4px"}}>Litige — #RS-1990</h1>
+    <p style={{color:"var(--ink3)",fontSize:14,margin:"0 0 14px"}}>Recueillez les éléments des deux parties séparément, puis arbitrez.</p>
+    <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:14}}>
+      <span style={{background:"var(--danger-bg)",color:"var(--danger)",fontWeight:700,fontSize:11.5,padding:"4px 10px",borderRadius:999}}>EN LITIGE</span>
+      <span style={{color:"var(--ink3)",fontSize:13}}>Paiements gelés · ouvert il y a 1 jour</span>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr",gap:12}}>
+      <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:14,padding:15,boxShadow:"var(--shadow-sm)"}}>
+        <strong style={{fontSize:13.5,color:"var(--info)"}}>Version du client</strong>
+        <p style={{fontSize:13,color:"var(--ink2)",lineHeight:1.5,margin:"8px 0 0"}}>« Photos livrées mais 2 cadrages flous, qualité en deçà de ce qui était promis. »</p>
+        <div style={{marginTop:10,fontSize:11.5,color:"var(--ink3)"}}>2 captures jointes</div>
+      </div>
+      <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:14,padding:15,boxShadow:"var(--shadow-sm)"}}>
+        <strong style={{fontSize:13.5,color:"var(--neutral)"}}>Version du photographe</strong>
+        <p style={{fontSize:13,color:"var(--ink2)",lineHeight:1.5,margin:"8px 0 0"}}>« Conditions de lumière difficiles signalées au client. Retouches proposées gratuitement. »</p>
+        <div style={{marginTop:10,fontSize:11.5,color:"var(--ink3)"}}>Réponse sous 48h</div>
+      </div>
+    </div>
+    <div style={{background:"#fff",border:"1px solid var(--line)",borderRadius:18,padding:16,marginTop:12,boxShadow:"var(--shadow-sm)"}}>
+      <strong style={{fontSize:14}}>Décision d'arbitrage</strong>
+      <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:12}}>
+        <GoldBtn small ghost>Remboursement total</GoldBtn>
+        <GoldBtn small>Remboursement partiel</GoldBtn>
+        <GoldBtn small ghost>Clôture sans remboursement</GoldBtn>
+      </div>
+      <div style={{marginTop:12}}><OpacityNote>Les deux parties seront notifiées séparément. Elles ne communiquent jamais directement pendant l'instruction.</OpacityNote></div>
+    </div>
+  </div>
+);
+
+/* ============================ LAYOUTS ============================ */
+function Sidebar({role, screen, go}){
+  return (
+    <aside style={{width:248,background:"var(--slate)",color:"#fff",minHeight:"100%",padding:"22px 16px",display:"flex",flexDirection:"column",flexShrink:0}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,padding:"0 8px 20px"}}>
+        <span style={{width:36,height:36,borderRadius:10,background:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 6px 14px rgba(37,99,235,.4)"}}><I.aperture size={22}/></span>
+        <div><div style={{fontWeight:800,fontSize:16,fontFamily:"'Outfit',sans-serif"}}>Studio<span style={{color:"var(--blue-500)"}}>Link</span></div>
+        <div style={{fontSize:10.5,color:"#94a3b8",letterSpacing:.5}}>{ROLE_NET[role]}</div></div>
+      </div>
+      <nav style={{display:"flex",flexDirection:"column",gap:3,flex:1}}>
+        {NAV[role].map(([ic,label,key])=>{const act=screen===key||(screen.startsWith("__")&&key===NAV[role][0][2]);
+          return <button key={key} onClick={()=>go(key)} className="nav-it hov" style={{display:"flex",alignItems:"center",gap:11,padding:"11px 12px",borderRadius:12,
+            background:act?"var(--blue)":"transparent",color:act?"#fff":"#cbd5e1",fontWeight:act?600:500,fontSize:13.5,textAlign:"left"}}>
+            {React.createElement(I[ic],{size:18})}{label}</button>;})}
+      </nav>
+      <div style={{borderTop:"1px solid #1e293b",paddingTop:14,marginTop:10}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"0 8px"}}>
+          <Avatar name={role==="admin"?"Admin SL":role==="photographe"?"Marlène Atangana":"Client SL"} hue="var(--blue)" size={34}/>
+          <div style={{minWidth:0}}><div style={{fontSize:13,fontWeight:600,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{role==="admin"?"Administrateur":role==="photographe"?"Marlène A.":"Mon compte"}</div>
+          <div style={{fontSize:11,color:"#94a3b8"}}>Yaoundé, CM</div></div>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function DesktopLayout({role, screen, go, body, onAuth}){
+  return (
+    <div style={{display:"flex",minHeight:600,border:"1px solid var(--line)",borderRadius:24,overflow:"hidden",background:"var(--bg)",boxShadow:"var(--shadow)"}}>
+      {role!=="visiteur" && <Sidebar role={role} screen={screen} go={go}/>}
+      <div style={{flex:1,minWidth:0,display:"flex",flexDirection:"column"}}>
+        <header style={{background:"var(--surface)",borderBottom:"1px solid var(--line)",padding:"12px 22px",display:"flex",alignItems:"center",gap:14}}>
+          {role==="visiteur" && <div style={{display:"flex",alignItems:"center",gap:9,marginRight:"auto"}}>
+            <span style={{width:34,height:34,borderRadius:10,background:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff"}}><I.aperture size={20}/></span>
+            <span style={{fontWeight:800,fontSize:17,fontFamily:"'Outfit',sans-serif"}}>Studio<span style={{color:"var(--blue)"}}>Link</span></span></div>}
+          {role!=="visiteur" && <div style={{display:"flex",alignItems:"center",gap:9,flex:1,maxWidth:360,background:"var(--bg)",border:"1px solid var(--line)",borderRadius:999,padding:"9px 14px",color:"var(--ink3)"}}>
+            <I.search size={17}/><span style={{fontSize:13.5}}>Rechercher…</span></div>}
+          <button className="hov" style={{position:"relative",color:"var(--ink2)",padding:6}}>
+            <I.bell size={20}/><span style={{position:"absolute",top:3,right:3,width:8,height:8,borderRadius:"50%",background:"var(--blue)"}}/></button>
+          {role==="visiteur" ? <><GoldBtn ghost small onClick={()=>onAuth("login")}>Se connecter</GoldBtn><GoldBtn small onClick={()=>onAuth("signup")}>S'inscrire</GoldBtn></>
+            : <button className="hov" style={{color:"var(--ink3)",padding:6}}><I.logout size={20}/></button>}
+        </header>
+        <main style={{padding:24,overflow:"auto",flex:1}}>{body}</main>
+      </div>
+    </div>
+  );
+}
+
+function MobileLayout({role, screen, go, body, onAuth}){
+  const items = NAV[role];
+  return (
+    <div style={{display:"flex",justifyContent:"center"}}>
+      <div className="phone-shell" style={{width:390,maxWidth:"100%",background:"var(--bg)",borderRadius:38,border:"9px solid #0f172a",overflow:"hidden",display:"flex",flexDirection:"column",height:780}}>
+        <div style={{background:"#0f172a",height:24,display:"flex",justifyContent:"center"}}><div style={{width:120,height:18,background:"#0f172a",borderRadius:"0 0 14px 14px"}}/></div>
+        <header style={{background:"var(--surface)",borderBottom:"1px solid var(--line)",padding:"12px 16px",display:"flex",alignItems:"center",gap:10}}>
+          <span style={{width:30,height:30,borderRadius:9,background:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff"}}><I.aperture size={18}/></span>
+          <span style={{fontWeight:800,fontSize:16,fontFamily:"'Outfit',sans-serif"}}>Studio<span style={{color:"var(--blue)"}}>Link</span></span>
+          {role==="visiteur"
+            ? <span style={{marginLeft:"auto",display:"flex",gap:6}}>
+                <button onClick={()=>onAuth("login")} className="hov" style={{color:"var(--blue-700)",background:"var(--blue-50)",borderRadius:999,padding:6,display:"flex"}}><I.user size={18}/></button>
+                <GoldBtn small onClick={()=>onAuth("signup")}>S'inscrire</GoldBtn>
+              </span>
+            : <span style={{marginLeft:"auto",position:"relative",color:"var(--ink2)"}}><I.bell size={20}/><span style={{position:"absolute",top:-1,right:-1,width:7,height:7,borderRadius:"50%",background:"var(--blue)"}}/></span>}
+        </header>
+        <main style={{flex:1,overflow:"auto",padding:16}}>{body}</main>
+        <nav style={{background:"var(--surface)",borderTop:"1px solid var(--line)",display:"flex",justifyContent:"space-around",padding:"8px 4px 14px"}}>
+          {items.map(([ic,label,key])=>{const act=screen===key||(screen.startsWith("__")&&key===items[0][2]);
+            return <button key={key} onClick={()=>go(key)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3,minWidth:60,padding:"4px 0",color:act?"var(--blue)":"var(--ink3)"}}>
+              {React.createElement(I[ic],{size:21})}<span style={{fontSize:9.5,fontWeight:act?700:500}}>{items.find(x=>x[2]===key)[2]}</span></button>;})}
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ APP SHELL ============================ */
+function App(){
+  const [mode,setMode]=useState("desktop");
+  const [role,setRole]=useState("visiteur");
+  const [screen,setScreen]=useState("Recherche");
+  const [selected,setSelected]=useState(PHOTOGRAPHERS[0]);
+  const [auth,setAuth]=useState(null); // null | "login" | "signup"
+  const [dossier,setDossier]=useState({recto:false,verso:false,photo:true,diplome:false,references:false,specs:["Mariage","Portrait","Corporate"],submitted:false,decision:null});
+
+  const defScreen = r => NAV[r][0][2];
+  const switchRole = r => { setRole(r); setScreen(defScreen(r)); };
+  const go = s => setScreen(s);
+  const doAuth = (r, kind) => { // "connexion" réussie → entre dans l'espace
+    setAuth(null); switchRole(r);
+    if(kind==="signup" && r==="photographe") setScreen("Dossier"); // UC-P00 → UC-P01
+  };
+  const mobile = mode==="mobile";
+  const body = renderScreen(role, screen, {selected,setSelected,go,mobile,dossier,setDossier});
+  const Layout = mobile ? MobileLayout : DesktopLayout;
+
+  return (
+    <div style={{minHeight:"100vh"}}>
+      {/* control bar */}
+      <div style={{background:"var(--slate)",color:"#fff",padding:"14px 20px",display:"flex",alignItems:"center",gap:16,flexWrap:"wrap",position:"sticky",top:0,zIndex:50}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginRight:"auto"}}>
+          <span style={{width:34,height:34,borderRadius:10,background:"var(--blue)",display:"flex",alignItems:"center",justifyContent:"center"}}><I.aperture size={20}/></span>
+          <div><div style={{fontWeight:800,fontSize:15,fontFamily:"'Outfit',sans-serif"}}>Maquette — Plateforme Photographes</div>
+          <div style={{fontSize:11,color:"#94a3b8"}}>Principe d'opacité · Cameroun · FCFA</div></div>
+        </div>
+        {/* role switch */}
+        <div style={{display:"flex",gap:4,background:"#1e293b",padding:4,borderRadius:999}}>
+          {ROLES.map(([k,l])=>(
+            <button key={k} onClick={()=>switchRole(k)} style={{padding:"7px 14px",borderRadius:999,fontSize:12.5,fontWeight:600,
+              background:role===k?"var(--blue)":"transparent",color:role===k?"#fff":"#cbd5e1"}}>{l}</button>))}
+        </div>
+        {/* device switch */}
+        <div style={{display:"flex",gap:4,background:"#1e293b",padding:4,borderRadius:999}}>
+          {[["desktop","🖥  Desktop"],["mobile","📱  Mobile"]].map(([k,l])=>(
+            <button key={k} onClick={()=>setMode(k)} style={{padding:"7px 14px",borderRadius:999,fontSize:12.5,fontWeight:600,
+              background:mode===k?"#fff":"transparent",color:mode===k?"var(--slate)":"#cbd5e1"}}>{l}</button>))}
+        </div>
+      </div>
+
+      <div style={{maxWidth:1240,margin:"0 auto",padding:mobile?"24px 14px 50px":"26px 22px 60px"}}>
+        <Layout role={role} screen={screen} go={go} body={body} onAuth={setAuth}/>
+        <p style={{textAlign:"center",color:"var(--ink3)",fontSize:12,marginTop:20}}>
+          Prototype interactif — cliquez les rôles, la navigation, « Réserver », « Se connecter » / « S'inscrire » pour parcourir les parcours.
+        </p>
+      </div>
+
+      {auth && <AuthModal mode={auth} switchMode={setAuth} onClose={()=>setAuth(null)} onDone={doAuth} mobile={mobile}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
