@@ -248,6 +248,10 @@ authentification/
 └── auth.routes.ts        ← routes lazy + data:{roles}
 ```
 
+> **Convention du projet : les services utilisent des `Promise`, pas des `Observable`.**
+> `HttpClient` renvoie un `Observable` → conversion via `firstValueFrom()` (rxjs), consommation
+> en `async/await`. `auth.service` expose donc `login(...)`, `register(...)`, `me()` en `Promise<T>`.
+
 ---
 
 ## 5. Écarts du backend actuel à corriger (bloquants)

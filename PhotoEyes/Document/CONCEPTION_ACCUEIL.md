@@ -121,16 +121,36 @@ export interface Page<T> { content: T[]; totalElements: number; page: number; si
 
 ## 5. Service + contrat backend attendu
 
+> **Convention du projet : on travaille avec des `Promise`, pas des `Observable`.**
+> `HttpClient` renvoie un `Observable` → on le convertit avec `firstValueFrom()` (rxjs) et on
+> le consomme en `async/await`. Les services exposent donc des méthodes `async` renvoyant `Promise<T>`.
+
 ```ts
+import { firstValueFrom } from 'rxjs';
+
 @Injectable({ providedIn: 'root' })
 export class PhotographerService {
   private http = inject(HttpClient);
   private baseUrl = '/api/public/photographes';   // route PUBLIQUE (permitAll)
 
-  search(criteria: SearchCriteria): Observable<Page<PhotographerCard>> {
-    return this.http.get<Page<PhotographerCard>>(this.baseUrl, {
-      params: toHttpParams(criteria)
-    });
+  async search(criteria: SearchCriteria): Promise<Page<PhotographerCard>> {
+    return firstValueFrom(
+      this.http.get<Page<PhotographerCard>>(this.baseUrl, { params: toHttpParams(criteria) })
+    );
+  }
+}
+```
+
+Côté composant (`HomeComponent`), consommation en `async/await` :
+
+```ts
+async rechercher(criteria: SearchCriteria): Promise<void> {
+  this.loading.set(true);
+  try {
+    const page = await this.service.search(criteria);
+    this.photographes.set(page.content);
+  } finally {
+    this.loading.set(false);
   }
 }
 ```
