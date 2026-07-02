@@ -8,6 +8,7 @@ import raphel.test.sa_backend.model.dtos.dtoRequests.UserRequestDto;
 import raphel.test.sa_backend.model.dtos.dtoResponses.LoginDtoRespons;
 import raphel.test.sa_backend.model.dtos.dtoResponses.RegisterDtoRespons;
 import raphel.test.sa_backend.model.entities.User;
+import raphel.test.sa_backend.model.enums.AccountStatut;
 import raphel.test.sa_backend.model.enums.Role;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
@@ -27,18 +28,31 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userRequestDto.getEmail());
         user.setNumeroTelephone(userRequestDto.getNumeroTelephone());
         user.setMotDePasse(userRequestDto.getMotDePasse());
+        user.setRole(userRequestDto.getRole());
+        user.setAccountStatut(userRequestDto.getAccountStatut());
 
         userRepository.save(user);
 
     }
     public RegisterDtoRespons registerDtoRespons(RegisterDtoRequest registerDtoRequest){
-
+        User user = new User();
         if(registerDtoRequest.getRole() == Role.ADMIN){
             throw new RuntimeException(
                     "Impossible de créer un administrateur");
         }
 
-        User user = new User();
+        if(registerDtoRequest.getRole() == Role.CLIENT){
+
+            user.setRole(Role.CLIENT);
+            user.setAccountStatut(AccountStatut.ACTIVE);
+        }
+
+        if(registerDtoRequest.getRole() == Role.PHOTOGRAPHE) {
+
+            user.setRole(Role.PHOTOGRAPHE);
+            user.setAccountStatut(AccountStatut.PENDING_VALIDATION);
+        }
+
         user.setNom(registerDtoRequest.getNom());
         user.setPrenom(registerDtoRequest.getPrenom());
         user.setEmail(registerDtoRequest.getEmail());
