@@ -8,6 +8,7 @@ import raphel.test.sa_backend.model.dtos.dtoRequests.UserRequestDto;
 import raphel.test.sa_backend.model.dtos.dtoResponses.LoginDtoRespons;
 import raphel.test.sa_backend.model.dtos.dtoResponses.RegisterDtoRespons;
 import raphel.test.sa_backend.model.entities.User;
+import raphel.test.sa_backend.model.enums.Role;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
 @Service
@@ -31,6 +32,11 @@ public class UserServiceImpl implements UserService {
 
     }
     public RegisterDtoRespons registerDtoRespons(RegisterDtoRequest registerDtoRequest){
+
+        if(registerDtoRequest.getRole() == Role.ADMIN){
+            throw new RuntimeException(
+                    "Impossible de créer un administrateur");
+        }
 
         User user = new User();
         user.setNom(registerDtoRequest.getNom());
