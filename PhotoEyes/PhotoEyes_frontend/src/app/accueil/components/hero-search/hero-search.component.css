@@ -1,0 +1,52 @@
+.hero{
+  background: linear-gradient(to right, #001f3f, #2563EB);
+  border-radius: 25px;
+  padding: 30px;
+  margin: 20px;
+
+}
+.hero_description{
+  background-color: rgb(200 198 198 / 0.58);
+  border-radius: 25px;
+  color: white;
+  width: 20%;
+  text-align: center;
+}
+.hero_description p{
+  margin:0px;
+  color: white;
+}
+.hero_form h1{
+  margin: 55px 0px 0px 0px;
+  color: white;
+}
+.hero_form h3{
+  margin: 0px;
+  color: rgb(255 255 255 / 0.54);
+  font-size: 16px;
+}
+.hero_search{
+  width: 32%;
+  background-color:white;
+  padding: 7px;
+  display: flex;
+  align-items: stretch;
+  border-radius: 30px;
+  justify-content: space-between;
+}
+.hero_search input{
+  border: none;
+  width: 50%;
+}
+.hero_search button {
+  width: 30%;
+  height: 30px;
+  border: none;
+  background-color: #2563EB;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+
+}
+
