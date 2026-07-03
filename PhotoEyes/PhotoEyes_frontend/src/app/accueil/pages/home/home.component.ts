@@ -14,17 +14,70 @@ export class HomeComponent {
   photographers = [
     {
       id: 1,
-      nom: 'Jean Dupont',
-      ville: 'Douala',
-      note: 4.8,
-      prix: 30000
+      name: 'Marlène Atangana',
+      city: 'Yaoundé',
+      speciality: 'Mariage & Événementiel',
+      rating: 4.9,
+      startingPrice: 45000,
+      imageUrl: 'assets/coin1.webp',
+      verified: true,
+      category: 'Mariage'
     },
     {
       id: 2,
-      nom: 'Marie Foto',
-      ville: 'Yaoundé',
-      note: 4.5,
-      prix: 25000
+      name: 'julio',
+      city: 'Douala',
+      speciality: 'Portrait & Corporate',
+      rating: 4.7,
+      startingPrice: 35000,
+      imageUrl: 'assets/coin2.webp',
+      verified: true,
+      category: 'Portrait'
+    },
+    {
+      id: 3,
+      name: 'julio',
+      city: 'Douala',
+      speciality: 'Portrait & Corporate',
+      rating: 4.7,
+      startingPrice: 35000,
+      imageUrl: 'assets/coin2.webp',
+      verified: true,
+      category: 'Portrait'
+    },
+    {
+      id: 4,
+      name: 'julio',
+      city: 'Douala',
+      speciality: 'Portrait & Corporate',
+      rating: 4.7,
+      startingPrice: 35000,
+      imageUrl: 'assets/coin2.webp',
+      verified: true,
+      category: 'Portrait'
+    },
+    {
+      id: 5,
+      name: 'julio',
+      city: 'Douala',
+      speciality: 'Portrait & Corporate',
+      rating: 4.7,
+      startingPrice: 35000,
+      imageUrl: 'assets/coin2.webp',
+      verified: true,
+      category: 'Portrait'
+    },
+    {
+      id: 6,
+      name: 'julio',
+      city: 'Douala',
+      speciality: 'Portrait & Corporate',
+      rating: 4.7,
+      startingPrice: 35000,
+      imageUrl: 'assets/coin2.webp',
+      verified: true,
+      category: 'Portrait'
     }
   ];
+
 }

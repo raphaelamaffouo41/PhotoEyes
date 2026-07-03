@@ -1,1 +1,23 @@
-<p>photographer-card works!</p>
+<div class="photo-card">
+  <div class="card-image" >
+    <img [src]="photographer.imageUrl" [alt]="photographer.name">
+  </div>
+  <!--<div class="card-description">
+    <h3>{{ photographer.name }}</h3>
+   </div>-->
+  <div class="description" >
+    <div class="card-description">
+      <h3>{{ photographer.name }}  <span><i class="fa-solid fa-shield-halved"></i></span></h3>
+      <p> <span><i class="fa-solid fa-location-dot"></i></span> {{ photographer.city }}  {{ photographer.speciality }}</p>
+    </div>
+    <div class="description-flex">
+      <div class="card-price">
+        <p>à partir de</p>
+        <h4>{{ photographer.startingPrice | number:'1.0-0' }} FCFA</h4>
+      </div>
+      <div class="arrow-right">
+        <p>voir <span><i class="fa-solid fa-arrow-right"></i></span></p>
+      </div>
+    </div>
+  </div>
+</div>
