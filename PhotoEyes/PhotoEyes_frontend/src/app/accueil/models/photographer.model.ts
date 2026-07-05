@@ -1,11 +1,10 @@
 export interface Photographer {
   id: number;
-  name: string;
-  city: string;
-  speciality: string;
-  rating: number;
-  startingPrice: number;
+  nom: string;
+  ville: string;
+  specialite: string;
+  note: number;
+  prixDepart: number;
   imageUrl: string;
-  verified: boolean;
-  category: string;
+  verifie: boolean;
 }

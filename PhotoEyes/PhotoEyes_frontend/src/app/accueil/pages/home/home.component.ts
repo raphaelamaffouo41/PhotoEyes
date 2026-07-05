@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {HeroSearchComponent} from "../../components/hero-search/hero-search.component";
 import {FilterBarComponent} from "../../components/filter-bar/filter-bar.component";
 import {PhotographerGridComponent} from "../../components/photographer-grid/photographer-grid.component";
-
+import {Photographer} from "../../models/photographer.model";
+import {PhotographerService} from "../../service/photographerservice"
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -11,73 +12,14 @@ import {PhotographerGridComponent} from "../../components/photographer-grid/phot
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  photographers = [
-    {
-      id: 1,
-      name: 'Marlène Atangana',
-      city: 'Yaoundé',
-      speciality: 'Mariage & Événementiel',
-      rating: 4.9,
-      startingPrice: 45000,
-      imageUrl: 'assets/coin1.webp',
-      verified: true,
-      category: 'Mariage'
-    },
-    {
-      id: 2,
-      name: 'julio',
-      city: 'Douala',
-      speciality: 'Portrait & Corporate',
-      rating: 4.7,
-      startingPrice: 35000,
-      imageUrl: 'assets/coin2.webp',
-      verified: true,
-      category: 'Portrait'
-    },
-    {
-      id: 3,
-      name: 'julio',
-      city: 'Douala',
-      speciality: 'Portrait & Corporate',
-      rating: 4.7,
-      startingPrice: 35000,
-      imageUrl: 'assets/coin2.webp',
-      verified: true,
-      category: 'Portrait'
-    },
-    {
-      id: 4,
-      name: 'julio',
-      city: 'Douala',
-      speciality: 'Portrait & Corporate',
-      rating: 4.7,
-      startingPrice: 35000,
-      imageUrl: 'assets/coin2.webp',
-      verified: true,
-      category: 'Portrait'
-    },
-    {
-      id: 5,
-      name: 'julio',
-      city: 'Douala',
-      speciality: 'Portrait & Corporate',
-      rating: 4.7,
-      startingPrice: 35000,
-      imageUrl: 'assets/coin2.webp',
-      verified: true,
-      category: 'Portrait'
-    },
-    {
-      id: 6,
-      name: 'julio',
-      city: 'Douala',
-      speciality: 'Portrait & Corporate',
-      rating: 4.7,
-      startingPrice: 35000,
-      imageUrl: 'assets/coin2.webp',
-      verified: true,
-      category: 'Portrait'
-    }
-  ];
+  photographers: Photographer[] = [];
 
+  constructor(
+    private photographerService: PhotographerService
+  ) {}
+
+  ngOnInit(): void {
+    this.photographers =
+      this.photographerService.getAll();
+  }
 }
