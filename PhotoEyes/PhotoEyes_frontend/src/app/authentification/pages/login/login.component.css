@@ -23,7 +23,7 @@
 
 .left-panel {
   width: 40%;
-  background: linear-gradient(180deg, #0b1f4d, #1e3a8a);
+  background: linear-gradient(to bottom, #001f3f, #2563EB);
   color: white;
   padding: 30px;
   display: flex;
@@ -66,10 +66,10 @@
 }
 
 .tabs {
-  width: 53%;
+  width: 60%;
   border: none;
   border-radius: 20px;
-  background: #bbb9b9;
+  background:#f1f5f9;
   padding: 5px 5px;
   display: flex;
   gap: 10px;
@@ -77,16 +77,25 @@
 }
 
 .tabs button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--ink3);
+  box-shadow: none;
   border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
   cursor: pointer;
-  background: #eee;
 }
 
 .tabs .active {
-  background: white ;
-  color: #1e3a8a;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgb(255, 255, 255);
+  color: #1d4ed8;
+  box-shadow: var(--shadow-sm);
 }
 
 h2 {
@@ -102,10 +111,12 @@ h2 {
 .google-btn {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
-  background: white;
+  border: 0px solid #ddd;
+  border: 1px solid #e2e8f0;
+  background: rgb(255, 255, 255);
   border-radius: 6px;
   cursor: pointer;
+  color: #475569;
 }
 
 .separator {
@@ -135,7 +146,10 @@ input {
 .password-box {
   position: relative;
 }
+.password{
+  width: 95%;
 
+}
 .eye {
   position: absolute;
   right: 10px;
@@ -152,7 +166,7 @@ input {
 
 .login-btn {
   margin-top: 20px;
-  background: #1e3a8a;
+  background: #2563eb;
   color: white;
   padding: 10px;
   border: none;
