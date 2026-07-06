@@ -1,1 +1,94 @@
-<p>register works!</p>
+
+<div class="overlay" *ngIf="isOpen">
+  <div class="modal">
+    <div class="left-panel">
+      <div class="welcome">
+        <h2>StudioLink</h2>
+      </div>
+      <div class="">
+        <h3>Rejoignez la plateforme.</h3>
+        <p>
+          Créez votre compte en 1 minute. Profils vérifiés, tarifs transparents, coordination assurée par l'admin.
+        </p>
+        <ul class="features">
+          <li>Photographes vérifiés</li>
+          <li>Principe d'opacité garanti</li>
+          <li>Paiement sécurisé (Orange/MTN)</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="right-panel">
+      <div class="tabs">
+        <button >Se connecter</button>
+        <button class="active">Créer un compte</button>
+      </div>
+      <h2>Inscription</h2>
+      <p class="subtitle">Choisissez votre profil et renseignez vos informations..</p>
+      <div class="choix">
+        <button class="choix-left">
+            <h4>je suis client</h4>
+            <p>je cherche un photographe</p>
+        </button>
+        <button class="choix-right">
+          <h4>je suis photographe</h4>
+          <p>je propose mes service</p>
+        </button>
+      </div>
+      <p>Un même e-mail ne peut pas être à la fois client et photographe.</p>
+      <button class="google-btn">
+        Continuer avec Google
+      </button>
+      <div class="separator">ou par e-mail</div>
+      <form>
+        <div class="form-group">
+          <div class="group-form">
+            <label>nom</label>
+            <input type="text" placeholder="oumar" />
+          </div>
+          <div class="group-form">
+            <label>prenom</label>
+            <input type="text" placeholder="ali" />
+          </div>
+        </div>
+        <label>Adresse e-mail</label>
+        <input type="email" placeholder="vous@exemple.com" />
+        <div class="form-group">
+          <div class="group-form">
+            <label>telephone</label>
+            <input type="input" placeholder="+237 6xx xxx xxx" />
+          </div>
+          <div class="group-form">
+            <label>ville</label>
+            <input type="text" placeholder="yaounde" />
+          </div>
+        </div>
+        <label>Mot de passe</label>
+        <div class="password-box">
+          <input class="password" type="password" placeholder=" creez Votre mot de passe" />
+          <span class="eye"></span>
+        </div>
+        <label>Confirmer le mot de passe</label>
+        <div class="password-box">
+          <input class="password" type="password" placeholder="Retapez Votre mot de passe" />
+          <span class="eye"></span>
+        </div>
+        <div >
+          <label class="options">
+            <div>
+              <input type="checkbox" /> Je certifie avoir au moins 18 ans.
+            </div>
+            <div>
+              <input type="checkbox" /> J'accepte les Conditions d'utilisation et la Politique de confidentialité.
+            </div>
+          </label>
+        </div>
+        <button type="submit" class="login-btn">cree mon compte →</button>
+        <div class="verification">
+          <p>Un e-mail de vérification vous sera envoyé pour activer votre compte. La validation est immédiate — vous pourrez réserver aussitôt.</p>
+        </div>
+      </form>
+      <p class="signup">Vous avez déjà un compte ? <a href="#">Se connecter </a></p>
+    </div>
+  </div>
+</div>
