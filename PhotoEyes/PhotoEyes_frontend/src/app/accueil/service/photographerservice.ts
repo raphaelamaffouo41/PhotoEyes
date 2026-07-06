@@ -14,7 +14,7 @@ export class PhotographerService {
       specialite: 'Mariage & Événementiel',
       note: 4.9,
       prixDepart: 45000,
-      imageUrl: 'assets/images/coin1.webp',
+      imageUrl: 'assets/coin1.webp',
       verifie: true
     },
     {
@@ -24,7 +24,7 @@ export class PhotographerService {
       specialite: 'Portrait & Corporate',
       note: 4.7,
       prixDepart: 35000,
-      imageUrl: 'assets/images/coin2.webp',
+      imageUrl: 'assets/coin2.webp',
       verifie: true
     },
     {
@@ -34,7 +34,7 @@ export class PhotographerService {
       specialite: 'Mode & Studio',
       note: 4.8,
       prixDepart: 60000,
-      imageUrl: 'assets/images/coin1.webp',
+      imageUrl: 'assets/coin1.webp',
       verifie: true
     }
   ];

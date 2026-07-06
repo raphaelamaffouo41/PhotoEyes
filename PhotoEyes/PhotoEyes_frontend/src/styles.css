@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 body{
   font-family: Bahnschrift;
+  margin:0;
 }
 .bg-light{
   height: 100%;
-  margin: 40px;
+  margin: 30px;
   border: 0px solid black;
   border-radius: 30px;
   box-shadow: 0 1px 13px rgb(210, 210, 210, 210);
+}
+@media (max-width:768px){
+  .bg-light{
+    margin: 0;
+  }
 }
