@@ -48,3 +48,21 @@
   font-size: 16px;
   color: #94a3b8;
 }
+
+@media (max-width:768px){
+
+  .filters-bar{
+
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+
+  }
+  .filter-left{
+
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+
+  }
+}

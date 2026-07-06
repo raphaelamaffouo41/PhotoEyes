@@ -43,4 +43,12 @@ export class PhotographerService {
     return this.photographers;
   }
 
+  search(keyword: string) {
+    return this.photographers.filter(
+      p =>
+        p.nom.toLowerCase().includes(keyword.toLowerCase()) ||
+        p.specialite.toLowerCase().includes(keyword.toLowerCase())
+    );
+  }
+
 }

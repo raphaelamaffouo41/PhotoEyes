@@ -2,3 +2,10 @@
 body{
   font-family: Bahnschrift;
 }
+.bg-light{
+  height: 100%;
+  margin: 40px;
+  border: 0px solid black;
+  border-radius: 30px;
+  box-shadow: 0 1px 13px rgb(210, 210, 210, 210);
+}

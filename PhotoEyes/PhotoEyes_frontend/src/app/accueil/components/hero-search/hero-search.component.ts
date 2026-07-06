@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-
+import { Component,Output,EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-hero-search',
   standalone: true,
@@ -9,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class HeroSearchComponent {
 
+  keyword!:string;
+  @Output()
+  search = new EventEmitter<string>();
+
+  onSearch(): void {
+    this.search.emit(this.keyword);
+  }
 }
