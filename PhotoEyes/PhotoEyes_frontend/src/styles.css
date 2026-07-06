@@ -13,5 +13,8 @@ body{
 @media (max-width:768px){
   .bg-light{
     margin: 0;
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
   }
 }

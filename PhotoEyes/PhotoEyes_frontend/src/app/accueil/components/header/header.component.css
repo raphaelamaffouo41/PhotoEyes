@@ -127,9 +127,11 @@
 }
 @media (max-width:768px) {
   .header{
+    height: 60px;
     border-radius: 0px;
     margin: 0;
     position: fixed;
+    top:-2px;
     width: 90%;
   }
   .actions{

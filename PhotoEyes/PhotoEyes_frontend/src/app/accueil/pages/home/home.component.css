@@ -1,21 +1,2 @@
-.page-container{
-  width: min(1400px, 95%);
-  margin: auto;
-}
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 32px;
-}
-.search{
-  margin-top: 20px;
-}
-@media (max-width:768px){
-  *{
-    margin:0;
-    padding:0;
-  }
-}
 
