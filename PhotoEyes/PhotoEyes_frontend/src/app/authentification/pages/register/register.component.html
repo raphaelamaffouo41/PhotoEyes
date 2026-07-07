@@ -26,20 +26,25 @@
       <h2>Inscription</h2>
       <p class="subtitle">Choisissez votre profil et renseignez vos informations..</p>
       <div class="choix">
-        <button class="choix-left">
+        <button class="choix-left" [class.active]="!isPhotographer" (click)="selectClient()">
             <h4>je suis client</h4>
             <p>je cherche un photographe</p>
         </button>
-        <button class="choix-right">
+        <button class="choix-right" [class.active]="isPhotographer" (click)="selectPhotographer()">
+
           <h4>je suis photographe</h4>
           <p>je propose mes service</p>
         </button>
       </div>
       <p>Un même e-mail ne peut pas être à la fois client et photographe.</p>
-      <button class="google-btn">
-        Continuer avec Google
-      </button>
-      <div class="separator">ou par e-mail</div>
+      @if(!isPhotographer){
+        <button class="google-btn">
+          Continuer avec Google
+        </button>
+        <div class="separator">ou par e-mail</div>
+      }@else{
+
+      }
       <form>
         <div class="form-group">
           <div class="group-form">
@@ -85,10 +90,14 @@
         </div>
         <button type="submit" class="login-btn">cree mon compte →</button>
         <div class="verification">
-          <p>Un e-mail de vérification vous sera envoyé pour activer votre compte. La validation est immédiate — vous pourrez réserver aussitôt.</p>
+          @if(isPhotographer){
+            <p>Après inscription : vérification par SMS puis e-mail, ensuite constitution de votre dossier (pièce d'identité, photo de profil, portfolio ≥ 5 photos, tarifs). Votre profil devient public après validation de l'admin (sous 72h ouvrées).</p>
+          }@else{
+            <p>Un e-mail de vérification vous sera envoyé pour activer votre compte. La validation est immédiate — vous pourrez réserver aussitôt.</p>
+          }
         </div>
       </form>
-      <p class="signup">Vous avez déjà un compte ? <a href="#">Se connecter </a></p>
+      <p class="signup">Vous avez déjà un compte ? <a href="#" routerLink="/auth/login">Se connecter </a></p>
     </div>
   </div>
 </div>

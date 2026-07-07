@@ -29,4 +29,7 @@ export class HomeComponent {
       this.photographerService.search(keyword);
 
   }
+  filterByCity(city: string) {
+
+  }
 }

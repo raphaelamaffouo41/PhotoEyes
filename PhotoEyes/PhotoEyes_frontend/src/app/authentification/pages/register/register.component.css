@@ -207,6 +207,22 @@ input {
   gap: 10px;
   grid-template-columns: 1fr 1fr;
 }
+.choix button{
+  text-align: left;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.choix button.active{
+  text-align: left;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border: 1.5px solid #2563eb;
+  background: #eff6ff;
+}
 .choix-left{
   display: flex;
   flex-direction: column;

@@ -11,4 +11,15 @@ import {RouterLink} from '@angular/router'
 })
 export class RegisterComponent {
   isOpen = true;
+
+  isPhotographer = false;
+
+  selectClient() {
+    this.isPhotographer = false;
+  }
+
+  selectPhotographer() {
+    this.isPhotographer = true;
+  }
+
 }
