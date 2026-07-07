@@ -1,18 +1,21 @@
-import { Component,Output,EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SearchCriteria } from '../../models/search-criteria.model';
+
 @Component({
   selector: 'app-hero-search',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './hero-search.component.html',
   styleUrl: './hero-search.component.css'
 })
 export class HeroSearchComponent {
+  keyword = '';
+  city = '';
 
-  keyword!:string;
-  @Output()
-  search = new EventEmitter<string>();
+  @Output() search = new EventEmitter<SearchCriteria>();
 
   onSearch(): void {
-    this.search.emit(this.keyword);
+    this.search.emit({ keyword: this.keyword.trim(), city: this.city.trim() });
   }
 }
