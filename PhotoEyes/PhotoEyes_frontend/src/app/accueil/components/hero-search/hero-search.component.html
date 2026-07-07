@@ -1,14 +1,31 @@
 <div class="hero">
-  <div class="hero_description">
-    <p>Photographes vérifiés · Cameroun</p>
+  <i class="fa-solid fa-camera hero_watermark"></i>
+
+  <div class="hero_badge">
+    <i class="fa-solid fa-shield-halved"></i>
+    <span>Photographes vérifiés · Cameroun</span>
   </div>
+
   <div class="hero_form">
     <h1>Trouvez le photographe parfait pour votre moment.</h1>
     <h3>Profils vérifiés, portfolios, tarifs transparents. Vous réservez, la plateforme coordonne tout.</h3>
   </div>
+
   <div class="hero_search">
-    <div></div>
-    <input type="text" placeholder="mariage,potrait...">
-    <button class ="search-box " (click)="onSearch()">Rechercher</button>
+    <div class="field">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text"
+             [(ngModel)]="keyword"
+             (keyup.enter)="onSearch()"
+             placeholder="Mariage, portrait…">
+    </div>
+    <div class="field field--city">
+      <i class="fa-solid fa-location-dot"></i>
+      <input type="text"
+             [(ngModel)]="city"
+             (keyup.enter)="onSearch()"
+             placeholder="Ville">
+    </div>
+    <button type="button" (click)="onSearch()">Rechercher</button>
   </div>
 </div>

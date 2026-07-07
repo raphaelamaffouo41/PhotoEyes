@@ -1,4 +1,4 @@
-import { Component,Output,EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-filter-bar',
@@ -8,7 +8,6 @@ import { Component,Output,EventEmitter } from '@angular/core';
   styleUrl: './filter-bar.component.css'
 })
 export class FilterBarComponent {
-  @Output()
-  cityChanged =
-    new EventEmitter<string>();
+  /** Nombre de photographes actuellement affichés. */
+  @Input() total = 0;
 }

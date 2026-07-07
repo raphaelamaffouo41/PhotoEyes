@@ -1,130 +1,123 @@
 .hero{
-  background: linear-gradient(to right, #001f3f, #2563EB);
-  border-radius: 25px;
-  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #0F172A, #1D4ED8);
+  border-radius: 24px;
+  padding: 38px 32px;
   margin: 20px;
+  color: #fff;
+}
 
+.hero_watermark{
+  position: absolute;
+  right: -12px;
+  top: -12px;
+  font-size: 180px;
+  color: #fff;
+  opacity: .08;
+  pointer-events: none;
 }
-.hero_description{
-  background-color: rgb(200 198 198 / 0.58);
-  border-radius: 25px;
-  color: white;
-  width: 20%;
-  text-align: center;
+
+/* Pastille "vérifiés" */
+.hero_badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgb(255 255 255 / 0.15);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
 }
-.hero_description p{
-  margin:0px;
-  color: white;
-}
+
 .hero_form h1{
-  margin: 55px 0px 0px 0px;
-  color: white;
+  margin: 14px 0 8px;
+  color: #fff;
+  font-size: 38px;
+  line-height: 1.15;
+  max-width: 560px;
 }
 .hero_form h3{
-  margin: 0px;
-  color: rgb(255 255 255 / 0.54);
-  font-size: 16px;
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 15px;
+  font-weight: 400;
+  max-width: 460px;
 }
+
+/* Barre de recherche en pilule */
 .hero_search{
-  width: 32%;
-  background-color:white;
-  padding: 7px;
   display: flex;
-  align-items: stretch;
-  border-radius: 30px;
-  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  max-width: 560px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 0.18);
 }
-.hero_search input{
+.hero_search .field{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  padding: 0 12px;
+  color: #94a3b8;
+}
+.hero_search .field--city{
+  flex: 0 0 auto;
+  border-left: 1px solid #e2e8f0;
+}
+.hero_search .field input{
   border: none;
-  width: 50%;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #1e293b;
+  background: transparent;
 }
-.hero_search button {
-  width: 30%;
-  height: 30px;
+.hero_search .field--city input{
+  width: 110px;
+}
+.hero_search button{
   border: none;
-  background-color: #2563EB;
-  border-radius: 25px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-
+  background: #2563EB;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 10px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease;
 }
-@media (max-width:1024px){
-  .hero_description{
-    width: 30%;
-  }
-  .hero_search button {
-    width: 50%;
-    height: 30px;
-    border: none;
-    background-color: #2563EB;
-    border-radius: 25px;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-  }
+.hero_search button:hover{
+  background: #1D4ED8;
 }
-@media (max-width:768px){
 
+@media (max-width: 768px){
   .hero{
-    padding:20px 20px;
-    margin: 70px 20px 20px 20px;
-   }
-  .hero p{
-    font-size: 14px;
+    padding: 24px 18px;
+    margin: 70px 16px 16px;
   }
-
-  .hero_description{
-    width: 40%;
+  .hero_form h1{
+    font-size: 24px;
   }
-
-  .hero h1{
-    font-size:2rem;
-  }
-  .search-box{
-
-    flex-direction:column;
-    width:100%;
-  }
-  .hero_search button {
-    width: 50%;
-    height: 30px;
-    border: none;
-    background-color: #2563EB;
-    border-radius: 25px;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-  }
-
-  .hero_search input {
-    width: 50%;
-  }
-  .search-box{
-    width:100%;
-  }
-
-
-}
-@media (max-width:624px){
   .hero_search{
-    width: 70%;
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 20px;
+    max-width: none;
   }
-  search-box{
-    width:100%;
+  .hero_search .field--city{
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
   }
-  .hero_search button {
-    width: 30%;
-    height: 30px;
-    border: none;
-    background-color: #2563EB;
-    border-radius: 25px;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
+  .hero_search .field--city input{
+    width: 100%;
   }
-  .hero_description{
-    width: 70%;
+  .hero_search button{
+    width: 100%;
   }
-
 }

@@ -6,12 +6,12 @@
   border-radius:20px;
   box-shadow:0 2px 12px rgba(0,0,0,.08);
   transition: transform 0.3s ease;
-  cursor: pointer;
 }
 .photo-card:hover{
   transform: translateY(-5px);
 }
 .card-image {
+  position: relative;
   height: 220px;
 }
 .card-image img{
@@ -26,24 +26,49 @@
   margin: 0;
   border-bottom: 1px solid rgb(168 167 167 / 0.68);
 }
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.card-title h3{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:0;
+  font-size:16px;
+  font-weight:500;
+}
+.verified{
+  display:inline-flex;
+  color:#16A34A;
+  font-size:14px;
+}
+.rating{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-size:14px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.rating .fa-star{
+  color:#FBBF24;
+}
+.meta{
+  margin: 5px 0 9px;
+  color: rgb(148 163 184);
+  font-size: 14px;
+  font-weight: 400;
+}
+.meta .fa-location-dot{
+  color:#94A3B8;
+  margin-right:4px;
+}
 .description-flex{
   display: flex;
   justify-content: space-between;
-}
-
-.card-description h3{
-  margin-bottom: 0;
-  padding: 0;
-  font-size: 16px;
-  font-weight: 500;
-}
-.card-description p{
-  margin: 0;
-  margin-top: 5px;
-  margin-bottom: 9px;
-  color: rgb(168 168 168 / 0.6);
-  font-size: 14px;
-  font-weight: 400;
 }
 .card-price{
   align-items:flex-end;
@@ -60,19 +85,7 @@
   margin-top: 8px;
   font-weight: 400;
   font-size: 14px;
-
   color: rgb(168 168 168 / 0.6);
-}
-.shield-halved{
-  color:#28a745;
-}
-
-.location-dot{
-  color:#8B4513;
-}
-
-.star-icon{
-  color:#FFD700;
 }
 .arrow-right p{
   color: #2563EB;

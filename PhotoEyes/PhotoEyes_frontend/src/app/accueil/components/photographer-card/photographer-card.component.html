@@ -1,22 +1,29 @@
 <div class="photo-card">
-  <div class="card-image" >
-    <img [src]="photographer.imageUrl" [alt]="photographer.nom">
+  <div class="card-image">
+    <img [src]="photographer.imageUrl" [alt]="photographer.nom" (error)="onImageError($event)">
   </div>
-  <!--<div class="card-description">
-    <h3>{{ photographer.name }}</h3>
-   </div>-->
-  <div class="description" >
+  <div class="description">
     <div class="card-description">
-      <h3>{{ photographer.nom }}  <span><i class="fa-solid fa-shield-halved"></i></span></h3>
-      <p> <span><i class="fa-solid fa-location-dot"></i></span> {{ photographer.ville }}  {{ photographer.specialite }}</p>
+      <div class="card-title">
+        <h3>
+          {{ photographer.nom }}
+          @if (photographer.verifie) {
+            <span class="verified" title="Photographe vérifié"><i class="fa-solid fa-shield-halved"></i></span>
+          }
+        </h3>
+        <span class="rating"><i class="fa-solid fa-star"></i> {{ photographer.note }}</span>
+      </div>
+      <p class="meta">
+        <i class="fa-solid fa-location-dot"></i> {{ photographer.ville }} · {{ photographer.specialite }}
+      </p>
     </div>
     <div class="description-flex">
       <div class="card-price">
         <p>à partir de</p>
-        <h4>{{ photographer.prixDepart | number:'1.0-0' }} FCFA</h4>
+        <h4>{{ photographer.prixDepart | fcfa }}</h4>
       </div>
       <div class="arrow-right">
-        <p>voir <span><i class="fa-solid fa-arrow-right"></i></span></p>
+        <p>voir <i class="fa-solid fa-arrow-right"></i></p>
       </div>
     </div>
   </div>
