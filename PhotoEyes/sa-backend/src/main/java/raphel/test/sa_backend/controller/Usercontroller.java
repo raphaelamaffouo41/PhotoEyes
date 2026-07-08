@@ -3,34 +3,36 @@ package raphel.test.sa_backend.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import raphel.test.sa_backend.model.dtos.dtoRequests.LoginDtoRequest;
+import raphel.test.sa_backend.model.dtos.dtoRequests.RegisterDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoRequests.UserRequestDto;
 import raphel.test.sa_backend.model.dtos.dtoResponses.LoginDtoRespons;
+import raphel.test.sa_backend.model.dtos.dtoResponses.RegisterDtoRespons;
 import raphel.test.sa_backend.service.UserService;
 
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping( path = "User")
+@RequestMapping("/auth")
 public class Usercontroller {
 
-    private UserService userService;
+    private final UserService userService;
 
     public Usercontroller(UserService userService) {
-
         this.userService = userService;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public void creerUser(@RequestBody UserRequestDto userRequestDto) {
+    @PostMapping("/register")
+    public RegisterDtoRespons register(
+            @RequestBody RegisterDtoRequest request) {
 
-        userService.creerUser(userRequestDto);
+        return userService.registerDtoRespons(request);
     }
+
     @PostMapping("/login")
-    public LoginDtoRespons loginDtoRespons(@RequestBody LoginDtoRequest loginDtoRequest ) {
+    public LoginDtoRespons login(
+            @RequestBody LoginDtoRequest request) {
 
-        return loginDtoRespons(loginDtoRequest);
+        return userService.loginDtoRespons(request);
     }
-
 }

@@ -23,7 +23,7 @@ export class RegisterComponent {
       nom: [''],
       prenom: [''],
       email: [''],
-      telephone: [''],
+      numeroTelephone: [''],
       ville: [''],
       motdepasse: ['']
     });
@@ -34,10 +34,7 @@ export class RegisterComponent {
     console.log(this.registerForm.getRawValue());
     try {
       const response =
-        await this.authService.register(
-          this.registerForm.getRawValue()
-        );
-
+        await this.authService.register(this.registerForm.getRawValue() );
       console.log(response);
 
     } catch(error) {
