@@ -10,9 +10,7 @@ public interface UserService {
 
     void creerUser(UserRequestDto userRequestDto);
 
-    RegisterDtoRespons registerDtoRespons(
-            RegisterDtoRequest registerDtoRequest);
+    RegisterDtoRespons registerDtoRespons(RegisterDtoRequest registerDtoRequest);
 
-    LoginDtoRespons loginDtoRespons(
-            LoginDtoRequest loginDtoRequest);
+    LoginDtoRespons loginDtoRespons(LoginDtoRequest loginDtoRequest);
 }

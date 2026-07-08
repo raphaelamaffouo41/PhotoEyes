@@ -25,7 +25,9 @@ public class Usercontroller {
     @PostMapping("/register")
     public RegisterDtoRespons register(
             @RequestBody RegisterDtoRequest request) {
-
+        System.out.println("ROLE CONTROLLER = " + request.getRole());
+        System.out.println("EMAIL = " + request.getEmail());
+        System.out.println("NOM = " + request.getNom());
         return userService.registerDtoRespons(request);
     }
 

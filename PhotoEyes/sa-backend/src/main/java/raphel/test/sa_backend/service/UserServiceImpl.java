@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     }
     public RegisterDtoRespons registerDtoRespons(RegisterDtoRequest registerDtoRequest){
         User user = new User();
+        System.out.println("ROLE RECU = " + registerDtoRequest.getRole());
         if(registerDtoRequest.getRole() == Role.ADMIN){
             throw new RuntimeException(
                     "Impossible de créer un administrateur");
@@ -58,7 +59,8 @@ public class UserServiceImpl implements UserService {
         user.setEmail(registerDtoRequest.getEmail());
         user.setNumeroTelephone(registerDtoRequest.getNumeroTelephone());
         user.setMotDePasse(registerDtoRequest.getMotdepasse());
-
+        System.out.println("ROLE USER = " + user.getRole());
+        System.out.println("STATUT USER = " + user.getAccountStatut());
         userRepository.save(user);
 
         RegisterDtoRespons registerDtoRespons = new RegisterDtoRespons();

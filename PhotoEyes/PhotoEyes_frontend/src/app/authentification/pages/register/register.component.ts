@@ -31,10 +31,15 @@ export class RegisterComponent {
   }
 
   async submit() {
-    console.log(this.registerForm.getRawValue());
+      const data = {...this.registerForm.getRawValue(),
+       role: this.isPhotographer ? 'PHOTOGRAPHE': 'CLIENT'
+      };
+
+    console.log(data);
+
     try {
       const response =
-        await this.authService.register(this.registerForm.getRawValue() );
+       await this.authService.register(data);
       console.log(response);
 
     } catch(error) {
