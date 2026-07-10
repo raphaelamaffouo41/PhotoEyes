@@ -1,1 +1,15 @@
-<p>pricing-card works!</p>
+<div class="pricing-card">
+  <h3>Tarifs</h3>
+  @for (tarif of tarrif; track tarif.libelle){
+    <div class="price-line">
+      <p>{{tarif.libelle}}</p>
+      <strong>{{tarif.prix | number}} FCFA </strong>
+    </div>
+  }
+  <div class="reserve-btn">
+    <button>Réserver</button>
+  </div>
+  <div class="opacity-note">
+    <p> Les coordonnées du photographe restent masquées. Toute réservation passe par la plateforme.</p>
+  </div>
+</div>
