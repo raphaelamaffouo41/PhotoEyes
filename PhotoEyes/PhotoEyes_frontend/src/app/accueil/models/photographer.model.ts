@@ -6,5 +6,6 @@ export interface Photographer {
   note: number;
   prixDepart: number;
   imageUrl: string;
+  photoCouverture: string;
   verifie: boolean;
 }
