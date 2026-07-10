@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {PortfolioItem} from "../../services/portfolio-items";
 
 @Component({
   selector: 'app-portfolio-gallery',
@@ -8,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrl: './portfolio-gallery.component.css'
 })
 export class PortfolioGalleryComponent {
-
+@Input({required:true})
+  portfolio!: PortfolioItem[];
 }

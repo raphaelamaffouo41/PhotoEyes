@@ -6,11 +6,12 @@ import {ProfileHeaderComponent} from "../../../components/profile-header/profile
 import {AboutCarrdComponent} from "../../../components/about-carrd/about-carrd.component";
 import {PhotographerDetail} from "../../../models/photographer-detail";
 import { PhotoGrapherService } from "../../../services/photographer.service";
+import {PortfolioGalleryComponent} from "../../../components/portfolio-gallery/portfolio-gallery.component";
 
 @Component({
   selector: 'app-photographer-detail',
   standalone: true,
-  imports: [ProfileHeaderComponent,AboutCarrdComponent],
+  imports: [ProfileHeaderComponent,AboutCarrdComponent,PortfolioGalleryComponent],
   templateUrl:'./photographer-detail.component.html',
   styleUrl: './photographer-detail.component.css'
 })
