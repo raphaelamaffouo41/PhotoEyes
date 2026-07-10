@@ -1,1 +1,21 @@
-<p>reviews-list works!</p>
+<div class="review-item">
+  <h3>Avis clients<span>· modérés par l'admin</span></h3>
+  @for (review of reviews; track review.id){
+    <div class="review-liste">
+        <div class="review-header">
+          <div>
+            <strong>{{ review.auteur }}</strong>
+          </div>
+          <div class="stars">
+            @for (star of getStarArray(); track star){
+
+              <span [class.filled]="star <= review.note">★</span>
+
+            }
+          </div>
+        </div>
+        <p>{{review.texte}}</p>
+        <span>{{review.date}}</span>
+    </div>
+  }
+</div>

@@ -12,5 +12,5 @@ export class ProfileHeaderComponent {
 
   @Input()
   photographer?: Photographer;
-
+  getStarArray(): number[] {return [1, 2, 3, 4, 5];}
 }

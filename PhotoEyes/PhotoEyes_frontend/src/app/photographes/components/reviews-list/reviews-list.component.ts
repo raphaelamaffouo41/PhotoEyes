@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Review} from "../../models/review";
 
 @Component({
   selector: 'app-reviews-list',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './reviews-list.component.css'
 })
 export class ReviewsListComponent {
-
+@Input({required: true})
+  reviews!: Review[];
+  getStarArray(): number[] {return [1, 2, 3, 4, 5];}
 }

@@ -88,3 +88,16 @@
   border-image: none;
   box-shadow: rgba(37, 99, 235, 0.28) 0px 8px 18px;
 }
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.stars span {
+  color: #d1d5db;
+  font-size: 10px;
+}
+
+.stars span.filled {
+  color: #fbbf24;
+}

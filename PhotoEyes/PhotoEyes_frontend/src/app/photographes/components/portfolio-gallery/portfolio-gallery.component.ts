@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {PortfolioItem} from "../../services/portfolio-items";
+import {PortfolioItem} from "../../models/portfolio-items";
 
 @Component({
   selector: 'app-portfolio-gallery',

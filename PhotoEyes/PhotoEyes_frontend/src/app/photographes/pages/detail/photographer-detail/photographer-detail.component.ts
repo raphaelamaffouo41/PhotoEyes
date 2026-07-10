@@ -7,11 +7,12 @@ import {AboutCarrdComponent} from "../../../components/about-carrd/about-carrd.c
 import {PhotographerDetail} from "../../../models/photographer-detail";
 import { PhotoGrapherService } from "../../../services/photographer.service";
 import {PortfolioGalleryComponent} from "../../../components/portfolio-gallery/portfolio-gallery.component";
+import {ReviewsListComponent} from "../../../components/reviews-list/reviews-list.component";
 
 @Component({
   selector: 'app-photographer-detail',
   standalone: true,
-  imports: [ProfileHeaderComponent,AboutCarrdComponent,PortfolioGalleryComponent],
+  imports: [ProfileHeaderComponent,AboutCarrdComponent,PortfolioGalleryComponent,ReviewsListComponent],
   templateUrl:'./photographer-detail.component.html',
   styleUrl: './photographer-detail.component.css'
 })

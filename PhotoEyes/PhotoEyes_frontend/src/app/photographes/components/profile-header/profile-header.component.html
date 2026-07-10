@@ -25,8 +25,10 @@
           <span><i class="fa-solid fa-location-dot"></i></span>
           <p>{{ photographer.ville }}</p>
         </div>
-        <div class="description-two-specialite">
-          <span class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>  {{ photographer.note }}</span>
+        <div class="stars">
+          @for( star of getStarArray(); track star){
+            <span [class.filled]="star <= photographer.note"> ★</span>
+          }
         </div>
       </div>
     </div>

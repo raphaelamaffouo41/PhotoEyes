@@ -1,4 +1,6 @@
-import { PortfolioItem } from "../services/portfolio-items";
+import { PortfolioItem } from "./portfolio-items";
+import {Review} from "./review";
+import {PricingItem} from "./pricing-item";
 
 export interface PhotographerDetail{
   id: number;
@@ -10,4 +12,6 @@ export interface PhotographerDetail{
   bio: string;
   categories : string[];
   portfolio: PortfolioItem[];
+  review: Review[];
+  tarrif:  PricingItem[];
 }
