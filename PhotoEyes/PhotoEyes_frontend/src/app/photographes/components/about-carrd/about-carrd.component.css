@@ -1,0 +1,25 @@
+.about-card{
+  background: rgb(255, 255, 255);
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: #e2e8f0 ;
+}
+.about-card h3{
+  margin: 0px 0px 8px;
+  font-size: 18px;
+}
+.about-card p{
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0px;
+}
+.about-card span{
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+}

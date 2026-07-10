@@ -21,6 +21,9 @@ export class PhotographerService {
   async getAll(): Promise<Photographer[]> {
     return this.photographers;
   }
+  async getById(id: number): Promise< Photographer | undefined> {
+    return this.photographers.find(p=>p.id === id);
+  }
 
   async search(criteria: SearchCriteria): Promise<Photographer[]> {
     const kw = criteria.keyword.trim().toLowerCase();

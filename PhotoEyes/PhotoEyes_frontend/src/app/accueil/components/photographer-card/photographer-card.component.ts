@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Photographer } from '../../models/photographer.model';
 import { FcfaPipe } from '../../../shared/ui/currency.pipe';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-photographer-card',
   standalone: true,
-  imports: [FcfaPipe],
+  imports: [FcfaPipe,RouterLink],
   templateUrl: './photographer-card.component.html',
   styleUrl: './photographer-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,0 +1,4 @@
+<app-profile-header  [photographer]="photographer" ></app-profile-header>
+@if (photographerDetail) {
+<app-about-card  [bio]="photographerDetail.bio" [categories]="photographerDetail.categories"></app-about-card>
+}

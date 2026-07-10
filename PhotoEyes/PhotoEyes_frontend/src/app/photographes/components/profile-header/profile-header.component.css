@@ -1,0 +1,90 @@
+.bannier{
+  height: 210px;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #dbeafe, #c7d2fe);
+}
+.photographer-detail-container{
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+  margin-top: -44px;
+  padding: 0px 18px;
+  align-items: flex-end;
+  position: relative;
+}
+.profile-photo{
+  border-radius: 24px;
+  overflow: hidden;
+  border: 5px solid rgb(255, 255, 255);
+  box-shadow: var(--shadow);
+  width: 104px;
+  height: 104px;
+  flex-shrink: 0;
+}
+.profile-photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.info{
+  flex: 1 1 0%;
+  padding-bottom: 6px;
+}
+.description-one{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.description-one h3{
+  margin: 0px;
+  font-size: 30px;
+}
+.verifie{
+  background: #dcfce7;
+  color: #16a34a;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.verifie p{
+  margin: 0;
+}
+.description-two{
+  color: #475569;
+  font-size: 14px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.description-two-specialite{
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+.buttom{
+  width: auto;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #2563eb;
+  color: rgb(255, 255, 255);
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  box-shadow: rgba(37, 99, 235, 0.28) 0px 8px 18px;
+}

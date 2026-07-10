@@ -1,0 +1,38 @@
+@if (photographer) {
+<div>
+  <div class="bannier">
+
+  </div>
+  <div class="photographer-detail-container">
+    <div class="profile-photo">
+      <img [src]="photographer.imageUrl" [alt]="photographer.nom">
+    </div>
+    <div class="info">
+      <div class="description-one">
+        <h3> {{ photographer.nom }}</h3>
+        @if (photographer.verifie) {
+        <div class="verifie">
+          <span title="Photographe vérifié"><i class="fa-solid fa-shield-halved"></i></span>
+          <p>verifier</p>
+        </div>
+        }
+      </div>
+      <div class="description-two">
+        <div class="description-two-specialite">
+          <p>{{ photographer.specialite }}</p>
+        </div>
+        <div class="description-two-specialite">
+          <span><i class="fa-solid fa-location-dot"></i></span>
+          <p>{{ photographer.ville }}</p>
+        </div>
+        <div class="description-two-specialite">
+          <span class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>  {{ photographer.note }}</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="buttom">reserver</button>
+    </div>
+  </div>
+</div>
+}

@@ -1,30 +1,31 @@
-<div class="photo-card">
-  <div class="card-image">
-    <img [src]="photographer.imageUrl" [alt]="photographer.nom" (error)="onImageError($event)">
-  </div>
-  <div class="description">
-    <div class="card-description">
-      <div class="card-title">
-        <h3>
-          {{ photographer.nom }}
-          @if (photographer.verifie) {
+<div class="photo-card"  [routerLink]="['/photographes', photographer.id]" >
+    <div class="card-image">
+      <img [src]="photographer.imageUrl" [alt]="photographer.nom" (error)="onImageError($event)">
+    </div>
+    <div class="description">
+      <div class="card-description">
+        <div class="card-title">
+          <h3>
+            {{ photographer.nom }}
+            @if (photographer.verifie) {
             <span class="verified" title="Photographe vérifié"><i class="fa-solid fa-shield-halved"></i></span>
-          }
-        </h3>
-        <span class="rating"><i class="fa-solid fa-star"></i> {{ photographer.note }}</span>
+            }
+          </h3>
+          <span class="rating"><i class="fa-solid fa-star"></i> {{ photographer.note }}</span>
+        </div>
+        <p class="meta">
+          <i class="fa-solid fa-location-dot"></i> {{ photographer.ville }} · {{ photographer.specialite }}
+        </p>
       </div>
-      <p class="meta">
-        <i class="fa-solid fa-location-dot"></i> {{ photographer.ville }} · {{ photographer.specialite }}
-      </p>
+      <div class="description-flex">
+        <div class="card-price">
+          <p>à partir de</p>
+          <h4>{{ photographer.prixDepart | fcfa }}</h4>
+        </div>
+        <div class="arrow-right">
+          <p>voir <i class="fa-solid fa-arrow-right"></i></p>
+        </div>
+      </div>
     </div>
-    <div class="description-flex">
-      <div class="card-price">
-        <p>à partir de</p>
-        <h4>{{ photographer.prixDepart | fcfa }}</h4>
-      </div>
-      <div class="arrow-right">
-        <p>voir <i class="fa-solid fa-arrow-right"></i></p>
-      </div>
-    </div>
-  </div>
 </div>
+

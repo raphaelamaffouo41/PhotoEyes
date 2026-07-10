@@ -1,0 +1,12 @@
+<div class="portfolio">
+  <h3>Portfolio</h3>
+  <div class="gallery">
+    <div>
+      @for (photo of portfolio; track photo.id) {
+        <img [src]="photo.url" [alt]="photo.label">
+
+        @if(photo.label){<span>{{ photo.label }}</span>}
+      }
+    </div>
+  </div>
+</div>
