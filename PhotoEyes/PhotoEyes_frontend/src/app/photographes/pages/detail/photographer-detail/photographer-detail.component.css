@@ -1,5 +1,5 @@
 *{
-  padding: 11px;
+  padding-top: 0;
 }
 
 
@@ -7,5 +7,13 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 18px;
-  margin-top: 24px;
+  margin: 30px;
+}
+@media (max-width: 740px) {
+ .container {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: 18px;
+   margin-top: 24px;
+ }
 }

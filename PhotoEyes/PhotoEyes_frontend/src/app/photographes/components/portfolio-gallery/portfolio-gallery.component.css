@@ -37,3 +37,14 @@
   border-radius: 999px;
   backdrop-filter: blur(2px);
 }
+
+@media(max-width: 740px) {
+  .portfolio{
+    margin-right: 30px;
+  }
+  .gallery{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}

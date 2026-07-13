@@ -1,9 +1,15 @@
+.header-profil{
+  width: 100%;
+}
+
 .bannier{
   height: 210px;
   border-radius: 24px;
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #dbeafe, #c7d2fe);
+  margin: 30px;
+  margin-bottom: 10px;
 }
 .bannier img{
   width: 100%;
@@ -16,7 +22,7 @@
   gap: 16px;
   flex-direction: row;
   margin-top: -44px;
-  padding: 0px 18px;
+  padding: 0px 68px;
   align-items: flex-end;
   position: relative;
 }
@@ -76,6 +82,9 @@
   gap: 5px;
   align-items: center;
 }
+.description-two-specialite p{
+  margin: 0 ;
+}
 .buttom{
   width: auto;
   padding: 12px 20px;
@@ -106,4 +115,53 @@
 
 .stars span.filled {
   color: #fbbf24;
+}
+
+@media (max-width: 740px) {
+  .header-profil{
+    width: 160%;
+    margin-top: 90px;
+    margin-left: 10px;
+  }
+  .bannier{
+    height: 160px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    margin-top: 25px;
+  }
+  .photographer-detail-container{
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    margin-top: -44px;
+    padding: 0px 18px;
+    align-items: flex-start;
+    position: relative;
+  }
+  .click{
+    position: sticky;
+    bottom: 0px;
+    margin-top: 16px;
+    padding-top: 10px;
+  }
+  .buttom{
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--blue);
+    color: rgb(255, 255, 255);
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    box-shadow: rgba(37, 99, 235, 0.28) 0px 8px 18px
+  }
 }

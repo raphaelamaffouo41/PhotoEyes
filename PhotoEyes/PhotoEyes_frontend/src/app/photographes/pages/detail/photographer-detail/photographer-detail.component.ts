@@ -9,11 +9,12 @@ import { PhotoGrapherService } from "../../../services/photographer.service";
 import {PortfolioGalleryComponent} from "../../../components/portfolio-gallery/portfolio-gallery.component";
 import {ReviewsListComponent} from "../../../components/reviews-list/reviews-list.component";
 import {PricingCardComponent} from "../../../components/pricing-card/pricing-card.component";
+import {HeaderComponent} from "../../../components/header/header.component";
 
 @Component({
   selector: 'app-photographer-detail',
   standalone: true,
-  imports: [ProfileHeaderComponent,AboutCarrdComponent,PortfolioGalleryComponent,ReviewsListComponent,PricingCardComponent],
+  imports: [ProfileHeaderComponent,AboutCarrdComponent,PortfolioGalleryComponent,ReviewsListComponent,PricingCardComponent,HeaderComponent],
   templateUrl:'./photographer-detail.component.html',
   styleUrl: './photographer-detail.component.css'
 })
