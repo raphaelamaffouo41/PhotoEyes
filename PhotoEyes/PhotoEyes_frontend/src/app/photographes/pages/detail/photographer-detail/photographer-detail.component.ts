@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthState} from "../../../../authentification/services/auth-state.service";
 import {PhotographerService} from "../../../../accueil/service/photographerservice";
 import {Photographer} from "../../../../accueil/models/photographer.model";
 import {ProfileHeaderComponent} from "../../../components/profile-header/profile-header.component";
@@ -21,18 +22,43 @@ import {HeaderComponent} from "../../../components/header/header.component";
 export class PhotographerDetailComponent implements OnInit {
   photographer?: Photographer;
   photographerDetail?: PhotographerDetail;
+  private photographerId = 0;
 
   constructor(
     private photographerService: PhotographerService,
     private detailService: PhotoGrapherService,
+    private auth: AuthState,
+    private router: Router,
     private route: ActivatedRoute) {}
 
   async ngOnInit():Promise<void> {
 
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(id);
-    this.photographer = await this.photographerService.getById(id);
+    this.photographerId = Number(this.route.snapshot.paramMap.get('id'));
+    this.photographer = await this.photographerService.getById(this.photographerId);
 
-    this.photographerDetail = await this.detailService.getById(id);
+    this.photographerDetail = await this.detailService.getById(this.photographerId);
+  }
+
+  /** Bouton « Réserver » masqué pour le photographe et l'admin (non concernés). */
+  get canReserve(): boolean {
+    const role = this.auth.role();
+    return role !== 'PHOTOGRAPHE' && role !== 'ADMIN';
+  }
+
+  /**
+   * Jonction auth / opacité (conception §7). La demande ne va jamais au photographe.
+   * - Visiteur      -> login puis retour sur la fiche
+   * - Client connecté -> formulaire de réservation (traité par l'admin)
+   */
+  onReserve(): void {
+    if (this.auth.role() === 'CLIENT') {
+      this.router.navigate(['/reservations/nouvelle'], {
+        queryParams: { photographe: this.photographerId }
+      });
+    } else {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: `/photographes/${this.photographerId}` }
+      });
+    }
   }
 }

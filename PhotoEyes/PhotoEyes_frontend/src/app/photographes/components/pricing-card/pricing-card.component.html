@@ -6,9 +6,11 @@
       <strong>{{tarif.prix | number}} FCFA </strong>
     </div>
   }
-  <div class="reserve-btn">
-    <button>Réserver</button>
-  </div>
+  @if (canReserve) {
+    <div class="reserve-btn">
+      <button (click)="reserver.emit()">Réserver</button>
+    </div>
+  }
   <div class="opacity-note">
     <p> Les coordonnées du photographe restent masquées. Toute réservation passe par la plateforme.</p>
   </div>

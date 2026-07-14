@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PricingItem} from "../../models/pricing-item";
 import {CommonModule} from "@angular/common";
 
@@ -13,4 +13,9 @@ export class PricingCardComponent {
   @Input({required: true})
   tarrif!:PricingItem[]
 
+  @Input()
+  canReserve = true;
+
+  @Output()
+  reserver = new EventEmitter<void>();
 }

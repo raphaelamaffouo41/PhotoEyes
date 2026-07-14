@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-profile-header  [photographer]="photographer" ></app-profile-header>
+<app-profile-header  [photographer]="photographer" [canReserve]="canReserve" (reserver)="onReserve()" ></app-profile-header>
 @if (photographerDetail) {
   <div class="container" >
     <div>
@@ -8,7 +8,7 @@
       <app-reviews-list [reviews]="photographerDetail.review" ></app-reviews-list>
     </div>
     <div>
-      <app-pricing-card [tarrif]="photographerDetail.tarrif"></app-pricing-card>
+      <app-pricing-card [tarrif]="photographerDetail.tarrif" [canReserve]="canReserve" (reserver)="onReserve()"></app-pricing-card>
     </div>
   </div>
 }

@@ -32,9 +32,11 @@
         </div>
       </div>
     </div>
-    <div class="click">
-      <button class="buttom">reserver</button>
-    </div>
+    @if (canReserve) {
+      <div class="click">
+        <button class="buttom" (click)="reserver.emit()">Réserver</button>
+      </div>
+    }
   </div>
 </div>
 }

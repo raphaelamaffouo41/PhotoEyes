@@ -133,3 +133,76 @@ Dans le code, on lit `tarrif` et `review` (au singulier) au lieu de `tarifs` / `
 > les étiquettes bafouillent, et le vendeur (« Réserver ») **ne décroche pas**.
 > Il faut **réparer les deux vitres cassées**, **faire répondre le vendeur**, et **prévoir un mot d'excuse**
 > quand la fiche n'existe pas.
+
+---
+
+# Rapport de corrections — ce que j'ai fait (2026-07-14)
+
+> Après l'évaluation ci-dessus, j'ai repris la page de détail pour réparer le plus urgent.
+> Voici, dans mes mots, ce que j'ai corrigé et comment.
+
+## A. Les 2 bugs d'affichage que j'ai réparés
+
+### A.1 🖼️ La photo de couverture ne s'affichait pas
+En regardant le bandeau du haut, j'ai vu que la grande photo restait invisible. En ouvrant le code,
+j'ai trouvé une **faute de frappe** dans la façon d'attacher l'image : les crochets étaient mal posés
+(`[src="..."]` au lieu de `[src]="..."`). Angular ne comprenait pas que c'était une vraie image à charger.
+👉 **Ce que j'ai fait** : j'ai remis la bonne écriture `[src]="photographer.photoCouverture"` et j'en ai
+profité pour ajouter un texte de remplacement (`alt`) avec le nom du photographe. La couverture s'affiche
+maintenant correctement.
+
+### A.2 🏷️ Les catégories affichaient toute la liste à chaque fois
+Dans la partie « À propos », les étiquettes de catégories affichaient **« Mariage,Cérémonie,Couple »
+répété trois fois** au lieu d'une étiquette par catégorie. En relisant la boucle, j'ai compris que
+j'affichais **le paquet entier** (`categories`) au lieu de **l'élément courant** (`categorie`).
+👉 **Ce que j'ai fait** : j'ai remplacé par `{{ categorie }}`. Chaque catégorie a maintenant sa propre
+petite étiquette.
+
+## B. J'ai fait marcher le bouton « Réserver » (le point clé)
+
+C'était le plus important : les deux boutons « Réserver » (dans le bandeau et dans la carte des tarifs)
+étaient de simples dessins, ils ne faisaient rien. D'après la conception, le bouton doit **envoyer au bon
+endroit selon qui clique**, et surtout la demande **ne doit jamais aller directement au photographe**
+(principe d'opacité).
+
+**Le problème que j'ai rencontré** : le projet **n'avait aucun moyen de savoir qui est connecté**
+(le login n'est encore qu'un écran vide, sans mémoire du rôle). Impossible de décider où envoyer les gens
+sans cette information.
+
+**Ce que j'ai mis en place** :
+
+1. 🪪 **Un petit gardien de session** (`AuthState`) qui retient le rôle de la personne
+   (client, photographe, admin — ou personne = visiteur). Il **garde l'info même après un rafraîchissement**
+   de la page, et il est **prêt à être branché sur le vrai login** plus tard : il suffira de lui dire le rôle
+   après connexion.
+
+2. 🎯 **La logique de destination**, placée dans la page principale (le « chef d'orchestre ») :
+   - **Visiteur (non connecté)** → je l'envoie se connecter, en gardant en mémoire la fiche d'où il vient,
+     pour le ramener ici après (`/auth/login?returnUrl=/photographes/:id`).
+   - **Client connecté** → je l'envoie vers le formulaire de réservation
+     (`/reservations/nouvelle?photographe=:id`), qui sera **traité par l'admin**.
+   - **Photographe / Admin** → le bouton **disparaît** (ils ne sont pas concernés par la réservation).
+
+3. 🔌 **Le branchement des deux boutons** : les petits morceaux d'écran (bandeau, carte tarifs) ne décident
+   rien eux-mêmes ; quand on clique, ils **préviennent la page principale**, et c'est elle qui décide où aller.
+   C'est la bonne façon de faire (chaque morceau garde son seul job).
+
+Résultat : les deux boutons « Réserver » **fonctionnent** et respectent le principe d'opacité — la demande
+passe toujours par la plateforme, jamais directement au photographe.
+
+## C. Vérification
+
+J'ai **compilé le projet** (`ng build`) après mes changements : **tout compile sans erreur**.
+Il reste seulement deux avertissements de « taille de CSS » qui existaient **déjà avant** et qui
+n'empêchent rien.
+
+## D. Ce que je n'ai pas encore fait (pour la suite)
+
+Pour être transparent, je n'ai pas encore traité :
+- les **pages « ça charge… » / « introuvable » (404) / « erreur »** ;
+- le **regroupement des infos dans une seule source** (aujourd'hui elles viennent encore de deux endroits) ;
+- la **carte des tarifs qui colle** en défilant + le bouton « Réserver » **collé en bas sur téléphone** ;
+- la **note chiffrée + le nombre d'avis**, et les petits outils réutilisables (étoiles, badge, FCFA).
+
+> En résumé : **les deux vitres cassées sont réparées et le vendeur décroche enfin.**
+> Il reste surtout à prévoir le « mot d'excuse » quand la fiche n'existe pas, et quelques finitions.
