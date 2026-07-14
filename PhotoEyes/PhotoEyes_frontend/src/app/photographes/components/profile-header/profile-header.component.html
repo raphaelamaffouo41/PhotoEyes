@@ -1,7 +1,7 @@
 @if (photographer) {
 <div class="header-profil">
   <div class="bannier">
-      <img [src="photographer.photoCouverture"]>
+      <img [src]="photographer.photoCouverture" [alt]="photographer.nom">
   </div>
   <div class="photographer-detail-container">
     <div class="profile-photo">
