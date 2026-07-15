@@ -5,12 +5,12 @@
   </div>
   <div class="photographer-detail-container">
     <div class="profile-photo">
-      <img [src]="photographer.imageUrl" [alt]="photographer.nom">
+      <img [src]="photographer.photoProfil" [alt]="photographer.nom">
     </div>
     <div class="info">
       <div class="description-one">
         <h3> {{ photographer.nom }}</h3>
-        @if (photographer.verifie) {
+        @if (photographer.certifie) {
         <div class="verifie">
           <span title="Photographe vérifié"><i class="fa-solid fa-shield-halved"></i></span>
           <p>verifier</p>
@@ -29,6 +29,7 @@
           @for( star of getStarArray(); track star){
             <span [class.filled]="star <= photographer.note"> ★</span>
           }
+            <span>{{ photographer.note }}({{ photographer.nombreAvis }} avis)</span>
         </div>
       </div>
     </div>

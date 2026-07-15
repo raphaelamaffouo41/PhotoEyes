@@ -7,6 +7,8 @@ import raphel.test.sa_backend.model.enums.AccountStatut;
 import raphel.test.sa_backend.model.enums.AuthProvider;
 import raphel.test.sa_backend.model.enums.Role;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -109,4 +111,5 @@ public class User {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
+
 }

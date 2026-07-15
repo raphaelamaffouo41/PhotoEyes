@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Photographer } from '../../../accueil/models/photographer.model';
+import { PhotographerDetail } from '../../models/photographer-detail';
 
 @Component({
   selector: 'app-profile-header',
@@ -11,7 +12,7 @@ import { Photographer } from '../../../accueil/models/photographer.model';
 export class ProfileHeaderComponent {
 
   @Input()
-  photographer?: Photographer;
+  photographer?: PhotographerDetail;
 
   @Input()
   canReserve = true;

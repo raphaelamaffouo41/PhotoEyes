@@ -6,7 +6,7 @@ import {Photographer} from "../../../../accueil/models/photographer.model";
 import {ProfileHeaderComponent} from "../../../components/profile-header/profile-header.component";
 import {AboutCarrdComponent} from "../../../components/about-carrd/about-carrd.component";
 import {PhotographerDetail} from "../../../models/photographer-detail";
-import { PhotoGrapherService } from "../../../services/photographer.service";
+import { PhotoGrapherServices } from "../../../services/photographer.services";
 import {PortfolioGalleryComponent} from "../../../components/portfolio-gallery/portfolio-gallery.component";
 import {ReviewsListComponent} from "../../../components/reviews-list/reviews-list.component";
 import {PricingCardComponent} from "../../../components/pricing-card/pricing-card.component";
@@ -20,24 +20,44 @@ import {HeaderComponent} from "../../../components/header/header.component";
   styleUrl: './photographer-detail.component.css'
 })
 export class PhotographerDetailComponent implements OnInit {
-  photographer?: Photographer;
   photographerDetail?: PhotographerDetail;
   private photographerId = 0;
+  loading = true;
+  error = false;
+  notFound = false;
+
 
   constructor(
     private photographerService: PhotographerService,
-    private detailService: PhotoGrapherService,
+    private PhotographerService: PhotoGrapherServices,
     private auth: AuthState,
     private router: Router,
     private route: ActivatedRoute) {}
 
-  async ngOnInit():Promise<void> {
+async ngOnInit(): Promise<void> {
 
-    this.photographerId = Number(this.route.snapshot.paramMap.get('id'));
-    this.photographer = await this.photographerService.getById(this.photographerId);
+  try {
 
-    this.photographerDetail = await this.detailService.getById(this.photographerId);
+    const id = Number(
+      this.route.snapshot.paramMap.get('id')
+    );
+
+    this.photographerDetail =await this.PhotographerService.getById(id);
+
+    if (!this.photographerDetail || !this.photographerDetail) {
+      this.notFound = true;
+    }
+
+  } catch (e) {
+
+    this.error = true;
+
+  } finally {
+
+    this.loading = false;
+
   }
+}
 
   /** Bouton « Réserver » masqué pour le photographe et l'admin (non concernés). */
   get canReserve(): boolean {

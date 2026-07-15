@@ -11,7 +11,7 @@ import {CommonModule} from "@angular/common";
 })
 export class PricingCardComponent {
   @Input({required: true})
-  tarrif!:PricingItem[]
+  tarifs!:PricingItem[]
 
   @Input()
   canReserve = true;

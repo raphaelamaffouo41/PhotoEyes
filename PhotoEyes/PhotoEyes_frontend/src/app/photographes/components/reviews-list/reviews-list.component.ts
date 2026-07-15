@@ -10,6 +10,6 @@ import {Review} from "../../models/review";
 })
 export class ReviewsListComponent {
 @Input({required: true})
-  reviews!: Review[];
+  avis!: Review[];
   getStarArray(): number[] {return [1, 2, 3, 4, 5];}
 }

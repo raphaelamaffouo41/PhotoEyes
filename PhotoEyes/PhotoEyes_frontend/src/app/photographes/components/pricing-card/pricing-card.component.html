@@ -1,6 +1,6 @@
 <div class="pricing-card">
   <h3>Tarifs</h3>
-  @for (tarif of tarrif; track tarif.libelle){
+  @for (tarif of tarifs; track tarif.libelle){
     <div class="price-line">
       <p>{{tarif.libelle}}</p>
       <strong>{{tarif.prix | number}} FCFA </strong>
