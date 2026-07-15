@@ -1,0 +1,7 @@
+<div class="stars">
+  @for (star of getStarArray(); track star) {
+    <span [class.filled]="star <= note">
+      ★
+    </span>
+  }
+</div>

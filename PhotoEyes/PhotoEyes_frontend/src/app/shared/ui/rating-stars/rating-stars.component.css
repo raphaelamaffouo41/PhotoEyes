@@ -1,0 +1,12 @@
+.stars{
+  display:flex;
+  gap:3px;
+}
+
+.stars span{
+  color:#d1d5db;
+}
+
+.stars span.filled{
+  color:#fbbf24;
+}

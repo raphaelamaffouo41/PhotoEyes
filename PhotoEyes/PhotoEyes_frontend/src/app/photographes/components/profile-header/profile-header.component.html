@@ -11,10 +11,7 @@
       <div class="description-one">
         <h3> {{ photographer.nom }}</h3>
         @if (photographer.certifie) {
-        <div class="verifie">
-          <span title="Photographe vérifié"><i class="fa-solid fa-shield-halved"></i></span>
-          <p>verifier</p>
-        </div>
+          <app-verified-badge/>
         }
       </div>
       <div class="description-two">
@@ -26,10 +23,7 @@
           <p>{{ photographer.ville }}</p>
         </div>
         <div class="stars">
-          @for( star of getStarArray(); track star){
-            <span [class.filled]="star <= photographer.note"> ★</span>
-          }
-            <span>{{ photographer.note }}({{ photographer.nombreAvis }} avis)</span>
+          <app-rating-stars [note]="photographer.note" ></app-rating-stars>
         </div>
       </div>
     </div>

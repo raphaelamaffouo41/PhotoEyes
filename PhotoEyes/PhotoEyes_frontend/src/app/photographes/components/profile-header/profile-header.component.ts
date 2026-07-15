@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Photographer } from '../../../accueil/models/photographer.model';
 import { PhotographerDetail } from '../../models/photographer-detail';
+import { VerifiedBadgeComponent } from "../../../shared/ui/verified-badge/verified-badge.component";
+import { RatingStarsComponent } from "../../../shared/ui/rating-stars/rating-stars.component";
 
 @Component({
   selector: 'app-profile-header',
   standalone: true,
-  imports: [],
+  imports: [VerifiedBadgeComponent, RatingStarsComponent],
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.css'
 })

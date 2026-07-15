@@ -1,10 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {Review} from "../../models/review";
+import { RatingStarsComponent } from "../../../shared/ui/rating-stars/rating-stars.component";
 
 @Component({
   selector: 'app-reviews-list',
   standalone: true,
-  imports: [],
+  imports: [RatingStarsComponent],
   templateUrl: './reviews-list.component.html',
   styleUrl: './reviews-list.component.css'
 })
