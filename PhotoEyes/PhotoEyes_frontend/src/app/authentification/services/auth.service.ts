@@ -1,5 +1,6 @@
 import {Injectable, inject} from "@angular/core";
 import {Photographer} from "../../accueil/models/photographer.model";
+import { LoginResponse } from '../models/login-response.model';
 import {HttpClient, provideHttpClient} from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 
@@ -21,5 +22,16 @@ export class AuthService{
       )
 
     );
+  }
+
+  async login(data: any): Promise<LoginResponse> {
+
+    return await firstValueFrom(
+      this.http.post<LoginResponse>(
+        `${this.API}/login`,
+        data
+      )
+    );
+
   }
 }

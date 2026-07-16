@@ -28,13 +28,13 @@
         Continuer avec Google
       </button>
       <div class="separator">ou par e-mail</div>
-      <form>
+      <form [formGroup]="loginForm"  (ngSubmit)="submit()" >
         <label>Adresse e-mail</label>
-        <input type="email" placeholder="vous@exemple.com" />
+        <input type="email" placeholder="vous@exemple.com" formControlName="email"  />
 
         <label>Mot de passe</label>
         <div class="password-box">
-          <input class="password" type="password" placeholder="Votre mot de passe" />
+          <input class="password" type="password" placeholder="Votre mot de passe" formControlName="motDePasse"/>
           <span class="eye"></span>
         </div>
         <div class="options">
