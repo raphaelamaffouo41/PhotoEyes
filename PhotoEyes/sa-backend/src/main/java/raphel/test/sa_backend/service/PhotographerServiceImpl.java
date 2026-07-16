@@ -53,6 +53,9 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             response.setMessage("Profil photographe créé");
 
+            System.out.println("USER ID RECU = " + request.getUserId());
+            System.out.println("USER ID RECU = " + request.getUserId());
+
             return response;
         }
     }
