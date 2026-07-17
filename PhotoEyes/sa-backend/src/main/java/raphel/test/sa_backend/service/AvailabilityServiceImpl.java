@@ -11,6 +11,8 @@ import raphel.test.sa_backend.model.repository.AvailabilityRepository;
 import raphel.test.sa_backend.model.repository.PhotographerRepository;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
+import java.time.LocalDate;
+
 @Service
 public class AvailabilityServiceImpl implements AvailabilityService {
 
@@ -26,7 +28,13 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
         Photographer photographer = photographerRepository.findById(request.getPhotographerId()).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
 
-        if(request.getHeureFin().isBefore(request.getHeureDebut())) {throw new RuntimeException("Heure invalide");}
+        if(!request.getHeureFin().isAfter(request.getHeureDebut())){
+            throw new RuntimeException("Heure invalide");
+        }
+
+        if(request.getDate().isBefore(LocalDate.now())){
+            throw new RuntimeException("Date déjà passée");
+        }
 
         Availability availability = new Availability();
 
@@ -44,7 +52,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
         AvailabilityDtoRespons response = new AvailabilityDtoRespons();
 
-        response.setId(photographer.getId());
+        response.setId(availability.getId());
 
         response.setMessage("disponible");
 

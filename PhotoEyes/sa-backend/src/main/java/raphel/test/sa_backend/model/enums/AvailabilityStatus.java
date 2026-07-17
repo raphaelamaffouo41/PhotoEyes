@@ -4,6 +4,7 @@ public enum AvailabilityStatus {
 
     DISPONIBLE,
     RESERVE,
-    INDISPONIBLE
+    INDISPONIBLE,
+    ANNULE
 
 }
