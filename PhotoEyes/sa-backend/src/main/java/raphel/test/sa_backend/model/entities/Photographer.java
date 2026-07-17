@@ -2,7 +2,7 @@ package raphel.test.sa_backend.model.entities;
 
 import jakarta.persistence.*;
 @Entity
-@Table(name = "photographer")
+
 public class Photographer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
