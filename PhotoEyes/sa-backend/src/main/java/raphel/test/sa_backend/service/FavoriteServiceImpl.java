@@ -3,6 +3,7 @@ package raphel.test.sa_backend.service;
 import org.springframework.stereotype.Service;
 import raphel.test.sa_backend.model.dtos.dtoRequests.FavoriteDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoResponses.FavoriteDtoResponse;
+import raphel.test.sa_backend.model.entities.Favorite;
 import raphel.test.sa_backend.model.entities.Photographer;
 import raphel.test.sa_backend.model.entities.User;
 import raphel.test.sa_backend.model.repository.FavoriteRepository;
@@ -28,8 +29,22 @@ public class FavoriteServiceImpl  implements FavoriteService {
     @Override
     public FavoriteDtoResponse createFavorite(FavoriteDtoRequest request) {
         User client = userRepository.findById(request.getClientId()).orElseThrow(() -> new RuntimeException("Client introuvable"));
-        
+
         Photographer photographer = photographerRepository.findById(request.getPhotographerId()).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
-        return null;
+
+        Favorite favorite = new Favorite();
+
+        favorite.setClient(client);
+        favorite.setPhotographer(photographer);
+
+        favoriteRepository.save(favorite);
+
+        FavoriteDtoResponse response =
+                new FavoriteDtoResponse();
+
+        response.setId(favorite.getId());
+        response.setMessage("Favori ajouté");
+
+        return response;
     }
 }
