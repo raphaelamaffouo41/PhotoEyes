@@ -1,27 +1,78 @@
-# PhotoEyesFrontend
+# Démarrage du projet PhotoEyes
+## Prérequis
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Avant de démarrer le projet, assurez-vous d'avoir installé :
 
-## Development server
+'-Java 21'
+'-Node.js (version 20+ recommandée)'
+'-Angular CLI'
+'-MySQL ou XAMPP'
+'-Git'
+'-IntelliJ IDEA (Backend)'
+'-VS Code ou IntelliJ IDEA (Frontend)'
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. Démarrer la base de données
 
-## Code scaffolding
+## Lancer MySQL depuis XAMPP.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+'Créer une base de données :'
 
-## Build
+    CREATE DATABASE photoeyes;
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+'Configurer :'
 
-## Running unit tests
+spring.datasource.url=jdbc:mysql://localhost:3306/photoeyes
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Démarrer le Backend Spring Boot
 
-## Running end-to-end tests
+## Ouvrir le projet backend :
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+sa-backend
 
-## Further help
+## Installer les dépendances Maven :
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+mvn clean install
+
+## Lancer l'application :
+
+mvn spring-boot:run
+
+## ou directement depuis IntelliJ :
+
+Run -> SaBackendApplication
+
+## Le serveur démarre sur :
+
+http://localhost:8080
+
+3. Démarrer le Frontend Angular
+
+## Ouvrir le projet :
+
+PhotoEyes_frontend 
+
+'Installer les dépendances :'
+
+npm install
+
+'Démarrer Angular :'
+
+ng serve
+
+'Application disponible sur :'
+
+http://localhost:4200
+
+4. Communication Front ↔ Back
+
+## Le frontend Angular communique avec Spring Boot via HTTP.
+
+Exemple :
+
+'POST http://localhost:8080/api/auth/register'
+'POST http://localhost:8080/api/auth/login'
+'POST http://localhost:8080/api/reservation/create'
