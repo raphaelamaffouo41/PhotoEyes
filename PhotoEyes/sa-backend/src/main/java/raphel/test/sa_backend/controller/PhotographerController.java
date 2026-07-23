@@ -37,4 +37,19 @@ public class PhotographerController {
     public PhotographerDtoResponse getById(@PathVariable Integer id) {
         return photographerService.getById(id);
     }
+
+    @PutMapping("/{id}")
+    public PhotographerDtoResponse update(
+            @PathVariable Integer id,
+            @RequestBody PhotographerDtoRequest request){
+
+        return photographerService.updateProfile(id,request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable Integer id){
+
+        photographerService.deleteProfile(id);
+    }
 }

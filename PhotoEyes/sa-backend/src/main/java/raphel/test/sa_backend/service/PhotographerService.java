@@ -9,4 +9,8 @@ public interface PhotographerService {
     PhotographerDtoResponse createProfile(PhotographerDtoRequest request);
     List<PhotographerDtoResponse> getAll();
     PhotographerDtoResponse getById(Integer id);
+    PhotographerDtoResponse updateProfile(Integer id, PhotographerDtoRequest request);
+
+    void deleteProfile(Integer id);
+
 }

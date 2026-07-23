@@ -8,6 +8,10 @@ public class PhotographerDtoResponse {
     private String description;
     private Double noteMoyenne;
     private Boolean certifie;
+    private String specialite;
+    private Double prixDepart;
+    private String imageUrl;
+    private String photoCouverture;
     private String message;
 
     public Integer getId() {
@@ -72,5 +76,37 @@ public class PhotographerDtoResponse {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
+
+    public Double getPrixDepart() {
+        return prixDepart;
+    }
+
+    public void setPrixDepart(Double prixDepart) {
+        this.prixDepart = prixDepart;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getPhotoCouverture() {
+        return photoCouverture;
+    }
+
+    public void setPhotoCouverture(String photoCouverture) {
+        this.photoCouverture = photoCouverture;
     }
 }

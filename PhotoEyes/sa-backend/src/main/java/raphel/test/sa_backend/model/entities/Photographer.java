@@ -14,6 +14,14 @@ public class Photographer {
 
     private Double noteMoyenne;
 
+    private String specialite;
+
+    private Double prixDepart;
+
+    private String imageUrl;
+
+    private String photoCouverture;
+
     private Boolean certifie;
 
     @OneToOne
@@ -66,6 +74,38 @@ public class Photographer {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
+
+    public Double getPrixDepart() {
+        return prixDepart;
+    }
+
+    public void setPrixDepart(Double prixDepart) {
+        this.prixDepart = prixDepart;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getPhotoCouverture() {
+        return photoCouverture;
+    }
+
+    public void setPhotoCouverture(String photoCouverture) {
+        this.photoCouverture = photoCouverture;
     }
 }
 
