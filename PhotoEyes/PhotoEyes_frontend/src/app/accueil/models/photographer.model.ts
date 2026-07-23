@@ -7,5 +7,5 @@ export interface Photographer {
   prixDepart: number;
   imageUrl: string;
   photoCouverture: string;
-  verifie: boolean;
+  certifie: boolean;
 }

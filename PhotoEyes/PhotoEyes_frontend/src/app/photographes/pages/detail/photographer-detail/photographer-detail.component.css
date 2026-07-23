@@ -9,6 +9,36 @@
   gap: 18px;
   margin: 30px;
 }
+
+.erreur {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  margin: 16px 0;
+  border-radius: 8px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.erreur p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.erreur {
+  top: 30%;
+  left: 25%;
+  position: absolute;
+  width: 50%;
+  background-color: #fde8e8;
+  color: #9b1c1c;
+  border: 1px solid #f8b4b4;
+  border-left: 5px solid #e02424;
+   border-right: 5px solid #e02424;
+}
 @media (max-width: 740px) {
  .container {
    display: grid;

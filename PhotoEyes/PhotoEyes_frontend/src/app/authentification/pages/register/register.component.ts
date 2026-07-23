@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CommonModule } from "@angular/common";
-import { RouterLink  } from '@angular/router';
+import { CommonModule,Location } from "@angular/common";
+import { RouterLink,Router  } from '@angular/router';
 import { AuthService } from "../../services/auth.service";
 import {FormBuilder, FormGroup,ReactiveFormsModule} from "@angular/forms";
 
@@ -18,7 +18,7 @@ export class RegisterComponent {
 
   isPhotographer = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private location: Location, private router: Router) {
     this.registerForm = this.fb.group({
       nom: [''],
       prenom: [''],
@@ -29,7 +29,9 @@ export class RegisterComponent {
     });
 
   }
-
+  close(): void {
+    this.router.navigate(['/']);
+  }
   async submit() {
       const data = {...this.registerForm.getRawValue(),
        role: this.isPhotographer ? 'PHOTOGRAPHE': 'CLIENT'

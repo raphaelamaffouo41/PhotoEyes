@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {CommonModule} from "@angular/common";
+import {CommonModule,Location} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from '@angular/router'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -16,7 +16,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
 
-constructor(private fb: FormBuilder, private authService: AuthService,  private authState: AuthState,  private router: Router, private route: ActivatedRoute) {
+constructor(private fb: FormBuilder, private authService: AuthService,  private authState: AuthState,  private router: Router, private route: ActivatedRoute,  private location: Location,) {
 
   this.loginForm = this.fb.group({
 
@@ -26,27 +26,30 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
   });
   }
 
-async submit() {
+  close(): void {
+    this.router.navigate(['/']);
+  }
+  async submit() {
 
-  try {
+    try {
 
-    const response =await this.authService.login(this.loginForm.getRawValue());
+      const response =await this.authService.login(this.loginForm.getRawValue());
 
-    this.authState.setRole(response.role);
+      this.authState.setRole(response.role);
 
-    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
-    if(returnUrl){
-      await this.router.navigateByUrl(returnUrl);
-    } else {
-      await this.router.navigate(['/']);
+      if(returnUrl){
+        await this.router.navigateByUrl(returnUrl);
+      } else {
+        await this.router.navigate(['/']);
+      }
+
+    } catch(error) {
+
+      console.error(error);
+
     }
 
-  } catch(error) {
-
-    console.error(error);
-
   }
-
-}
 }

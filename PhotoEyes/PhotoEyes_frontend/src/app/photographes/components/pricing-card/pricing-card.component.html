@@ -3,7 +3,7 @@
   @for (tarif of tarifs; track tarif.libelle){
     <div class="price-line">
       <p>{{tarif.libelle}}</p>
-      <strong>{{ tarif.prix | fcfa }} FCFA </strong>
+      <strong>{{ tarif.prix | fcfa }}</strong>
     </div>
   }
   @if (canReserve) {

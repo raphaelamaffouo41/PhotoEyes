@@ -9,6 +9,8 @@ import raphel.test.sa_backend.model.enums.Role;
 import raphel.test.sa_backend.model.repository.PhotographerRepository;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
 
@@ -25,6 +27,8 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
+            if (photographerRepository.existsByUser_IdUser(user.getIdUser())) {throw new RuntimeException("Ce profil existe déjà");}
+
             if (user.getRole() != Role.PHOTOGRAPHE) {
 
                 throw new RuntimeException(
@@ -38,6 +42,10 @@ public class PhotographerServiceImpl implements PhotographerService {
             photographer.setVille(request.getVille());
 
             photographer.setUser(user);
+
+            photographer.setCertifie(false);
+
+            photographer.setNoteMoyenne(0.0);
 
             photographerRepository.save(photographer);
 
@@ -53,10 +61,63 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             response.setMessage("Profil photographe créé");
 
-            System.out.println("USER ID RECU = " + request.getUserId());
-            System.out.println("USER ID RECU = " + request.getUserId());
+            response.setCertifie(photographer.getCertifie());
+
+            response.setDescription(request.getDescription());
+
+            response.setNoteMoyenne(photographer.getNoteMoyenne());
 
             return response;
         }
+
+    @Override
+    public List<PhotographerDtoResponse> getAll() {
+        List<Photographer> photographers = photographerRepository.findAll();
+
+        return photographers.stream().map(photographer -> {
+
+            PhotographerDtoResponse response = new PhotographerDtoResponse();
+
+            response.setId(photographer.getId());
+
+            response.setNom(photographer.getUser().getNom());
+
+            response.setPrenom(photographer.getUser().getPrenom());
+
+            response.setVille(photographer.getVille());
+
+            response.setDescription(photographer.getDescription());
+
+            response.setCertifie(photographer.getCertifie());
+
+            response.setNoteMoyenne(photographer.getNoteMoyenne());
+
+            return response;
+
+        }).toList();
     }
 
+    @Override
+    public PhotographerDtoResponse getById(Integer id) {
+
+        Photographer photographer = photographerRepository.findById(id).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
+
+        PhotographerDtoResponse response = new PhotographerDtoResponse();
+
+        response.setId(photographer.getId());
+
+        response.setNom(photographer.getUser().getNom());
+
+        response.setPrenom(photographer.getUser().getPrenom());
+
+        response.setVille(photographer.getVille());
+
+        response.setDescription(photographer.getDescription());
+
+        response.setCertifie(photographer.getCertifie());
+
+        response.setNoteMoyenne(photographer.getNoteMoyenne());
+
+        return response;
+    }
+}

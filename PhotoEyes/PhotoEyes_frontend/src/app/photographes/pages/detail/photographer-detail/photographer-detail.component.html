@@ -1,12 +1,18 @@
 
 @if(loading){
-  <p>Chargement...</p>
+  <div class="erreur">
+      <p >Chargement...</p>
+  </div>
 }
 @else if(error){
-    <p>Une erreur est survenue.</p>
+    <div class="erreur">
+      <p>Une erreur est survenue.</p>
+    </div>
 }
 @else if(notFound){
-  <p>Photographe introuvable.</p>
+  <div class="erreur">
+    <p>Photographe introuvable.</p>
+  </div>
 }
 @else{
   <app-header></app-header>

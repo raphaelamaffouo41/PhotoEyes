@@ -1,4 +1,9 @@
 <app-header></app-header>
 <app-hero-search class="search" (search)="onSearch($event)"></app-hero-search>
 <app-filter-bar [total]="photographers.length"></app-filter-bar>
+<div class="empty-message" *ngIf="hasSearched && photographers.length === 0">
+    <i class="fa-solid fa-camera"></i>
+    <h2>Aucun photographe trouvé</h2>
+    <p>Essayez une autre  nom  ou un autre ville.</p>
+</div>
 <app-photographer-grid [photographers]="photographers"></app-photographer-grid>

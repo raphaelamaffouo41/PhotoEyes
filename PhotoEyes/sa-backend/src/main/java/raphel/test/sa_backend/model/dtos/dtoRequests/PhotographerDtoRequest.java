@@ -7,6 +7,10 @@ public class PhotographerDtoRequest {
 
     private String ville;
 
+    private Double noteMoyenne;
+
+    private Boolean certifie;
+
     public Integer getUserId() {
         return userId;
     }
@@ -30,4 +34,21 @@ public class PhotographerDtoRequest {
     public void setVille(String ville) {
         this.ville = ville;
     }
+
+    public Boolean getCertifie() {
+        return certifie;
+    }
+
+    public void setCertifie(Boolean certifie) {
+        this.certifie = certifie;
+    }
+
+    public Double getNoteMoyenne() {
+        return noteMoyenne;
+    }
+
+    public void setNoteMoyenne(Double noteMoyenne) {
+        this.noteMoyenne = noteMoyenne;
+    }
+
 }

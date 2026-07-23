@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchCriteria } from '../../models/search-criteria.model';
+import { Photographer } from '../../models/photographer.model';
 
 @Component({
   selector: 'app-hero-search',
