@@ -19,6 +19,7 @@ public class config {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/**").permitAll()
+                        .requestMatchers("/photographers/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

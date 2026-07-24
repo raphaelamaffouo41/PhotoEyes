@@ -4,6 +4,8 @@ export interface Photographer {
   ville: string;
   specialite: string;
   note: number;
+  noteMoyenne:number;
+  description:string;
   prixDepart: number;
   imageUrl: string;
   photoCouverture: string;

@@ -6,8 +6,10 @@ export interface PhotographerDetail{
   id: number;
   nom: string;
   ville: string;
+  description:string;
   specialite: string;
-  note: number;
+  note:number
+  noteMoyenne:number;
   nombreAvis: number;
   certifie: boolean;
   photoProfil: string;
