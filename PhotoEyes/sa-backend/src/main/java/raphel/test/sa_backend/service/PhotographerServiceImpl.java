@@ -1,6 +1,7 @@
 package raphel.test.sa_backend.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDtoResponse;
 import raphel.test.sa_backend.model.entities.Photographer;
@@ -16,10 +17,12 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         private final PhotographerRepository photographerRepository;
         private final UserRepository userRepository;
+        private final FileStorageService fileStorageService;
 
     public PhotographerServiceImpl(PhotographerRepository photographerRepository, UserRepository userRepository) {
             this.photographerRepository = photographerRepository;
             this.userRepository = userRepository;
+            this.fileStorageService = new FileStorageService();
         }
 
         @Override
@@ -104,6 +107,8 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             response.setPhotoCouverture(photographer.getPhotoCouverture());
 
+            response.setDescription(photographer.getDescription());
+
             response.setPrixDepart(photographer.getPrixDepart());
 
             return response;
@@ -138,12 +143,14 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         response.setPrixDepart(photographer.getPrixDepart());
 
+        response.setDescription(photographer.getDescription());
+
         return response;
     }
 
     @Override
     public PhotographerDtoResponse updateProfile(Integer id, PhotographerDtoRequest request) {
-        
+
         Photographer photographer = photographerRepository.findById(id).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
 
         photographer.setDescription(request.getDescription());
@@ -155,6 +162,8 @@ public class PhotographerServiceImpl implements PhotographerService {
         photographer.setPrixDepart(request.getPrixDepart());
 
         photographer.setImageUrl(request.getImageUrl());
+
+        photographer.setDescription(request.getDescription());
 
         photographer.setPhotoCouverture(request.getPhotoCouverture());
 
@@ -182,8 +191,7 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         response.setPrenom(photographer.getUser().getPrenom());
 
-        response.setVille(
-                photographer.getVille());
+        response.setVille(photographer.getVille());
 
         response.setDescription(photographer.getDescription());
 
@@ -201,5 +209,25 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         return response;
 
+    }
+
+    @Override
+    public PhotographerDtoResponse uploadProfileImage(Integer id, MultipartFile image) {
+
+        Photographer photographer = photographerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Photographe introuvable"));
+
+        String url = fileStorageService.saveProfileImage(image);
+
+        photographer.setImageUrl(url);
+
+        photographerRepository.save(photographer);
+
+        PhotographerDtoResponse dto = new PhotographerDtoResponse();
+
+        dto.setId(photographer.getId());
+        dto.setImageUrl(url);
+
+        return dto;
     }
 }

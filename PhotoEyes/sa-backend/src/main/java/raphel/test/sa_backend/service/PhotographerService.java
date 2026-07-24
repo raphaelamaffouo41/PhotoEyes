@@ -1,5 +1,6 @@
 package raphel.test.sa_backend.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDtoResponse;
 
@@ -10,6 +11,7 @@ public interface PhotographerService {
     List<PhotographerDtoResponse> getAll();
     PhotographerDtoResponse getById(Integer id);
     PhotographerDtoResponse updateProfile(Integer id, PhotographerDtoRequest request);
+    PhotographerDtoResponse uploadProfileImage(Integer id, MultipartFile image);
 
     void deleteProfile(Integer id);
 
