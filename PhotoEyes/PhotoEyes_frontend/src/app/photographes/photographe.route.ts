@@ -6,7 +6,6 @@ export const PHOTOGRAPHES_ROUTES: Routes = [
   {
     path: ':id',
     loadComponent: () =>
-      import('./pages/detail/photographer-detail/photographer-detail.component')
-        .then(m => m.PhotographerDetailComponent)
+      import('./pages/detail/photographer-detail/photographer-detail.component').then(m => m.PhotographerDetailComponent)
   }
 ];

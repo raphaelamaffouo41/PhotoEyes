@@ -38,11 +38,15 @@
 
     </div>
     <div class="right-panel">
-      <div class="tabs">
-        <button routerLink ="/auth/login">Se connecter</button>
-        <button routerLink="/auth/register" class="active">Créer un compte</button>
+      <div class="retourne">
+        <div class="tabs">
+          <button routerLink ="/auth/login">Se connecter</button>
+          <button routerLink="/auth/register" class="active">Créer un compte</button>
+        </div>
+        <div class="close-btn">
+          <button class="close-btn" (click)="close()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
       </div>
-      <button class="close-btn" (click)="close()"><i class="fa-solid fa-xmark"></i></button>
       <h2>Inscription</h2>
       <p class="subtitle">Choisissez votre profil et renseignez vos informations..</p>
       <div class="choix">

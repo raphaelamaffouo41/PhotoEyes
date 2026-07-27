@@ -1,6 +1,13 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+
+  {
+    path:'reservation',
+    loadChildren: () =>
+        import('./reservation/reservation.routes').then(m => m.RESERVATION_ROUTES)
+  },
+
   {
     path: 'photographes',
     loadChildren: () =>

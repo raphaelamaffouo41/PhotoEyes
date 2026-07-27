@@ -29,7 +29,7 @@
     </div>
     @if (canReserve) {
       <div class="click">
-        <button class="buttom" (click)="reserver.emit()">Réserver</button>
+        <button class="buttom" (click)="reserver.emit()"  [routerLink]="['/reservation', photographer.id]" >Réserver</button>
       </div>
     }
   </div>

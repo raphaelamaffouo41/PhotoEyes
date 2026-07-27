@@ -61,6 +61,27 @@ export class RegisterComponent {
 
     }
 
+    this.showSuccess = false;
+    this.showError = false;
+
+    const motdepasse =this.registerForm.value.motdepasse;
+
+    const confirmation =this.registerForm.value.confirmerMotdepasse;
+
+    if(motdepasse !== confirmation){
+
+        this.errorMessage ="Les mots de passe ne correspondent pas.";
+
+        this.showError = true;
+
+        setTimeout(()=>{
+            this.showError=false;
+        },5000);
+
+        return;
+
+    }
+
     if(this.registerForm.invalid){
 
       this.errorMessage =
@@ -75,28 +96,6 @@ export class RegisterComponent {
       },5000);
 
       return;
-    }
-
-    this.showSuccess = false;
-    this.showError = false;
-
-    const motdepasse =this.registerForm.value.motdepasse;
-
-    const confirmation =this.registerForm.value.confirmerMotdepasse;
-
-    if(motdepasse !== confirmation){
-
-        this.errorMessage =
-        "Les mots de passe ne correspondent pas.";
-
-        this.showError = true;
-
-        setTimeout(()=>{
-            this.showError=false;
-        },5000);
-
-        return;
-
     }
 
     const data = {

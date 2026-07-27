@@ -3,11 +3,12 @@ import { Photographer } from '../../../accueil/models/photographer.model';
 import { PhotographerDetail } from '../../models/photographer-detail';
 import { VerifiedBadgeComponent } from "../../../shared/ui/verified-badge/verified-badge.component";
 import { RatingStarsComponent } from "../../../shared/ui/rating-stars/rating-stars.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile-header',
   standalone: true,
-  imports: [VerifiedBadgeComponent, RatingStarsComponent],
+  imports: [VerifiedBadgeComponent, RatingStarsComponent,RouterLink],
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.css'
 })

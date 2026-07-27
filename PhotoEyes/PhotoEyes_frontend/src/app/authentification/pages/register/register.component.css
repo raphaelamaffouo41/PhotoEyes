@@ -266,11 +266,12 @@ input {
   color: #1d4ed8;
   font-size: 12px;
 }
+.retourne{
+  display: flex;
+  justify-content: space-between;
+}
 
 .close-btn{
-  position: absolute;
-  top: 50px;
-  right: 350px;
   width: 40px;
   height: 40px;
   border: none;
