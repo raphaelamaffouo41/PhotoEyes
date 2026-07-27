@@ -1,0 +1,81 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__grid">
+      <!-- Brand column -->
+      <div class="footer__brand">
+        <div class="footer__logo-row">
+          <span class="footer__logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+              <path d="M8 7.5a3.5 3.5 0 0 1 3.5-3.5h1A3.5 3.5 0 0 1 16 7.5v0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M16 16.5a3.5 3.5 0 0 1-3.5 3.5h-1A3.5 3.5 0 0 1 8 16.5v0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8.5 10.5h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="footer__wordmark">{{ brandName }}</span>
+          <span class="footer__verified" title="Plateforme vérifiée" aria-label="Plateforme vérifiée">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none">
+              <path d="M10 1.5l1.9 1.2 2.2-.4 1 2 2 1-.4 2.2 1.2 1.9-1.2 1.9.4 2.2-2 1-1 2-2.2-.4L10 18.5l-1.9-1.2-2.2.4-1-2-2-1 .4-2.2L1.5 10l1.2-1.9-.4-2.2 2-1 1-2 2.2.4L10 1.5z" fill="#22C55E"/>
+              <path d="M6.8 10.2l2.1 2.1 4.3-4.3" stroke="#0B1330" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+
+        <p class="footer__tagline">
+          Des photographes vérifiés, des portfolios réels, des réservations sans mauvaise surprise.
+        </p>
+
+        <div class="footer__socials">
+          <a
+            class="footer__social-link"
+            href="https://www.facebook.com/reservezunphotographe"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StudioLink sur Facebook"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <path d="M14.5 8.5h2V5.6c-.35-.05-1.54-.15-2.93-.15-2.9 0-4.88 1.78-4.88 5.05v2.7H6v3.3h3.69V22h3.4v-5.5H16l.55-3.3h-3.46v-2.35c0-.96.26-1.35 1.41-1.35z" fill="currentColor"/>
+            </svg>
+          </a>
+          <a
+            class="footer__social-link"
+            href="https://www.instagram.com/reservezunphotographe/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="StudioLink sur Instagram"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Link columns -->
+      <nav class="footer__group" *ngFor="let group of linkGroups" [attr.aria-label]="group.title">
+        <h3 class="footer__group-title">{{ group.title }}</h3>
+        <ul class="footer__links">
+          <li *ngFor="let link of group.links">
+            <a [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer__divider" role="presentation"></div>
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        © {{ currentYear }} {{ brandName }} · Tous droits réservés.
+      </p>
+
+      <button type="button" class="footer__top-btn" (click)="scrollToTop()">
+        Retour en haut
+        <svg viewBox="0 0 20 20" width="14" height="14" fill="none" aria-hidden="true">
+          <path d="M10 15V5M10 5l-4.5 4.5M10 5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</footer>

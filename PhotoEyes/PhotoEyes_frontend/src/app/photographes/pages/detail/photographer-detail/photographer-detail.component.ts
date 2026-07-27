@@ -42,6 +42,8 @@ async ngOnInit(): Promise<void> {
       this.route.snapshot.paramMap.get('id')
     );
 
+    this.photographerId = id;
+
     this.photographerDetail =await this.PhotographerService.getById(id);
 
     if (!this.photographerDetail || !this.photographerDetail) {
@@ -70,15 +72,20 @@ async ngOnInit(): Promise<void> {
    * - Visiteur      -> login puis retour sur la fiche
    * - Client connecté -> formulaire de réservation (traité par l'admin)
    */
-  onReserve(): void {
+onReserve(): void {
+
     if (this.auth.role() === 'CLIENT') {
-      this.router.navigate(['/reservations/nouvelle'], {
-        queryParams: { photographe: this.photographerId }
-      });
+        this.router.navigate(['/reservation', this.photographerId
+        ]);
     } else {
-      this.router.navigate(['/auth/login'], {
-        queryParams: { returnUrl: `/photographes/${this.photographerId}` }
-      });
+        this.router.navigate(['/auth/login'],{
+            queryParams: {
+              returnUrl:`/photographes/${this.photographerId}`
+            }
+          }
+        );
+
     }
-  }
+
+}
 }

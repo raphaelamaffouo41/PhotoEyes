@@ -7,11 +7,12 @@ import { Photographer } from '../../models/photographer.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { PhotographerService } from '../../service/photographerservice';
 import { CommonModule } from '@angular/common';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, HeroSearchComponent, FilterBarComponent, PhotographerGridComponent,CommonModule],
+  imports: [HeaderComponent, HeroSearchComponent, FilterBarComponent, PhotographerGridComponent, CommonModule, FooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

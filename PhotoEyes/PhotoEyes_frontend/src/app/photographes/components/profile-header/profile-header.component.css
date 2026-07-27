@@ -100,6 +100,7 @@
   border-color: currentcolor;
   border-image: none;
   box-shadow: rgba(37, 99, 235, 0.28) 0px 8px 18px;
+  cursor: pointer;
 }
 .stars {
   display: flex;

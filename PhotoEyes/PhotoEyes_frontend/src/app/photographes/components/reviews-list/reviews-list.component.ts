@@ -5,7 +5,7 @@ import { RatingStarsComponent } from "../../../shared/ui/rating-stars/rating-sta
 @Component({
   selector: 'app-reviews-list',
   standalone: true,
-  imports: [RatingStarsComponent],
+  imports: [],
   templateUrl: './reviews-list.component.html',
   styleUrl: './reviews-list.component.css'
 })
