@@ -1,4 +1,25 @@
+
 <div class="overlay" *ngIf="isOpen">
+  
+@if(showSuccess){
+<div class="toast success">
+
+  <i class="fa-solid fa-circle-check"></i>
+
+  {{ successMessage }}
+
+</div>
+}
+
+@if(showError){
+<div class="toast error">
+
+  <i class="fa-solid fa-circle-xmark"></i>
+
+  {{ errorMessage }}
+
+</div>
+}
   <div class="modal">
     <div class="left-panel">
       <div class="welcome">

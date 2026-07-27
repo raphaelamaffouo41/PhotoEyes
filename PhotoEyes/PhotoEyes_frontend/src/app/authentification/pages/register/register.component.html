@@ -1,5 +1,24 @@
 
 <div class="overlay" *ngIf="isOpen">
+@if(showSuccess){
+<div class="toast success">
+
+  <i class="fa-solid fa-circle-check"></i>
+
+  {{ successMessage }}
+
+</div>
+}
+
+@if(showError){
+<div class="toast error">
+
+  <i class="fa-solid fa-circle-xmark"></i>
+
+  {{ errorMessage }}
+
+</div>
+}
   <div class="modal">
     <div class="left-panel">
       <div class="welcome">
@@ -76,7 +95,7 @@
         </div>
         <label>Confirmer le mot de passe</label>
         <div class="password-box">
-          <input class="password" type="password" placeholder="Retapez Votre mot de passe" />
+          <input class="password" type="password" placeholder="Retapez Votre mot de passe" formControlName="confirmerMotdepasse"/>
           <span class="eye"></span>
         </div>
         <div >

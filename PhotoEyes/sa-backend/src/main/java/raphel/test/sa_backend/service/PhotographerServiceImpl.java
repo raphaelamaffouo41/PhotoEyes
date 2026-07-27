@@ -3,6 +3,7 @@ package raphel.test.sa_backend.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerDtoRequest;
+import raphel.test.sa_backend.model.dtos.dtoRequests.SearchDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDtoResponse;
 import raphel.test.sa_backend.model.entities.Photographer;
 import raphel.test.sa_backend.model.entities.User;
@@ -10,6 +11,7 @@ import raphel.test.sa_backend.model.enums.Role;
 import raphel.test.sa_backend.model.repository.PhotographerRepository;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,6 +58,8 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             photographer.setCertifie(false);
 
+            photographer.setSpecialite(request.getSpecialite());
+
             photographer.setNoteMoyenne(0.0);
 
             photographerRepository.save(photographer);
@@ -74,6 +78,8 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             response.setCertifie(photographer.getCertifie());
 
+            response.setSpecialite(request.getSpecialite());
+
             response.setDescription(request.getDescription());
 
             response.setNoteMoyenne(photographer.getNoteMoyenne());
@@ -85,35 +91,11 @@ public class PhotographerServiceImpl implements PhotographerService {
     public List<PhotographerDtoResponse> getAll() {
         List<Photographer> photographers = photographerRepository.findAll();
 
-        return photographers.stream().map(photographer -> {
-
-            PhotographerDtoResponse response = new PhotographerDtoResponse();
-
-            response.setId(photographer.getId());
-
-            response.setNom(photographer.getUser().getNom());
-
-            response.setPrenom(photographer.getUser().getPrenom());
-
-            response.setVille(photographer.getVille());
-
-            response.setDescription(photographer.getDescription());
-
-            response.setCertifie(photographer.getCertifie());
-
-            response.setNoteMoyenne(photographer.getNoteMoyenne());
-
-            response.setImageUrl(photographer.getImageUrl());
-
-            response.setPhotoCouverture(photographer.getPhotoCouverture());
-
-            response.setDescription(photographer.getDescription());
-
-            response.setPrixDepart(photographer.getPrixDepart());
-
-            return response;
-
-        }).toList();
+        return photographerRepository
+                .findAll()
+                .stream()
+                .map(this::convertToDto)
+                .toList();
     }
 
     @Override
@@ -121,31 +103,7 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         Photographer photographer = photographerRepository.findById(id).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
 
-        PhotographerDtoResponse response = new PhotographerDtoResponse();
-
-        response.setId(photographer.getId());
-
-        response.setNom(photographer.getUser().getNom());
-
-        response.setPrenom(photographer.getUser().getPrenom());
-
-        response.setVille(photographer.getVille());
-
-        response.setDescription(photographer.getDescription());
-
-        response.setCertifie(photographer.getCertifie());
-
-        response.setNoteMoyenne(photographer.getNoteMoyenne());
-
-        response.setImageUrl(photographer.getImageUrl());
-
-        response.setPhotoCouverture(photographer.getPhotoCouverture());
-
-        response.setPrixDepart(photographer.getPrixDepart());
-
-        response.setDescription(photographer.getDescription());
-
-        return response;
+        return convertToDto(photographer);
     }
 
     @Override
@@ -164,6 +122,8 @@ public class PhotographerServiceImpl implements PhotographerService {
         photographer.setImageUrl(request.getImageUrl());
 
         photographer.setDescription(request.getDescription());
+
+        photographer.setSpecialite(request.getSpecialite());
 
         photographer.setPhotoCouverture(request.getPhotoCouverture());
 
@@ -229,5 +189,25 @@ public class PhotographerServiceImpl implements PhotographerService {
         dto.setImageUrl(url);
 
         return dto;
+    }
+
+    @Override
+    public List<PhotographerDtoResponse> search(SearchDtoRequest request) {
+        List<Photographer> photographers =
+                photographerRepository.search(
+                        request.getKeyword(),
+                        request.getVille(),
+                        request.getSpecialite()
+                );
+
+        List<PhotographerDtoResponse> responses = new ArrayList<>();
+
+        for (Photographer photographer : photographers) {
+
+            PhotographerDtoResponse response = convertToDto(photographer);
+
+            responses.add(response);
+        }
+        return responses;
     }
 }

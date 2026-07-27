@@ -11,6 +11,6 @@ import {Photographer} from "../../models/photographer.model";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotographerGridComponent {
-  @Input()
+  @Input({required:true})
   photographers: Photographer[] = [];
 }

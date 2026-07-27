@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void creerUser(UserRequestDto userRequestDto){
+
+        if(userRepository.existsByEmail(userRequestDto.getEmail())){
+            throw new RuntimeException("Cette adresse email est déjà utilisée.");
+        }
+
         User user = new User();
         user.setNom(userRequestDto.getNom());
         user.setPrenom(userRequestDto.getPrenom());
@@ -37,6 +42,12 @@ public class UserServiceImpl implements UserService {
 
     }
     public RegisterDtoRespons registerDtoRespons(RegisterDtoRequest registerDtoRequest){
+
+        if(userRepository.existsByEmail(registerDtoRequest.getEmail())){
+            throw new RuntimeException("Cette adresse email est déjà utilisée.");
+        }
+
+
         User user = new User();
         System.out.println("ROLE RECU = " + registerDtoRequest.getRole());
         if(registerDtoRequest.getRole() == Role.ADMIN){
@@ -67,6 +78,7 @@ public class UserServiceImpl implements UserService {
         registerDtoRespons.setId(user.getIdUser());
         registerDtoRespons.setNom(user.getNom());
         registerDtoRespons.setEmail(user.getEmail());
+        registerDtoRespons.setMessage("Compte créé avec succès.");
 
         return  registerDtoRespons;
     }

@@ -11,12 +11,14 @@ public class LoginDtoRespons {
 
     private Role role;
 
+    private String message;
+
     public String getMessage() {
-        return token;
+        return message;
     }
 
-    public void setMessage(String token) {
-        this.token = token ;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getNom() {

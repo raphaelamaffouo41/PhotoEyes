@@ -16,6 +16,14 @@ export class LoginComponent {
 
   loginForm: FormGroup;
 
+  successMessage = '';
+
+  errorMessage = '';
+
+  showSuccess = false;
+
+  showError = false;
+
 constructor(private fb: FormBuilder, private authService: AuthService,  private authState: AuthState,  private router: Router, private route: ActivatedRoute,  private location: Location,) {
 
   this.loginForm = this.fb.group({
@@ -27,9 +35,19 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
   }
 
   close(): void {
-    this.router.navigate(['/']);
+  localStorage.setItem('returnUrl', this.router.url);
+
+  this.router.navigate(['/']);
   }
   async submit() {
+
+  this.successMessage = '';
+
+  this.errorMessage = '';
+
+  this.showSuccess = false;
+  this.showError = false;
+
 
     try {
 
@@ -37,16 +55,34 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
 
       this.authState.setRole(response.role);
 
-      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      this.successMessage = response.message;
+      this.showSuccess = true;
 
-      if(returnUrl){
+      setTimeout(() => {
+        this.showSuccess = false;
+      }, 5000);
+
+
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+    setTimeout(async () => {
+
+      if (returnUrl) {
         await this.router.navigateByUrl(returnUrl);
       } else {
         await this.router.navigate(['/']);
       }
 
-    } catch(error) {
+    }, 2000);
 
+    } catch(error:any) {
+
+      this.errorMessage = error.error?.message ?? "Une erreur est survenue.";
+          this.showError = true;
+
+      setTimeout(() => {
+        this.showError = false;
+      },5000);
       console.error(error);
 
     }

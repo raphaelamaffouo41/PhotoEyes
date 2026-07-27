@@ -4,6 +4,7 @@ public class RegisterDtoRespons {
     private Integer id;
     private String nom;
     private String email;
+    private String message;
 
     public String getNom() {
         return nom;
@@ -27,5 +28,13 @@ public class RegisterDtoRespons {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -1,6 +1,7 @@
 package raphel.test.sa_backend.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import raphel.test.sa_backend.model.dtos.dtoRequests.LoginDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoRequests.RegisterDtoRequest;

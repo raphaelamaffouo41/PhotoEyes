@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.photographers = await this.photographerService.getAll();
-    console.log(this.photographers);
+    console.table(this.photographers);
   }
 
   async onSearch(criteria: SearchCriteria): Promise<void> {
