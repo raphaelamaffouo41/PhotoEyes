@@ -141,6 +141,13 @@ export class RegisterComponent {
       this.successMessage = response.message;
 
       this.showSuccess = true;
+      localStorage.setItem(
+        'photoeyes.lastRegister',
+        JSON.stringify({
+          email: this.registerForm.value.email,
+          motDePasse: this.registerForm.value.motdepasse
+        })
+      );
 
       setTimeout(async () => {
 

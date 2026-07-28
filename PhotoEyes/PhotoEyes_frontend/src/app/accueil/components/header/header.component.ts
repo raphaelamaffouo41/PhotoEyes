@@ -10,6 +10,12 @@ import {RouterLink,Router} from '@angular/router'
 export class HeaderComponent {
 
     constructor(private router: Router) {}
+  goToHome() {
+    const currentUrl = this.router.url;
+    
+    this.router.navigate(['/']);
+  }
+
 
   goToLogin() {
 

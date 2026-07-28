@@ -15,10 +15,11 @@
   box-shadow: 0 4px 20px rgba(0,0,0,.05);
 }
 
-.logo-section {
+.logo-section{
   display: flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
 }
 
 .logo {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {CommonModule,Location} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from '@angular/router'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,ValidationErrors } from '@angular/forms';
@@ -12,7 +12,7 @@ import { MessageModalComponent } from "../../../shared/message-modal/message-mod
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   isOpen = true;
 
   loginForm: FormGroup;
@@ -24,6 +24,26 @@ export class LoginComponent {
   showSuccess = false;
 
   showError = false;
+
+ngOnInit(): void {
+
+  const saved = localStorage.getItem('photoeyes.lastRegister');
+
+  if(saved){
+
+    const user = JSON.parse(saved);
+
+    this.loginForm.patchValue({
+
+      email: user.email,
+
+      motDePasse: user.motDePasse
+
+    });
+
+  }
+
+}
 
 constructor(private fb: FormBuilder, private authService: AuthService,  private authState: AuthState,  private router: Router, private route: ActivatedRoute,  private location: Location,) {
 
@@ -60,6 +80,7 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
       const response =await this.authService.login(this.loginForm.getRawValue());
 
       this.authState.setRole(response.role);
+      localStorage.removeItem('photoeyes.lastRegister');
 
       this.successMessage = response.message;
       this.showSuccess = true;
