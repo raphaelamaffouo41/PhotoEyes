@@ -6,6 +6,7 @@
   border-radius:20px;
   box-shadow:0 2px 12px rgba(0,0,0,.08);
   transition: transform 0.3s ease;
+    cursor: pointer;
 }
 .photo-card:hover{
   transform: translateY(-5px);
@@ -88,5 +89,4 @@
 }
 .arrow-right p{
   color: #2563EB;
-  cursor: pointer;
 }

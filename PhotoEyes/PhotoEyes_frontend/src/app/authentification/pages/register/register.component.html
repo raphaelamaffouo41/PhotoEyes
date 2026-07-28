@@ -1,23 +1,19 @@
 
 <div class="overlay" *ngIf="isOpen">
 @if(showSuccess){
-<div class="toast success">
-
-  <i class="fa-solid fa-circle-check"></i>
-
-  {{ successMessage }}
-
-</div>
+<app-message-modal
+    [show]="showSuccess"
+    [message]="successMessage"
+    type="success">
+</app-message-modal>
 }
 
 @if(showError){
-<div class="toast error">
-
-  <i class="fa-solid fa-circle-xmark"></i>
-
-  {{ errorMessage }}
-
-</div>
+<app-message-modal
+    [show]="showError"
+    [message]="errorMessage"
+    type="error">
+</app-message-modal>
 }
   <div class="modal">
     <div class="left-panel">
@@ -72,36 +68,49 @@
       <form  [formGroup]="registerForm"  (ngSubmit)="submit()">
         <div class="form-group">
           <div class="group-form">
-            <label>nom</label>
+            <label>nom<span class="required">*</span></label>
             <input type="text" placeholder="oumar" formControlName="nom"/>
+            <div class="error"*ngIf="f['nom'].touched && f['nom'].invalid">Le nom est obligatoire.</div>
           </div>
           <div class="group-form">
-            <label>prenom</label>
+            <label>prenom<span class="required">*</span></label>
             <input type="text" placeholder="ali" formControlName="prenom" />
+            <div class="error"*ngIf="f['prenom'].touched && f['prenom'].invalid">Le prénom est obligatoire.</div>
           </div>
         </div>
-        <label>Adresse e-mail</label>
+        <label>Adresse e-mail<span class="required">*</span></label>
         <input type="email" placeholder="vous@exemple.com" formControlName="email"/>
+        <div class="error" *ngIf="f['email'].touched && f['email'].errors">
+          <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire.</div>
+          <div *ngIf="f['email'].errors?.['email']">Adresse email invalide.</div>
+        </div>
         <div class="form-group">
           <div class="group-form">
-            <label>telephone</label>
+            <label>telephone<span class="required">*</span></label>
             <input type="input" placeholder="+237 6xx xxx xxx" formControlName="numeroTelephone"/>
+            <div class="error" *ngIf="f['numeroTelephone'].touched && f['numeroTelephone'].errors">Le téléphone est obligatoire.</div>
           </div>
           <div class="group-form">
-            <label>ville</label>
+            <label>ville<span class="required">*</span></label>
             <input type="text" placeholder="yaounde" formControlName="ville"/>
+            <div class="error"*ngIf="f['ville'].touched && f['ville'].invalid">La ville est obligatoire.</div>
           </div>
         </div>
-        <label>Mot de passe</label>
+        <label>Mot de passe<span class="required">*</span></label>
         <div class="password-box">
           <input class="password" type="password" placeholder=" creez Votre mot de passe" formControlName="motdepasse"/>
           <span class="eye"></span>
         </div>
-        <label>Confirmer le mot de passe</label>
+        <div class="error" *ngIf="f['motdepasse'].touched && f['motdepasse'].errors">
+          <div *ngIf="f['motdepasse'].errors?.['required']">Le mot de passe est obligatoire.</div>
+          <div *ngIf="f['motdepasse'].errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères.</div>
+        </div>
+        <label>Confirmer le mot de passe<span class="required">*</span></label>
         <div class="password-box">
           <input class="password" type="password" placeholder="Retapez Votre mot de passe" formControlName="confirmerMotdepasse"/>
           <span class="eye"></span>
         </div>
+        <div class="error" *ngIf="registerForm.errors?.['passwordMismatch'] &&f['confirmationMotdepasse'].touched">Les mots de passe ne correspondent pas.</div>
         <div >
           <label class="options">
             <div>
@@ -112,7 +121,7 @@
             </div>
           </label>
         </div>
-        <button  type="submit" class="login-btn">cree mon compte →</button>
+        <button  type="submit" class="login-btn" [disabled]="registerForm.invalid" >cree mon compte →</button>
         <div class="verification">
           @if(isPhotographer){
             <p>Après inscription : vérification par SMS puis e-mail, ensuite constitution de votre dossier (pièce d'identité, photo de profil, portfolio ≥ 5 photos, tarifs). Votre profil devient public après validation de l'admin (sous 72h ouvrées).</p>

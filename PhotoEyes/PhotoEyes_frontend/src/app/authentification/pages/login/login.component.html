@@ -2,23 +2,18 @@
 <div class="overlay" *ngIf="isOpen">
   
 @if(showSuccess){
-<div class="toast success">
-
-  <i class="fa-solid fa-circle-check"></i>
-
-  {{ successMessage }}
-
-</div>
+<app-message-modal
+    [show]="showSuccess"
+    [message]="successMessage"
+    type="success">
+</app-message-modal>
 }
-
 @if(showError){
-<div class="toast error">
-
-  <i class="fa-solid fa-circle-xmark"></i>
-
-  {{ errorMessage }}
-
-</div>
+<app-message-modal
+    [show]="showError"
+    [message]="errorMessage"
+    type="error">
+</app-message-modal>
 }
   <div class="modal">
     <div class="left-panel">
@@ -55,13 +50,20 @@
       </button>
       <div class="separator">ou par e-mail</div>
       <form [formGroup]="loginForm"  (ngSubmit)="submit()" >
-        <label>Adresse e-mail</label>
+        <label>Adresse e-mail <span class="required">*</span></label>
         <input type="email" placeholder="vous@exemple.com" formControlName="email"  />
-
-        <label>Mot de passe</label>
+        <div class="error" *ngIf="f['email'].touched && f['email'].errors">
+          <div *ngIf="f['email'].errors?.['required']">L'email est obligatoire.</div>
+          <div *ngIf="f['email'].errors?.['email']">Adresse email invalide.</div>
+        </div>
+        <label>Mot de passe<span class="required">*</span></label>
         <div class="password-box">
           <input class="password" type="password" placeholder="Votre mot de passe" formControlName="motDePasse"/>
           <span class="eye"></span>
+        </div>
+        <div class="error" *ngIf="f['motDePasse'].touched && f['motDePasse'].errors">
+          <div *ngIf="f['motDePasse'].errors?.['required']">Le mot de passe est obligatoire.</div>
+          <div *ngIf="f['motDePasse'].errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères.</div>
         </div>
         <div class="options">
           <label>
@@ -69,7 +71,7 @@
           </label>
           <a href="#">Mot de passe oublié ?</a>
         </div>
-        <button type="submit" class="login-btn">
+        <button type="submit" class="login-btn" [disabled]="loginForm.invalid">
           Se connecter →
         </button>
         <p class="footer-text">

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import {CommonModule,Location} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from '@angular/router'
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AuthState } from '../../services/auth-state.service';
+import { MessageModalComponent } from "../../../shared/message-modal/message-modal.component";
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,RouterLink,ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, MessageModalComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -28,10 +29,15 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
 
   this.loginForm = this.fb.group({
 
-    email: [''],
-    motDePasse: ['']
+    email: ['',[Validators.required,Validators.email]],
+    motDePasse: ['',[Validators.required,Validators.minLength(8)]]
 
   });
+  }
+
+  get f(){
+    return this.loginForm.controls;
+
   }
 
   close(): void {
@@ -60,7 +66,7 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
 
       setTimeout(() => {
         this.showSuccess = false;
-      }, 5000);
+      }, 3000);
 
 
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
@@ -82,7 +88,7 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
 
       setTimeout(() => {
         this.showError = false;
-      },5000);
+      },3000);
       console.error(error);
 
     }

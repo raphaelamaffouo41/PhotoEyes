@@ -46,11 +46,11 @@ export class FooterComponent {
     {
       title: 'Informations légales',
       links: [
-        { label: 'Mentions légales', url: 'https://reservezunphotographe.fr/mentions-legales/' },
-        { label: 'CGU', url: 'https://reservezunphotographe.fr/cgu/' },
-        { label: 'CGPS', url: 'https://reservezunphotographe.fr/cgps/' },
+        { label: 'Mentions légales', url: '#' },
+        { label: 'CGU', url: '#' },
+        { label: 'CGPS', url: '#' },
         { label: 'Politique de confidentialité', url: 'https://reservezunphotographe.fr/politique-de-protection-des-donnees-personnelles/' },
-        { label: 'Gestion des cookies', url: 'https://reservezunphotographe.fr/politique-relative-a-la-gestion-des-cookies/' },
+        { label: 'Gestion des cookies', url: '#' },
       ],
     },
   ];

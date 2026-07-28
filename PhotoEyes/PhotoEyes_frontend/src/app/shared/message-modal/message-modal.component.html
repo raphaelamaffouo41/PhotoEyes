@@ -1,0 +1,7 @@
+<div class="modal-overlay" *ngIf="show">
+    <div class="message-modal" [ngClass]="type">
+        <i class="fa-solid"[ngClass]="{'fa-circle-check': type==='success','fa-circle-xmark': type==='error'}"></i>
+        <h2> {{ type === 'success' ? 'Succès': 'Erreur' }}</h2>
+        <p> {{ message }} </p>
+    </div>
+</div>

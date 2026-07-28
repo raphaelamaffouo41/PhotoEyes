@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule,Location } from "@angular/common";
 import { RouterLink,Router  } from '@angular/router';
 import { AuthService } from "../../services/auth.service";
-import {FormBuilder, FormGroup,ReactiveFormsModule,Validators} from "@angular/forms";
+import {FormBuilder, FormGroup,ReactiveFormsModule,Validators,AbstractControl,ValidationErrors} from "@angular/forms";
+import { MessageModalComponent } from "../../../shared/message-modal/message-modal.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, RouterLink , ReactiveFormsModule,],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, MessageModalComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -33,8 +34,12 @@ export class RegisterComponent {
       numeroTelephone: ['',Validators.required],
       ville: ['',Validators.required],
       motdepasse: ['',[Validators.required,Validators.minLength(8)]],
-      confirmerMotdepasse: ['',[Validators.required,Validators.minLength(8)]]
+      confirmerMotdepasse: ['', Validators.required]
     });
+
+  }
+  get f(){
+    return this.registerForm.controls;
 
   }
   close(): void {
@@ -55,7 +60,7 @@ export class RegisterComponent {
 
       this.showError=false;
 
-      },5000);
+      },3000);
 
       return;
 
@@ -76,7 +81,7 @@ export class RegisterComponent {
 
         setTimeout(()=>{
             this.showError=false;
-        },5000);
+        },3000);
 
         return;
 
@@ -93,7 +98,7 @@ export class RegisterComponent {
 
           this.showError=false;
 
-      },5000);
+      },3000);
 
       return;
     }
@@ -145,7 +150,7 @@ export class RegisterComponent {
 
       setTimeout(() => {
         this.showSuccess = false;
-      }, 5000);
+      }, 3000);
 
       console.log(response);
 
@@ -157,7 +162,7 @@ export class RegisterComponent {
 
       setTimeout(() => {
         this.showError = false;
-      }, 5000);
+      }, 3000);
 
 
       console.error(error);
