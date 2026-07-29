@@ -18,17 +18,17 @@ import java.util.List;
 public class PhotographerServiceImpl implements PhotographerService {
 
         private final PhotographerRepository photographerRepository;
-        private final UserRepository userRepository;
         private final FileStorageService fileStorageService;
 
-    public PhotographerServiceImpl(PhotographerRepository photographerRepository, UserRepository userRepository) {
+    public PhotographerServiceImpl(PhotographerRepository photographerRepository, FileStorageService fileStorageService) {
             this.photographerRepository = photographerRepository;
-            this.userRepository = userRepository;
-            this.fileStorageService = new FileStorageService();
+            this.fileStorageService = fileStorageService;
         }
 
         @Override
         public PhotographerDtoResponse createProfile ( PhotographerDtoRequest request){
+
+            /* Legacy public creation flow disabled: profiles are created by AdminService only.
 
             User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
@@ -84,15 +84,15 @@ public class PhotographerServiceImpl implements PhotographerService {
 
             response.setNoteMoyenne(photographer.getNoteMoyenne());
 
-            return response;
+            return response; */
+
+            throw new IllegalStateException("Le profil photographe est créé uniquement lors de la validation par un administrateur");
         }
 
     @Override
     public List<PhotographerDtoResponse> getAll() {
-        List<Photographer> photographers = photographerRepository.findAll();
-
         return photographerRepository
-                .findAll()
+                .findByVisibleTrue()
                 .stream()
                 .map(this::convertToDto)
                 .toList();
@@ -102,6 +102,14 @@ public class PhotographerServiceImpl implements PhotographerService {
     public PhotographerDtoResponse getById(Integer id) {
 
         Photographer photographer = photographerRepository.findById(id).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
+
+        if (!Boolean.TRUE.equals(photographer.getVisible())) {
+            throw new RuntimeException("Photographe introuvable");
+        }
+
+        if (!Boolean.TRUE.equals(photographer.getVisible())) {
+            throw new RuntimeException("Photographe introuvable");
+        }
 
         return convertToDto(photographer);
     }

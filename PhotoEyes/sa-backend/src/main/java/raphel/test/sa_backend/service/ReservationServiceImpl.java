@@ -43,6 +43,13 @@ public class ReservationServiceImpl implements ReservationService {
             Photographer photographer = photographerRepository.findById(request.getPhotographerId()).orElseThrow(()-> new RuntimeException("Photographer introuvable"));
             Availability availability = availabilityRepository.findById(request.getAvailabilityId()).orElseThrow(()-> new RuntimeException("disponibilite introuvable"));
 
+            if (!Boolean.TRUE.equals(photographer.getVisible())) {
+                throw new RuntimeException("Ce photographe n'est pas disponible sur la plateforme");
+            }
+            if (!availability.getPhotographer().getId().equals(photographer.getId())) {
+                throw new RuntimeException("Ce créneau n'appartient pas au photographe demandé");
+            }
+
             if( availability.getStatut()!= AvailabilityStatus.DISPONIBLE){
 
                 throw new RuntimeException("Ce créneau n'est plus disponible");

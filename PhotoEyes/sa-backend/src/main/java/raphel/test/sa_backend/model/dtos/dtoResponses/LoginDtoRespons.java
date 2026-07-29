@@ -13,6 +13,14 @@ public class LoginDtoRespons {
 
     private String message;
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public String getMessage() {
         return message;
     }

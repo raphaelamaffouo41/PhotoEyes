@@ -28,6 +28,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
         Photographer photographer = photographerRepository.findById(request.getPhotographerId()).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
 
+        if (!Boolean.TRUE.equals(photographer.getVisible())) {
+            throw new RuntimeException("Le profil photographe n'est pas actif");
+        }
+
         if(!request.getHeureFin().isAfter(request.getHeureDebut())){
             throw new RuntimeException("Heure invalide");
         }

@@ -1,0 +1,95 @@
+.card{
+    background: rgb(255, 255, 255);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-direction: row;
+}
+.left_img{
+    border-radius: 14px;
+    overflow: hidden;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0
+}
+.left{
+    height: 48px;
+    border-radius: 0px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--blue-100), #c7d2fe);
+    border-radius: 7px;
+}
+.left img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.description{
+    flex: 1 1 0%;
+    min-width: 0px;
+    width: auto;
+}
+.description p,h3,span{
+    margin: 0;
+    color: var(--ink3);
+    font-size: 15px;
+}
+.description span{
+    color: #16a34a;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.description p{
+    color: #94a3b8;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.actions{
+    display: flex;
+    gap: 8px;
+    width: auto;
+}
+.validate{
+    width: auto;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #1d4ed8;
+    color: rgb(255, 255, 255);
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: none;
+    box-shadow: rgba(37, 99, 235, 0.28) 0px 8px 18px;
+    cursor: pointer;
+}
+.reject{
+    width: auto;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid transparent;
+    box-shadow: none;
+    cursor: pointer;
+
+}

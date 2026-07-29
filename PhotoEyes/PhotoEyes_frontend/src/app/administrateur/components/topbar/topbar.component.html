@@ -1,0 +1,17 @@
+<header class="topbar">
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Rechercher..." [ngModel]="topbar.search()" (ngModelChange)="topbar.search.set($event)">
+    </div>
+    <div class="actions">
+        <button class="notification">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge">
+                {{topbar.notificationCount()}}
+            </span>
+        </button>
+        <button class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+    </div>
+</header>

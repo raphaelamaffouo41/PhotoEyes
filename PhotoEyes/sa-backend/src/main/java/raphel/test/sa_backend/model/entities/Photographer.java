@@ -1,9 +1,10 @@
 package raphel.test.sa_backend.model.entities;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 @Entity
 
-public class Photographer {
+public class Photographer extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,8 +25,14 @@ public class Photographer {
 
     private Boolean certifie;
 
+    @Column(nullable = false)
+    private Boolean visible = false;
+
+    @Column(name = "date_validation")
+    private LocalDateTime dateValidation;
+
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     public Integer getId() {
@@ -67,6 +74,14 @@ public class Photographer {
     public void setCertifie(Boolean certifie) {
         this.certifie = certifie;
     }
+
+    public Boolean getVisible() { return visible; }
+
+    public void setVisible(Boolean visible) { this.visible = visible; }
+
+    public LocalDateTime getDateValidation() { return dateValidation; }
+
+    public void setDateValidation(LocalDateTime dateValidation) { this.dateValidation = dateValidation; }
 
     public User getUser() {
         return user;

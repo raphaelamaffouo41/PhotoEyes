@@ -4,15 +4,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import raphel.test.sa_backend.model.entities.Photographer;
+import raphel.test.sa_backend.model.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PhotographerRepository extends JpaRepository<Photographer, Integer> {
     boolean existsByUser_IdUser(Integer idUser);
+    boolean existsByUser(User user);
+    Optional<Photographer> findByUser(User user);
+    List<Photographer> findByVisibleTrue();
     @Query("""
 SELECT p
 FROM Photographer p
 WHERE
+ p.visible = true
+AND
 (:keyword IS NULL OR :keyword='' OR
 LOWER(p.user.nom) LIKE LOWER(CONCAT('%',:keyword,'%')))
 AND

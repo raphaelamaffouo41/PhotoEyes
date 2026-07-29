@@ -20,14 +20,6 @@ public class PhotographerController {
                 photographerService;
     }
 
-    @PostMapping
-    public PhotographerDtoResponse createProfile(
-            @RequestBody PhotographerDtoRequest request) {
-
-        return photographerService
-                .createProfile(request);
-    }
-
     @GetMapping
     public List<PhotographerDtoResponse> getAll() {
         return photographerService.getAll();

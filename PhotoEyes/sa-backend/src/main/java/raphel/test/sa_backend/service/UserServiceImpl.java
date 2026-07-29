@@ -11,16 +11,19 @@ import raphel.test.sa_backend.model.dtos.dtoResponses.RegisterDtoRespons;
 import raphel.test.sa_backend.model.entities.User;
 import raphel.test.sa_backend.model.enums.AccountStatut;
 import raphel.test.sa_backend.model.enums.Role;
+import raphel.test.sa_backend.model.enums.AuthProvider;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder ) {
+    public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder, JwtService jwtService ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
     @Override
     public void creerUser(UserRequestDto userRequestDto){
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(registerDtoRequest.getEmail());
         user.setNumeroTelephone(registerDtoRequest.getNumeroTelephone());
         user.setMotDePasse(passwordEncoder.encode(registerDtoRequest.getMotdepasse()));
+        user.setAuthProvider(registerDtoRequest.getAuthProvider() == null ? AuthProvider.LOCAL : registerDtoRequest.getAuthProvider());
         userRepository.save(user);
 
         RegisterDtoRespons registerDtoRespons = new RegisterDtoRespons();
@@ -91,6 +95,10 @@ public class UserServiceImpl implements UserService {
                     "mot de passe incorrect");
         }
 
+        if (user.getAccountStatut() == AccountStatut.SUSPENDED || user.getAccountStatut() == AccountStatut.DISABLED || user.getAccountStatut() == AccountStatut.REJECTED) {
+            throw new RuntimeException("Ce compte n'est pas autorisé à se connecter");
+        }
+
         LoginDtoRespons loginDtoRespons = new LoginDtoRespons();
 
         loginDtoRespons.setMessage("connexion reussie ");
@@ -100,6 +108,8 @@ public class UserServiceImpl implements UserService {
         loginDtoRespons.setEmail(user.getEmail());
 
         loginDtoRespons.setRole(user.getRole());
+
+        loginDtoRespons.setToken(jwtService.generateToken(user.getEmail()));
 
         return  loginDtoRespons;
     }

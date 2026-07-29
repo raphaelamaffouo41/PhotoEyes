@@ -1,0 +1,29 @@
+<div class="sidebar">
+    <div>
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+            <div>
+                <h2>StudioLink</h2>
+                <span>Espace Admin</span>
+            </div>
+        </div>
+        <nav>
+            <a *ngFor="let menu of menus" [routerLink]="menu.route" routerLinkActive="active">
+                <i [class]="menu.icon"></i>
+                <span>{{menu.label}}</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="admin">
+        <div class="avatar">
+            AS
+        </div>
+        <div>
+            <h4>Administrateur</h4>
+            <span>Yaoundé, CM</span>
+        </div>
+    </div>
+</div>
