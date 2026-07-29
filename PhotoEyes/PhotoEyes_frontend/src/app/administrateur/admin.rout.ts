@@ -17,6 +17,13 @@ export const ADMINISTRATION_ROUTES: Routes = [
       },
 
       {
+        path: 'matching',
+        loadComponent: () =>
+          import('./pages/matching/matching.component')
+            .then(c => c.MatchingComponent)
+      },
+
+      {
         path: 'validation',
         loadComponent: () =>
           import('./pages/validation/validation.component')

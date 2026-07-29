@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
 import { ValidationListComponent } from "../../components/validation-list/validation-list.component";
+import { AdminService } from '../../service/admin.service';
+import { AdminPhotographer } from '../../models/admin-photographer.model';
 
 @Component({
   selector: 'app-validation',
@@ -10,5 +12,14 @@ import { ValidationListComponent } from "../../components/validation-list/valida
   styleUrl: './validation.component.css'
 })
 export class ValidationComponent {
+  constructor(private adminService:AdminService){}
 
+  photographers:AdminPhotographer[]=[];
+
+async ngOnInit(){
+
+  this.photographers =
+  await this.adminService.getPendingPhotographers();
+
+}
 }

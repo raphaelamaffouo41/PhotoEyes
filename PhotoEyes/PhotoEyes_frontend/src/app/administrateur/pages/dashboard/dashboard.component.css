@@ -1,0 +1,19 @@
+.reservation-page{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+}
+
+h1{
+    color:#7c3aed;
+    margin-bottom:20px;
+}
+
+p{
+    color:#666;
+    font-size:18px;
+}

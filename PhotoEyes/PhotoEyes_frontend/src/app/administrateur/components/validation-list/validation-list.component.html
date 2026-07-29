@@ -1,8 +1,8 @@
 <div class="list">
-    <app-validation-card 
-        *ngFor="let demande of demandes"[demande]="demande"
-        (validate)="valider($event)" 
-        (reject)="refuser($event)">
+    <app-validation-card
+    *ngFor="let photographer of photographers"
+    [photographer]="photographer"
+    (validate)="validate($event)"
+    (reject)="reject($event)">
     </app-validation-card>
-
 </div>

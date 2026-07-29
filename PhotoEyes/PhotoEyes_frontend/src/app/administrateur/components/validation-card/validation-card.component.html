@@ -1,14 +1,14 @@
 <div class="card">
     <div class="left_img">
         <div class="left">
-            <img [src]="demande.image">
+            <img [src]="photographer.imageurl">
         </div>
     </div>
 
     <div class="description">
-        <h3>{{demande.nom}}</h3>
-        <p>📍 {{demande.ville}}•📷 {{demande.categorie}}</p>
-        <span>✔ CNI·Tél vérifié·{{demande.nombrePhotos}} photos</span>
+        <h3>{{photographer.nom}}</h3>
+        <p>📍 {{photographer.ville}}•📷 {{photographer.categorie}}</p>
+        <span>✔ CNI·Tél vérifié·{{photographer.nombrePhotos}} photos</span>
     </div>
     <div class="actions">
         <button class="validate" (click)="onValidate()">Valider</button>

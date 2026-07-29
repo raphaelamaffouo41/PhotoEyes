@@ -27,7 +27,7 @@ export class SidebarComponent {
     {
       label: 'Demandes',
       icon: 'fa-regular fa-bell',
-      route: '/admin/matching'
+      route: '/admin/matching',
     },
 
     {
