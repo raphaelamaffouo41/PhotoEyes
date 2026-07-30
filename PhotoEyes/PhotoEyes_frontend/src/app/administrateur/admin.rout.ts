@@ -12,8 +12,15 @@ export const ADMINISTRATION_ROUTES: Routes = [
 
       {
         path: '',
-        redirectTo: 'validation',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
+      },
+
+      {
+        path: 'litige',
+        loadComponent: () =>
+          import('./pages/litige/litige.component')
+            .then(c => c.LitigeComponent)
       },
 
       {

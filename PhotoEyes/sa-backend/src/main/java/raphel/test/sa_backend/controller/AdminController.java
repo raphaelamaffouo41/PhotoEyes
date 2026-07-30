@@ -16,7 +16,8 @@ import raphel.test.sa_backend.service.AdminService;
 public class AdminController {
     private final AdminService admin;
     public AdminController(AdminService admin) { this.admin = admin; }
-    @GetMapping("/photographers/pending") public List<AdminUserDtoResponse> pending() { return admin.getPendingPhotographers(); }
+    @GetMapping("/photographers/pending") public List<AdminUserDtoResponse> pending() { System.out.println("===== ADMIN CONTROLLER APPELE =====");List<AdminUserDtoResponse> list = admin.getPendingPhotographers(); System.out.println("NB RESULTATS = " + list.size());    return list; }
+
     @PutMapping("/photographers/{id}/validate") public AdminUserDtoResponse validate(@PathVariable Integer id) { return admin.validatePhotographer(id); }
     @PutMapping("/photographers/{id}/reject") public AdminUserDtoResponse reject(@PathVariable Integer id) { return admin.rejectPhotographer(id); }
     @PutMapping("/users/{id}/suspend") public AdminUserDtoResponse suspend(@PathVariable Integer id) { return admin.suspendUser(id); }

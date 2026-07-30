@@ -89,15 +89,30 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
         this.showSuccess = false;
       }, 3000);
 
-
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-
     setTimeout(async () => {
+       this.authState.setRole(response.role);
 
-      if (returnUrl) {
-        await this.router.navigateByUrl(returnUrl);
-      } else {
-        await this.router.navigate(['/']);
+      if(response.role === 'ADMIN'){
+
+        await this.router.navigate(['/admin']);
+
+      }
+      else{
+
+        const returnUrl =
+            this.route.snapshot.queryParamMap.get('returnUrl');
+
+        if(returnUrl){
+
+            await this.router.navigateByUrl(returnUrl);
+
+        }else{
+
+            await this.router.navigate(['/']);
+
+        }
+
       }
 
     }, 2000);

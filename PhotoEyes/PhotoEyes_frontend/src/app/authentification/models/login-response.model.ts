@@ -3,4 +3,5 @@ export interface LoginResponse {
   nom: string;
   email: string;
   role: 'CLIENT' | 'PHOTOGRAPHE' | 'ADMIN';
+  token: string;
 }

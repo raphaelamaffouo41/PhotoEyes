@@ -18,8 +18,7 @@ export class ValidationComponent {
 
 async ngOnInit(){
 
-  this.photographers =
-  await this.adminService.getPendingPhotographers();
-
+  this.photographers =await this.adminService.getPendingPhotographers();
+  console.log("Photographes reçus :", this.photographers);
 }
 }

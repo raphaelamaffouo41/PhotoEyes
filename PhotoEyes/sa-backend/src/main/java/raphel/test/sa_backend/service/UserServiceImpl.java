@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
         loginDtoRespons.setRole(user.getRole());
 
-        loginDtoRespons.setToken(jwtService.generateToken(user.getEmail()));
+        loginDtoRespons.setToken(jwtService.generateToken(user));
 
         return  loginDtoRespons;
     }
