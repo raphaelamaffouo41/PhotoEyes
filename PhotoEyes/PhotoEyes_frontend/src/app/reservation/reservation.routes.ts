@@ -4,6 +4,6 @@ export const RESERVATION_ROUTES: Routes = [
   {
     path: ':photographerId',
     loadComponent: () =>
-      import('./pages/reservation/reservation.component').then(m => m.ReservationComponent)
+      import('./pages/reservation-request/reservation-request.component').then(m => m.ReservationRequestComponent)
   }
 ];

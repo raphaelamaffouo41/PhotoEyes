@@ -1,0 +1,220 @@
+.page{
+
+    background:#f6f8fc;
+
+    min-height:100vh;
+
+    padding:30px;
+
+}
+
+
+.back{
+
+    color:#2563eb;
+
+    font-weight:600;
+
+    display:block;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.card{
+
+    background:white;
+
+    max-width:780px;
+
+    margin:auto;
+
+    padding:35px;
+
+    border-radius:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+
+h1{
+
+    font-size:32px;
+
+    color:#152238;
+
+}
+
+
+
+.photographer{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    border-bottom:1px solid #ddd;
+
+    padding-bottom:20px;
+
+}
+
+
+.photographer img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+}
+
+
+
+.photographer p{
+
+    color:#718096;
+
+}
+
+
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+}
+
+
+
+label{
+
+    display:block;
+
+    font-weight:600;
+
+    margin:20px 0 8px;
+
+}
+
+
+
+input,
+textarea{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #dbe3f0;
+
+    font-size:16px;
+
+}
+
+
+
+textarea{
+
+    height:100px;
+
+}
+
+
+
+.info{
+
+    margin-top:20px;
+
+    padding:18px;
+
+    background:#edf4ff;
+
+    color:#2563eb;
+
+    border-radius:15px;
+
+}
+
+
+
+.buttons{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:25px;
+
+}
+
+
+
+button{
+
+    flex:1;
+
+    padding:16px;
+
+    border-radius:30px;
+
+    border:none;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+
+button:first-child{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+button:last-child{
+
+    background:#edf2ff;
+
+    color:#2563eb;
+
+}
+
+
+
+@media(max-width:700px){
+
+.grid{
+
+    grid-template-columns:1fr;
+
+}
+
+
+.card{
+
+    padding:20px;
+
+}
+
+}

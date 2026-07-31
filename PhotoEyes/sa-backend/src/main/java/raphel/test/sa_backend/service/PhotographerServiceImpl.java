@@ -3,7 +3,9 @@ package raphel.test.sa_backend.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerDtoRequest;
+import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerProfileRequest;
 import raphel.test.sa_backend.model.dtos.dtoRequests.SearchDtoRequest;
+import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDashboardResponse;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDtoResponse;
 import raphel.test.sa_backend.model.entities.Photographer;
 import raphel.test.sa_backend.model.entities.User;
@@ -19,10 +21,13 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         private final PhotographerRepository photographerRepository;
         private final FileStorageService fileStorageService;
+        private final PortfolioService portfolioService;
 
-    public PhotographerServiceImpl(PhotographerRepository photographerRepository, FileStorageService fileStorageService) {
+    public PhotographerServiceImpl(PhotographerRepository photographerRepository, FileStorageService fileStorageService,PortfolioService portfolioService) {
             this.photographerRepository = photographerRepository;
             this.fileStorageService = fileStorageService;
+            this.portfolioService = portfolioService;
+
         }
 
         @Override
@@ -115,32 +120,6 @@ public class PhotographerServiceImpl implements PhotographerService {
     }
 
     @Override
-    public PhotographerDtoResponse updateProfile(Integer id, PhotographerDtoRequest request) {
-
-        Photographer photographer = photographerRepository.findById(id).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
-
-        photographer.setDescription(request.getDescription());
-
-        photographer.setVille(request.getVille());
-
-        photographer.setSpecialite(request.getSpecialite());
-
-        photographer.setPrixDepart(request.getPrixDepart());
-
-        photographer.setImageUrl(request.getImageUrl());
-
-        photographer.setDescription(request.getDescription());
-
-        photographer.setSpecialite(request.getSpecialite());
-
-        photographer.setPhotoCouverture(request.getPhotoCouverture());
-
-        photographerRepository.save(photographer);
-
-        return convertToDto(photographer);
-    }
-
-    @Override
     public void deleteProfile(Integer id) {
         Photographer photographer = photographerRepository.findById(id).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
 
@@ -163,9 +142,13 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         response.setDescription(photographer.getDescription());
 
-        response.setSpecialite(photographer.getSpecialite());
+        response.setSpecialites(photographer.getSpecialites());
 
-        response.setPrixDepart(photographer.getPrixDepart());
+        response.setPrixPortrait(photographer.getPrixPortrait());
+
+        response.setPrixDemiJournee(photographer.getPrixDemiJournee());
+
+        response.setPrixJournee(photographer.getPrixJournee());
 
         response.setImageUrl(photographer.getImageUrl());
 
@@ -174,6 +157,10 @@ public class PhotographerServiceImpl implements PhotographerService {
         response.setCertifie(photographer.getCertifie());
 
         response.setNoteMoyenne(photographer.getNoteMoyenne());
+
+        response.setBio(photographer.getBio());
+
+        response.setProfilComplet(photographer.getProfilComplet());
 
         return response;
 
@@ -218,4 +205,114 @@ public class PhotographerServiceImpl implements PhotographerService {
         }
         return responses;
     }
+
+    @Override
+    public PhotographerDtoResponse completeProfile(Integer photographerId, PhotographerProfileRequest request) {
+
+        Photographer photographer = photographerRepository.findById(photographerId).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
+
+        photographer.setDescription(request.getDescription());
+
+        photographer.setBio(request.getBio());
+
+        photographer.setVille(request.getVille());
+
+        photographer.setImageUrl(request.getImageUrl());
+
+        photographer.setPhotoCouverture(request.getPhotoCouverture());
+
+        photographer.setPrixPortrait(request.getPrixPortrait());
+
+        photographer.setPrixDemiJournee(request.getPrixDemiJournee());
+
+        photographer.setPrixJournee(request.getPrixJournee());
+
+        photographer.setSpecialites(request.getSpecialites());
+
+        boolean complet =
+                request.getDescription()!=null &&
+                        !request.getDescription().isBlank()
+
+                        &&
+
+                        request.getBio()!=null &&
+                        !request.getBio().isBlank()
+
+                        &&
+
+                        request.getVille()!=null &&
+                        !request.getVille().isBlank()
+
+                        &&
+
+                        request.getImageUrl()!=null &&
+                        !request.getImageUrl().isBlank()
+
+                        &&
+
+                        request.getPhotoCouverture()!=null &&
+                        !request.getPhotoCouverture().isBlank()
+
+                        &&
+
+                        request.getSpecialites()!=null &&
+                        !request.getSpecialites().isEmpty()
+
+                        &&
+
+                        request.getPrixPortrait()!=null
+
+                        &&
+
+                        request.getPrixDemiJournee()!=null
+
+                        &&
+
+                        request.getPrixJournee()!=null;
+
+        photographer.setProfilComplet(complet);
+
+        photographerRepository.save(photographer);
+
+        return convertToDto(photographer);
+
+    }
+
+    @Override
+    public PhotographerDashboardResponse getDashboard(Integer photographerId) {
+        Photographer photographer = photographerRepository.findById(photographerId).orElseThrow(() -> new RuntimeException("Photographe introuvable"));
+        PhotographerDashboardResponse dto = new PhotographerDashboardResponse();
+
+        dto.setId(photographer.getId());
+
+        dto.setNom(photographer.getUser().getNom());
+
+        dto.setPrenom(photographer.getUser().getPrenom());
+
+        dto.setVille(photographer.getVille());
+
+        dto.setDescription(photographer.getDescription());
+
+        dto.setBio(photographer.getBio());
+
+        dto.setImageUrl(photographer.getImageUrl());
+
+        dto.setPhotoCouverture(photographer.getPhotoCouverture());
+
+        dto.setPrixPortrait(photographer.getPrixPortrait());
+
+        dto.setPrixDemiJournee(photographer.getPrixDemiJournee());
+
+        dto.setPrixJournee(photographer.getPrixJournee());
+
+        dto.setProfilComplet(photographer.getProfilComplet());
+
+        dto.setSpecialites(photographer.getSpecialites());
+
+        dto.setPortfolio(portfolioService.getPortfolio(photographerId));
+
+        return dto;
+
+    }
+
 }

@@ -2,6 +2,8 @@ package raphel.test.sa_backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerDtoRequest;
+import raphel.test.sa_backend.model.dtos.dtoRequests.PhotographerProfileRequest;
+import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDashboardResponse;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PhotographerDtoResponse;
 import raphel.test.sa_backend.service.PhotographerService;
 
@@ -30,12 +32,19 @@ public class PhotographerController {
         return photographerService.getById(id);
     }
 
-    @PutMapping("/{id}")
-    public PhotographerDtoResponse update(
-            @PathVariable Integer id,
-            @RequestBody PhotographerDtoRequest request){
+    @GetMapping("/{id}/dashboard")
+    public PhotographerDashboardResponse dashboard(@PathVariable Integer id){
 
-        return photographerService.updateProfile(id,request);
+        return photographerService.getDashboard(id);
+
+    }
+
+    @PutMapping("/{id}/complete-profile")
+    public PhotographerDtoResponse completeProfile(
+            @PathVariable Integer id,
+            @RequestBody PhotographerProfileRequest request){
+        return photographerService.completeProfile(id, request);
+
     }
 
     @DeleteMapping("/{id}")

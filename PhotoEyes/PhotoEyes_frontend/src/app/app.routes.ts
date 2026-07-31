@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'photographer',
+    loadChildren: () =>
+        import('./photographes-connect/photographer.routes')
+        .then(m => m.PHOTOGRAPHER_ROUTES)
+  },
+  {
     path:'admin',
     loadChildren: () =>
         import('./administrateur/admin.rout').then(m => m.ADMINISTRATION_ROUTES)

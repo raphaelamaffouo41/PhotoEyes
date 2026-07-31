@@ -1,7 +1,12 @@
 package raphel.test.sa_backend.model.entities;
 
 import jakarta.persistence.*;
+import raphel.test.sa_backend.model.enums.Specialite;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 
 public class Photographer extends BaseEntity{
@@ -15,9 +20,11 @@ public class Photographer extends BaseEntity{
 
     private Double noteMoyenne;
 
-    private String specialite;
+    private Double prixPortrait;
 
-    private Double prixDepart;
+    private Double prixDemiJournee;
+
+    private Double prixJournee;
 
     private String imageUrl;
 
@@ -31,9 +38,30 @@ public class Photographer extends BaseEntity{
     @Column(name = "date_validation")
     private LocalDateTime dateValidation;
 
+    private Boolean profilComplet = false;
+
+    private Boolean telephoneVerifie = false;
+
+
+    @Column(length = 3000)
+    private String bio;
+
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
+
+    @OneToMany(mappedBy = "photographer", cascade = CascadeType.ALL)
+    private List<Portfolio> portfolio = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+
+    @Enumerated(EnumType.STRING)
+
+    @CollectionTable(name="photographer_specialites", joinColumns=@JoinColumn(name="photographer_id"))
+
+    @Column(name="specialite")
+
+    private List<Specialite> specialites;
 
     public Integer getId() {
         return id;
@@ -91,21 +119,6 @@ public class Photographer extends BaseEntity{
         this.user = user;
     }
 
-    public String getSpecialite() {
-        return specialite;
-    }
-
-    public void setSpecialite(String specialite) {
-        this.specialite = specialite;
-    }
-
-    public Double getPrixDepart() {
-        return prixDepart;
-    }
-
-    public void setPrixDepart(Double prixDepart) {
-        this.prixDepart = prixDepart;
-    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -121,6 +134,70 @@ public class Photographer extends BaseEntity{
 
     public void setPhotoCouverture(String photoCouverture) {
         this.photoCouverture = photoCouverture;
+    }
+
+    public Boolean getProfilComplet() {
+        return profilComplet;
+    }
+
+    public void setProfilComplet(Boolean profilComplet) {
+        this.profilComplet = profilComplet;
+    }
+
+    public Boolean getTelephoneVerifie() {
+        return telephoneVerifie;
+    }
+
+    public void setTelephoneVerifie(Boolean telephoneVerifie) {
+        this.telephoneVerifie = telephoneVerifie;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Double getPrixPortrait() {
+        return prixPortrait;
+    }
+
+    public void setPrixPortrait(Double prixPortrait) {
+        this.prixPortrait = prixPortrait;
+    }
+
+    public Double getPrixDemiJournee() {
+        return prixDemiJournee;
+    }
+
+    public void setPrixDemiJournee(Double prixDemiJournee) {
+        this.prixDemiJournee = prixDemiJournee;
+    }
+
+    public Double getPrixJournee() {
+        return prixJournee;
+    }
+
+    public void setPrixJournee(Double prixJournee) {
+        this.prixJournee = prixJournee;
+    }
+
+    public List<Portfolio> getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(List<Portfolio> portfolio) {
+        this.portfolio = portfolio;
+    }
+
+    public List<Specialite> getSpecialites() {
+        return specialites;
+    }
+
+    public void setSpecialites(List<Specialite> specialites) {
+        this.specialites = specialites;
     }
 }
 

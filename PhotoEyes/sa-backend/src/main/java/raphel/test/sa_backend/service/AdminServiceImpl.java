@@ -2,6 +2,7 @@ package raphel.test.sa_backend.service;
 
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import raphel.test.sa_backend.model.dtos.dtoResponses.AdminUserDtoResponse;
@@ -40,8 +41,13 @@ public class AdminServiceImpl implements AdminService {
         photographer.setUser(user);
         photographer.setDescription("");
         photographer.setVille("");
-        photographer.setSpecialite("");
-        photographer.setPrixDepart(0.0);
+        photographer.setPrixPortrait(0.0);
+
+        photographer.setPrixDemiJournee(0.0);
+
+        photographer.setPrixJournee(0.0);
+
+        photographer.setSpecialites(new ArrayList<>());
         photographer.setNoteMoyenne(0.0);
         photographer.setCertifie(false);
         photographer.setVisible(true);

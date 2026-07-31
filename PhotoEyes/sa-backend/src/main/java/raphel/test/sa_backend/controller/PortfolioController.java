@@ -5,6 +5,8 @@ import raphel.test.sa_backend.model.dtos.dtoRequests.PortfolioDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PortfolioDtoRespons;
 import raphel.test.sa_backend.service.PortfolioService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/gallery")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -20,5 +22,16 @@ public class PortfolioController {
     public PortfolioDtoRespons createPhoto(@RequestBody PortfolioDtoRequest request) {
 
         return portfolioService.createPhoto(request);
+    }
+    @GetMapping("/photographer/{id}")
+    public List<PortfolioDtoRespons> getPortfolio(@PathVariable Integer id){
+
+        return portfolioService.getPortfolio(id);
+    }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id){
+
+        portfolioService.deletePhoto(id);
+
     }
 }

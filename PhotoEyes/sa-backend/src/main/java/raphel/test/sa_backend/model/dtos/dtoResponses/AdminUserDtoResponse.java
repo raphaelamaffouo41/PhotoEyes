@@ -1,6 +1,9 @@
 package raphel.test.sa_backend.model.dtos.dtoResponses;
 
 import raphel.test.sa_backend.model.enums.AccountStatut;
+import raphel.test.sa_backend.model.enums.Specialite;
+
+import java.util.List;
 
 public class AdminUserDtoResponse {
     private Integer userId;
@@ -10,6 +13,18 @@ public class AdminUserDtoResponse {
     private String email;
     private AccountStatut accountStatut;
     private String message;
+    private String ville;
+    private String imageUrl;
+    private Integer nombrePhotos;
+    private List<Specialite> specialites;
+
+    public List<Specialite> getSpecialites() {
+        return specialites;
+    }
+
+    public void setSpecialites(List<Specialite> specialites) {
+        this.specialites = specialites;
+    }
 
     public Integer getUserId() { return userId; }
     public void setUserId(Integer userId) { this.userId = userId; }
@@ -25,4 +40,10 @@ public class AdminUserDtoResponse {
     public void setAccountStatut(AccountStatut accountStatut) { this.accountStatut = accountStatut; }
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
+    public String getImageUrl() {return imageUrl;}
+    public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl;}
+    public String getVille() {return ville;}
+    public void setVille(String ville) {this.ville = ville;}
+    public Integer getNombrePhotos() {return nombrePhotos;}
+    public void setNombrePhotos(Integer nombrePhotos) {this.nombrePhotos = nombrePhotos;}
 }

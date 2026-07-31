@@ -8,6 +8,8 @@ import raphel.test.sa_backend.model.entities.Portfolio;
 import raphel.test.sa_backend.model.repository.PhotographerRepository;
 import raphel.test.sa_backend.model.repository.PortfolioRepository;
 
+import java.util.List;
+
 @Service
 public class PortfolioServiceImpl implements PortfolioService{
 
@@ -37,7 +39,38 @@ public class PortfolioServiceImpl implements PortfolioService{
 
         response.setId(photo.getId());
         response.setMessage("Photo ajoutée au portfolio");
+        response.setImageUrl(photo.getImageUrl());
+        response.setTitre(photo.getTitre());
+        response.setDescription(photo.getDescription());
 
         return response;
+    }
+
+    @Override
+    public List<PortfolioDtoRespons> getPortfolio(Integer photographerId) {
+        return portfolioRepository
+                .findByPhotographerId(photographerId)
+                .stream()
+                .map(photo -> {
+
+                    PortfolioDtoRespons dto = new PortfolioDtoRespons();
+
+                    dto.setId(photo.getId());
+
+                    dto.setImageUrl(photo.getImageUrl());
+
+                    dto.setTitre(photo.getTitre());
+
+                    dto.setDescription(photo.getDescription());
+
+                    return dto;
+
+                }).toList();
+    }
+
+    @Override
+    public void deletePhoto(Integer id) {
+        Portfolio photo = portfolioRepository.findById(id).orElseThrow(() -> new RuntimeException("Photo introuvable"));
+        portfolioRepository.delete(photo);
     }
 }

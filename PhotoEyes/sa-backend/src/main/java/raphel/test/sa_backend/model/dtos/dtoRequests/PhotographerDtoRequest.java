@@ -1,9 +1,15 @@
 package raphel.test.sa_backend.model.dtos.dtoRequests;
 
+import raphel.test.sa_backend.model.enums.Specialite;
+
+import java.util.List;
+
 public class PhotographerDtoRequest {
     private Integer userId;
 
     private String description;
+
+    private String bio;
 
     private String ville;
 
@@ -11,9 +17,11 @@ public class PhotographerDtoRequest {
 
     private Boolean certifie;
 
-    private String specialite;
+    private List<Specialite> specialites;
 
-    private Double prixDepart;
+    private Double prixPortrait;
+    private Double prixDemiJournee;
+    private Double prixJournee;
 
     private String imageUrl;
 
@@ -59,20 +67,12 @@ public class PhotographerDtoRequest {
         this.noteMoyenne = noteMoyenne;
     }
 
-    public String getSpecialite() {
-        return specialite;
+    public List<Specialite> getSpecialites() {
+        return specialites;
     }
 
-    public void setSpecialite(String specialite) {
-        this.specialite = specialite;
-    }
-
-    public Double getPrixDepart() {
-        return prixDepart;
-    }
-
-    public void setPrixDepart(Double prixDepart) {
-        this.prixDepart = prixDepart;
+    public void setSpecialites(List<Specialite> specialites) {
+        this.specialites = specialites;
     }
 
     public String getImageUrl() {
@@ -83,11 +83,53 @@ public class PhotographerDtoRequest {
         this.imageUrl = imageUrl;
     }
 
+    private Boolean profilComplet;
+
     public String getPhotoCouverture() {
         return photoCouverture;
     }
 
     public void setPhotoCouverture(String photoCouverture) {
         this.photoCouverture = photoCouverture;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Double getPrixPortrait() {
+        return prixPortrait;
+    }
+
+    public void setPrixPortrait(Double prixPortrait) {
+        this.prixPortrait = prixPortrait;
+    }
+
+    public Double getPrixDemiJournee() {
+        return prixDemiJournee;
+    }
+
+    public void setPrixDemiJournee(Double prixDemiJournee) {
+        this.prixDemiJournee = prixDemiJournee;
+    }
+
+    public Double getPrixJournee() {
+        return prixJournee;
+    }
+
+    public void setPrixJournee(Double prixJournee) {
+        this.prixJournee = prixJournee;
+    }
+
+    public Boolean getProfilComplet() {
+        return profilComplet;
+    }
+
+    public void setProfilComplet(Boolean profilComplet) {
+        this.profilComplet = profilComplet;
     }
 }

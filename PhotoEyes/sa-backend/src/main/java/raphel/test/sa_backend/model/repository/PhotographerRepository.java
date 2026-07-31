@@ -15,19 +15,15 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Inte
     Optional<Photographer> findByUser(User user);
     List<Photographer> findByVisibleTrue();
     @Query("""
-SELECT p
+SELECT DISTINCT p
 FROM Photographer p
-WHERE
- p.visible = true
-AND
-(:keyword IS NULL OR :keyword='' OR
+LEFT JOIN p.specialites s
+WHERE p.visible = true
+AND (:keyword IS NULL OR :keyword='' OR
 LOWER(p.user.nom) LIKE LOWER(CONCAT('%',:keyword,'%')))
-AND
-(:ville IS NULL OR :ville='' OR
+AND (:ville IS NULL OR :ville='' OR
 LOWER(p.ville)=LOWER(:ville))
-AND
-(:specialite IS NULL OR :specialite='' OR
-LOWER(p.specialite)=LOWER(:specialite))
+AND (:specialite IS NULL OR s = :specialite)
 """)
     List<Photographer> search(
             @Param("keyword") String keyword,

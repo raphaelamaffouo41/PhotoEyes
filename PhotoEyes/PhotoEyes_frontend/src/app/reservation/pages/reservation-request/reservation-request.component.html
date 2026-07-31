@@ -1,0 +1,47 @@
+<div class="page">
+
+    <a class="back"> ← Retour au profil</a>
+    <div class="card">
+        <h1>Demande de réservation</h1>
+        <div class="photographer">
+                <img [src]="photographer.imageUrl" alt="Photo du photographe">
+            <div>
+                <h3>{{photographer.nom}}</h3>
+                <p>  {{photographer.specialite}}.{{photographer.ville}}</p>
+            </div>
+        </div>
+
+        <form>
+            <div class="grid">
+                <div>
+                    <label> Date souhaitée</label>
+                    <input type="date"></div>
+                <div>
+                    <label>Créneau</label>
+                    <input type="text"value="10:00 — 18:00">
+                </div>
+                <div>
+                    <label>Type de prestation</label>
+                    <input value="Mariage">
+                </div>
+                <div>
+                    <label>Lieu</label>
+                    <input value="Yaoundé, Bastos">
+                </div>
+            </div>
+            <label>Délai de livraison souhaité</label>
+            <input value="14 jours (défaut)">
+            <label>Instructions particulières</label>
+            <textarea [(ngModel)]="reservation.message"name="message"placeholder="Décrivez votre demande"></textarea>
+            <div class="info">
+                🔒 Votre demande est transmise à l'administrateur.
+                Réponse sous 24h ouvrées.
+            </div>
+            <div class="buttons">
+                <button type="button" (click)="sendReservation()">Envoyer ma demande →</button>
+
+                <button type="button">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>
