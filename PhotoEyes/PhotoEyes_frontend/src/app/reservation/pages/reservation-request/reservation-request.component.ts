@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { ReservationService } from '../../services/reservation.service';
 import { ReservationRequest } from '../../models/reservation-request.model';
 import { PhotographerService } from '../../../accueil/service/photographerservice';
 import { Photographer } from '../../../accueil/models/photographer.model';
 import { PhotographerDetail } from '../../../photographes/models/photographer-detail';
+import { MessageModalComponent } from '../../../shared/message-modal/message-modal.component';
 
 
 @Component({
@@ -15,7 +16,7 @@ selector:'app-reservation-request',
 standalone:true,
 
 imports:[
-FormsModule
+FormsModule,MessageModalComponent
 ],
 
 templateUrl:'./reservation-request.component.html',
@@ -32,56 +33,82 @@ export class ReservationRequestComponent {
 photographer!: Photographer
 reservation:ReservationRequest={
 
-clientId:1,
+    clientId: 1,
+    photographerId: 1,
 
-photographerId:1,
+    date: '',
+    heureDebut: '',
+    heureFin: '',
 
-availabilityId:1,
+    message: ''
 
-message:''
 
 };
 
+showModal = false;
 
+modalMessage = '';
+
+modalType:'success' | 'error' = 'success';
+
+openModal(message:string,type:'success'|'error'){
+
+this.showModal=false;
+
+setTimeout(()=>{
+
+this.modalMessage=message;
+this.modalType=type;
+this.showModal=true;
+
+},100);
+
+
+}
 constructor(
+  private router: Router,
   private route:ActivatedRoute,
-
   private photographerService:PhotographerService,
   private reservationService:ReservationService
 ){}
+    goToHome() {
+    const currentUrl = this.router.url;
+    
+    this.router.navigate(['/']);
+  }
 
   async sendReservation(){
 
     try{
 
-
-    const response = await this.reservationService .createReservation(this.reservation);
-
-
-    console.log(response);
+    const response = await this.reservationService
+    .createReservation(this.reservation);
 
 
-    alert("Votre demande a été envoyée");
+    this.openModal("Votre réservation a été envoyée avec succès","success");
 
 
-    }catch(error){console.error(error);
+    }catch(error:any){
 
-    alert("Erreur lors de la réservation");
+    console.error(error);
+
+
+    this.openModal(error.error.message,"error");
 
     }
 
+    }
+      async ngOnInit(){
 
-  }
+        const id = Number(this.route.snapshot.paramMap.get("photographerId"));
 
-  async ngOnInit(){
+        this.photographer = await this.photographerService.getById(id);
 
-    const id = Number(this.route.snapshot.paramMap.get("photographerId"));
+        this.reservation.photographerId = this.photographer.id;
 
-    this.photographer = await this.photographerService.getById(id);
+        // this.reservation.clientId = utilisateurConnecte.id;
 
-    this.reservation.photographerId = this.photographer.id;
-
-  }
+      }
 
 
 }

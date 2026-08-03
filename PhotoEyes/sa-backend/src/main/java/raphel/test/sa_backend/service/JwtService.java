@@ -36,7 +36,7 @@ public class JwtService {
                 .issuedAt(now)
 
                 .expiration(
-                        new Date(now.getTime() + 86400000L)
+                        new Date(now.getTime() + +1000*60*60*24)
                 )
 
                 .signWith(key)

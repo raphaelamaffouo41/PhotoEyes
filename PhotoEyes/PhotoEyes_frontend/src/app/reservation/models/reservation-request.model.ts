@@ -1,11 +1,14 @@
-export interface ReservationRequest {
+export interface ReservationRequest{
 
-  clientId:number;
+    clientId:number;
 
-  photographerId:number;
+    photographerId:number;
 
-  availabilityId:number;
+    date:string;
 
-  message:string;
+    heureDebut:string;
 
+    heureFin:string;
+
+    message:string;
 }

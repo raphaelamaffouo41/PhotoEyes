@@ -32,6 +32,8 @@ public class config {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/photographers/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/reservation/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/photographers/**", "/uploads/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

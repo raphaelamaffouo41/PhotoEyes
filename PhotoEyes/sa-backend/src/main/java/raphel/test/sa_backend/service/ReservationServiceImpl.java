@@ -16,6 +16,7 @@ import raphel.test.sa_backend.model.repository.PhotographerRepository;
 import raphel.test.sa_backend.model.repository.ReservationRepository;
 import raphel.test.sa_backend.model.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -41,39 +42,72 @@ public class ReservationServiceImpl implements ReservationService {
 
             User client = userRepository.findById(request.getClientId()).orElseThrow(()-> new RuntimeException("Client introuvable"));
             Photographer photographer = photographerRepository.findById(request.getPhotographerId()).orElseThrow(()-> new RuntimeException("Photographer introuvable"));
-            Availability availability = availabilityRepository.findById(request.getAvailabilityId()).orElseThrow(()-> new RuntimeException("disponibilite introuvable"));
-
             if (!Boolean.TRUE.equals(photographer.getVisible())) {
                 throw new RuntimeException("Ce photographe n'est pas disponible sur la plateforme");
             }
-            if (!availability.getPhotographer().getId().equals(photographer.getId())) {
-                throw new RuntimeException("Ce créneau n'appartient pas au photographe demandé");
+            if(request.getMessage() == null || request.getMessage().trim().isEmpty()){
+                throw new RuntimeException("Veuillez écrire un message pour votre réservation");
             }
+            if(request.getDate()== null){throw new RuntimeException("Veuillez choisir une date");}
 
-            if( availability.getStatut()!= AvailabilityStatus.DISPONIBLE){
-
-                throw new RuntimeException("Ce créneau n'est plus disponible");
+            if(request.getHeureDebut()==null){
+                throw new RuntimeException("veuillez choisir une heure de debut ");
+            }
+            if(request.getDate().isBefore(LocalDate.now())){
+                throw new RuntimeException("Impossible de réserver une date passée");
+            }
+            if(request.getHeureFin()==null){
+                throw new RuntimeException("veuillez choisire une heure de fin");
             }
 
             if(client.getRole() != Role.CLIENT){
                 throw new RuntimeException("Seul un client peut réserver");
             }
 
+            if(request.getHeureFin().isBefore(request.getHeureDebut())||request.getHeureFin().equals(request.getHeureDebut())){
+                throw new RuntimeException("l heur de fin dit etre apres l heure de debut");
+            }
+            LocalDateTime maintenant = LocalDateTime.now();
+
+            LocalDateTime debutReservation =
+                    LocalDateTime.of(
+                            request.getDate(),
+                            request.getHeureDebut()
+                    );
+
+
+            if(debutReservation.isBefore(maintenant)){
+                throw new RuntimeException("Impossible de réserver une heure déjà passée");
+            }
+            boolean occupe = reservationRepository
+                    .existsByPhotographerIdAndDateAndHeureDebutLessThanAndHeureFinGreaterThan(
+                            photographer.getId(),
+                            request.getDate(),
+                            request.getHeureFin(),
+                            request.getHeureDebut()
+                    );
+
+            if(occupe){
+                throw new RuntimeException("Ce créneau est déjà réservé");
+            }
+
             Reservation reservation = new Reservation();
 
             reservation.setClient(client);
             reservation.setPhotographer(photographer);
-            reservation.setAvailability(availability);
             reservation.setMessage(request.getMessage());
             reservation.setDateReservation(LocalDateTime.now());
+            reservation.setDate(request.getDate());
+            reservation.setHeureDebut(request.getHeureDebut());
+            reservation.setHeureFin(request.getHeureFin());
             reservation.setStatut(ReservationStatus.PENDING);
 
             reservationRepository.save(reservation);
-
-            availability.setStatut(AvailabilityStatus.RESERVE);
-
-            availabilityRepository.save(availability);
-
+        System.out.println("DATE = " + request.getDate());
+        System.out.println("DEBUT = " + request.getHeureDebut());
+        System.out.println("FIN = " + request.getHeureFin());
+        System.out.println("CLIENT = " + request.getClientId());
+        System.out.println("PHOTO = " + request.getPhotographerId());
             ReservationDtoResponse response = new ReservationDtoResponse();
             response.setId(reservation.getId());
             response.setMessage("Réservation créée avec succès");

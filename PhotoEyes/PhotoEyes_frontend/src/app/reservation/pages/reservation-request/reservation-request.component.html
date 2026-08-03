@@ -1,6 +1,6 @@
 <div class="page">
 
-    <a class="back"> ← Retour au profil</a>
+    <a class="back" (click)="goToHome()"> ← Retour au profil</a>
     <div class="card">
         <h1>Demande de réservation</h1>
         <div class="photographer">
@@ -15,22 +15,29 @@
             <div class="grid">
                 <div>
                     <label> Date souhaitée</label>
-                    <input type="date"></div>
-                <div>
-                    <label>Créneau</label>
-                    <input type="text"value="10:00 — 18:00">
+                    <input type="date"[(ngModel)]="reservation.date"name="date">
+                </div>
+                <div class="crenneaux"> 
+                    <div>
+                        <label>Heur de debut</label>
+                        <input type="time"[(ngModel)]="reservation.heureDebut"name="heureDebut" >                      
+                    </div>                 
+                    <div>
+                        <label>Heure de fin</label>
+                        <input type="time"[(ngModel)]="reservation.heureFin"name="heureFin">
+                    </div>                        
                 </div>
                 <div>
                     <label>Type de prestation</label>
-                    <input value="Mariage">
+                    <input placeholder="Mariage">
                 </div>
                 <div>
                     <label>Lieu</label>
-                    <input value="Yaoundé, Bastos">
+                    <input placeholder="Yaoundé, Bastos">
                 </div>
             </div>
             <label>Délai de livraison souhaité</label>
-            <input value="14 jours (défaut)">
+            <input placeholder="14 jours (défaut)">
             <label>Instructions particulières</label>
             <textarea [(ngModel)]="reservation.message"name="message"placeholder="Décrivez votre demande"></textarea>
             <div class="info">
@@ -45,3 +52,9 @@
         </form>
     </div>
 </div>
+
+<app-message-modal
+    [show]="showModal"
+    [message]="modalMessage"
+    [type]="modalType">
+</app-message-modal>

@@ -9,15 +9,31 @@ import { Component, Input } from '@angular/core';
   styleUrl: './message-modal.component.css'
 })
 export class MessageModalComponent {
-@Input()
+  @Input()
 
-show = false;
+  show = false;
 
-@Input()
+  @Input()
 
-message = '';
+  message = '';
 
-@Input()
+  @Input()
 
-type:'success' | 'error' = 'success';
+  type:'success' | 'error' = 'success';
+
+
+  ngOnChanges(){
+
+    if(this.show){
+
+      setTimeout(()=>{
+
+       this.show=false;
+
+      },3000)
+
+    }
+
+  }
+
 }
