@@ -9,8 +9,6 @@ public class PhotographerDtoRequest {
 
     private String description;
 
-    private String bio;
-
     private String ville;
 
     private Double noteMoyenne;
@@ -91,14 +89,6 @@ public class PhotographerDtoRequest {
 
     public void setPhotoCouverture(String photoCouverture) {
         this.photoCouverture = photoCouverture;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public Double getPrixPortrait() {

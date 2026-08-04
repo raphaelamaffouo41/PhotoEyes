@@ -10,7 +10,6 @@ public class PhotographerDtoResponse {
     private String prenom;
     private String ville;
     private String description;
-    private String bio;
     private Double noteMoyenne;
     private Boolean certifie;
     private List<Specialite> specialites;
@@ -100,14 +99,6 @@ public class PhotographerDtoResponse {
 
     public void setPhotoCouverture(String photoCouverture) {
         this.photoCouverture = photoCouverture;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public List<Specialite> getSpecialites() {

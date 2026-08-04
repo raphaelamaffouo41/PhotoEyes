@@ -1,1 +1,28 @@
-<p>profile-forme works!</p>
+<div class="profile-card">
+
+
+    <h2>
+    Informations du profil
+    <span>Obligatoire</span>
+    </h2>
+
+    <label>Description</label>
+    <textarea [(ngModel)]="form.description"placeholder="Présentez votre expérience"></textarea>
+    <div class="label-row">
+
+        <label>Spécialités</label>
+
+        <small>Cliquez pour sélectionner</small>
+
+    </div>
+
+    <div class="specialites">
+
+        <button *ngFor="let s of specialitesDisponibles"[class.active]="isSelected(s)" (click)="toggleSpecialite(s)">
+            <i *ngIf="isSelected(s)"class="fa-solid fa-check"></i>{{s}}   
+        </button>
+    </div>
+
+    <label>Ville</label>
+    <input type="text" [(ngModel)]="form.ville"placeholder="Votre ville">
+</div>

@@ -158,8 +158,6 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         response.setNoteMoyenne(photographer.getNoteMoyenne());
 
-        response.setBio(photographer.getBio());
-
         response.setProfilComplet(photographer.getProfilComplet());
 
         return response;
@@ -213,8 +211,6 @@ public class PhotographerServiceImpl implements PhotographerService {
 
         photographer.setDescription(request.getDescription());
 
-        photographer.setBio(request.getBio());
-
         photographer.setVille(request.getVille());
 
         photographer.setImageUrl(request.getImageUrl());
@@ -232,11 +228,6 @@ public class PhotographerServiceImpl implements PhotographerService {
         boolean complet =
                 request.getDescription()!=null &&
                         !request.getDescription().isBlank()
-
-                        &&
-
-                        request.getBio()!=null &&
-                        !request.getBio().isBlank()
 
                         &&
 
@@ -292,8 +283,6 @@ public class PhotographerServiceImpl implements PhotographerService {
         dto.setVille(photographer.getVille());
 
         dto.setDescription(photographer.getDescription());
-
-        dto.setBio(photographer.getBio());
 
         dto.setImageUrl(photographer.getImageUrl());
 

@@ -7,8 +7,6 @@ import java.util.List;
 public class PhotographerProfileRequest {
     private String description;
 
-    private String bio;
-
     private String ville;
 
     private List<Specialite> specialites;
@@ -29,14 +27,6 @@ public class PhotographerProfileRequest {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public String getVille() {

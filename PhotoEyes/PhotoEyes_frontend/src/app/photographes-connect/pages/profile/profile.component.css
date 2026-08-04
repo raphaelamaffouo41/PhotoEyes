@@ -1,0 +1,55 @@
+.page{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#f5f7fb;
+
+}
+
+.content{
+
+    flex:1;
+
+    padding:40px;
+
+}
+
+.subtitle{
+
+    color:#777;
+
+    margin-bottom:25px;
+
+}
+
+.layout{
+
+    display:grid;
+
+    grid-template-columns:2fr 380px;
+
+    gap:25px;
+
+    align-items:start;
+
+}
+
+.left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+.right{
+
+    position:sticky;
+
+    top:20px;
+
+}

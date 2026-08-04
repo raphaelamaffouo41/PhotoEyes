@@ -1,1 +1,24 @@
-<p>dashboard-card works!</p>
+<div class="card">
+    <div class="alert">
+        <div class="icon">
+            <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="content">
+            <h3>
+                Dossier incomplet — Profil non visible
+            </h3>
+            <p>
+                {{completion.completed}}
+                /
+                {{completion.total}}
+                éléments obligatoires complétés
+            </p>
+            <div class="progress">
+                <div
+                class="bar"
+                [style.width.%]="completion.percent">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

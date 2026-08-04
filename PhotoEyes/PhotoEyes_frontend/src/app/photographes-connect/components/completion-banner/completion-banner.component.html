@@ -1,1 +1,24 @@
-<p>completion-banner works!</p>
+<div class="check-card">
+    <div class="title"> 
+        <h2> <i class="fa-solid fa-list-check"></i>Complétion du profil</h2>
+            <div class="percentage">
+                {{progress}}%
+            </div>  
+    </div>
+
+    <div class="progress">
+        <div class="bar" [style.width.%]="progress"></div>
+    </div>
+
+    <div class="items">
+        <div class="item" *ngFor="let check of checks" [ngClass]="{ done:check.valid}">
+            <i class="fa-solid" [ngClass]=" check.valid ? 'fa-circle-check':'fa-circle-xmark'"></i>
+            <span>{{check.label}}</span>
+        </div>
+    </div>
+
+    <button class="submit" [disabled]="progress < 100" (click)="submit.emit()"><i class="fa-solid fa-paper-plane"></i>Envoyer pour validation</button>
+    <div class="dexcp">
+        <span>Traitement sous <b>72h ouvrées</b>. Maximum <b>3 soumissions</b> — au 3e refus, le compte est bloqué (contact support). Votre profil reste invisible jusqu'à validation.</span>
+    </div>
+</div>

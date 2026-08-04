@@ -42,10 +42,6 @@ public class Photographer extends BaseEntity{
 
     private Boolean telephoneVerifie = false;
 
-
-    @Column(length = 3000)
-    private String bio;
-
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
@@ -150,14 +146,6 @@ public class Photographer extends BaseEntity{
 
     public void setTelephoneVerifie(Boolean telephoneVerifie) {
         this.telephoneVerifie = telephoneVerifie;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public Double getPrixPortrait() {

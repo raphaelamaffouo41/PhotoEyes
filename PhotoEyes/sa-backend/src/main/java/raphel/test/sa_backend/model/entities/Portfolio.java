@@ -12,9 +12,6 @@ public class Portfolio {
 
     private String imageUrl;
 
-    private String titre;
-
-    private String description;
 
     @ManyToOne
     @JoinColumn(name = "photographer_id")
@@ -36,21 +33,6 @@ public class Portfolio {
         this.imageUrl = imageUrl;
     }
 
-    public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Photographer getPhotographer() {
         return photographer;

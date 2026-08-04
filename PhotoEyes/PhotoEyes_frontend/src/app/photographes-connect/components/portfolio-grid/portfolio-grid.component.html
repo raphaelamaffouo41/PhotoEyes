@@ -1,1 +1,45 @@
-<p>portfolio-grid works!</p>
+<div class="portfolio-header">
+
+    <h3>
+        Mon portfolio
+    </h3>
+
+    <label class="upload-btn">
+
+        <i class="fa-solid fa-plus"></i>
+        Ajouter une photo
+
+        <input 
+        type="file"
+        accept="image/*"
+        hidden
+        (change)="selectImage($event)">
+
+    </label>
+
+</div>
+
+
+<!-- aperçu avant envoi -->
+
+<div class="preview" *ngIf="preview">
+
+    <img [src]="preview">
+
+    <button (click)="upload()">
+        Envoyer
+    </button>
+
+</div>
+
+
+
+<div class="grid">
+
+    <app-portfolio-card 
+      *ngFor="let item of dashboard?.portfolio"
+      [portfolio]="item"
+      (delete)="remove($event)">
+    </app-portfolio-card>
+
+</div>

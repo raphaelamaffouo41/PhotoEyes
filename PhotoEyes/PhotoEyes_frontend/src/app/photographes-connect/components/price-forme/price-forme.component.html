@@ -1,1 +1,37 @@
-<p>price-forme works!</p>
+<div class="price-card">
+    <div class="header">
+        <h2><i class="fa-solid fa-coins"></i>Mes tarifs</h2>
+        <span>Obligatoire</span>
+    </div> 
+
+    <p class="description">Définissez vos prix pour vos différentes prestations.</p>
+
+    <div class="prices">
+        <div class="price-box">
+            <label>Portrait</label>
+            <div class="input-group">
+                <input type="number"[(ngModel)]="form.prixPortrait"placeholder="Ex: 25000">
+                <span>FCFA</span>
+            </div>
+            <p>{{format(form.prixPortrait)}}</p>
+        </div>
+
+        <div class="price-box">
+            <label>Demi-journée</label>
+            <div class="input-group">
+                <input type="number" [(ngModel)]="form.prixDemiJournee"placeholder="Ex: 80000">
+                <span>FCFA</span>
+            </div>
+            <p>{{format(form.prixDemiJournee)}}</p>
+        </div>
+
+        <div class="price-box">
+            <label>Journée complète</label>
+            <div class="input-group">
+                <input type="number" [(ngModel)]="form.prixJournee"placeholder="Ex: 150000">
+                <span>FCFA</span>
+            </div>
+            <p>{{format(form.prixJournee)}}</p>
+        </div>
+    </div>
+</div>

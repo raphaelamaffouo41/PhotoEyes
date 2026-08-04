@@ -1,0 +1,242 @@
+.portfolio-card{
+    background:white;
+    padding:22px;
+    border-radius:16px;
+    margin-top:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    animation:show .4s ease;
+}
+
+@keyframes show{
+    from{
+    opacity:0;
+    transform:translateY(20px);
+    }
+
+    to{
+    opacity:1;
+    transform:none;
+    }
+}
+
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+h2{
+    font-size:18px;
+    margin:0;
+    color:#1e293b;
+
+}
+
+h2 i{
+    color:#2563eb;
+
+    margin-right:8px;
+
+}
+
+.header p{
+    font-size:13px;
+    color:#64748b;
+}
+.counter{
+    background:#eff6ff;
+    color:#2563eb;
+    padding:8px 15px;
+    border-radius:20px;
+    font-weight:bold;
+
+}
+
+.progress{
+    height:8px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin:15px 0;
+
+}
+
+.bar{
+    height:100%;
+    background:#2563eb;
+    transition:.5s;
+
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.photo{
+    height:170px;
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.4s;
+
+}
+
+.photo:hover img{
+    transform:scale(1.1);
+
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:    rgba(0,0,0,.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:.3s;
+}
+
+.photo:hover .overlay{
+    opacity:1;
+
+}
+
+.overlay button{
+    background:#ef4444;
+    color:white;
+    border:none;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    cursor:pointer;
+
+}
+
+.upload-area{
+    margin-top:25px;
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.upload-btn{
+    background:#f1f5f9;
+    border:2px dashed #94a3b8;
+    padding:15px 25px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.upload-btn:hover{
+    background:#eff6ff;
+    border-color:#2563eb;
+}
+
+.save{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.save:disabled{
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+
+
+
+
+
+
+@media(max-width:800px){
+
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:500px){
+    .grid{
+    grid-template-columns:1fr;
+    }
+
+}
+
+.portfolio-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+
+}
+
+
+.upload-btn{
+
+background:#111;
+color:white;
+padding:12px 20px;
+border-radius:30px;
+cursor:pointer;
+transition:.3s;
+
+}
+
+
+.upload-btn:hover{
+
+transform:scale(1.05);
+background:#e91e63;
+
+}
+
+
+.preview{
+
+display:flex;
+gap:20px;
+align-items:center;
+margin-bottom:20px;
+
+}
+
+
+.preview img{
+
+width:150px;
+height:150px;
+object-fit:cover;
+border-radius:15px;
+
+}
+
+
+.preview button{
+
+background:#28a745;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+cursor:pointer;
+
+}

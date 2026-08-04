@@ -1,10 +1,13 @@
 package raphel.test.sa_backend.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import raphel.test.sa_backend.model.dtos.dtoRequests.PortfolioDtoRequest;
 import raphel.test.sa_backend.model.dtos.dtoResponses.PortfolioDtoRespons;
 import raphel.test.sa_backend.service.PortfolioService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,10 +21,14 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
     }
 
-    @PostMapping("/create")
-    public PortfolioDtoRespons createPhoto(@RequestBody PortfolioDtoRequest request) {
+    @PostMapping(value="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public PortfolioDtoRespons createPhoto(
+            @RequestParam("file") MultipartFile file,
 
-        return portfolioService.createPhoto(request);
+            @RequestParam("photographerId") Integer photographerId
+
+    )throws IOException {
+        return portfolioService.createPhoto(file, photographerId);
     }
     @GetMapping("/photographer/{id}")
     public List<PortfolioDtoRespons> getPortfolio(@PathVariable Integer id){

@@ -10,7 +10,6 @@ public class PhotographerDashboardResponse {
     private String prenom;
     private String ville;
     private String description;
-    private String bio;
     private String imageUrl;
     private String photoCouverture;
     private Boolean profilComplet;
@@ -58,14 +57,6 @@ public class PhotographerDashboardResponse {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public String getImageUrl() {

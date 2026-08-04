@@ -5,9 +5,6 @@ public class PortfolioDtoRequest {
 
     private String imageUrl;
 
-    private String titre;
-
-    private String description;
 
     public Integer getPhotographerId() {
         return photographerId;
@@ -25,19 +22,5 @@ public class PortfolioDtoRequest {
         this.imageUrl = imageUrl;
     }
 
-    public String getTitre() {
-        return titre;
-    }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

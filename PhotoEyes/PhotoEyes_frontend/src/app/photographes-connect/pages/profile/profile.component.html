@@ -1,1 +1,57 @@
-<p>profile works!</p>
+<div class="page">
+
+    <main class="content">
+
+        <h1>Compléter mon dossier</h1>
+
+        <p class="subtitle">
+
+            Renseignez votre profil et joignez les pièces requises.
+
+        </p>
+
+        <app-dashboard-card
+            *ngIf="dashboard"
+            [dashboard]="dashboard">
+        </app-dashboard-card>
+
+        <div class="layout">
+
+            <section class="left">
+
+                <app-profile-forme
+                    *ngIf="dashboard"
+                    [dashboard]="dashboard" (profileChange)="updateProfile($event)">
+                </app-profile-forme>
+
+                <app-price-forme
+                    *ngIf="dashboard"
+                    [dashboard]="dashboard" (PriceForme)="updateProfile($event)">
+                </app-price-forme>
+
+                <app-cover-upload
+                    *ngIf="dashboard"
+                    [dashboard]="dashboard" (imagesChange)="updateImages($event)">
+                </app-cover-upload>
+
+                <app-portfolio-grid
+                    *ngIf="dashboard"
+                    [dashboard]="dashboard"
+                    (addPhoto)="addPortfolioPhoto($event)"
+                    (deletePhoto)="removePortfolioPhoto($event)">
+                    
+                </app-portfolio-grid>
+            </section>
+
+            <aside class="right">
+                <app-completion-banner
+                    [dashboard]="dashboard" (submit)="sendProfile()">
+                    
+                </app-completion-banner>
+            </aside>
+
+        </div>
+
+    </main>
+
+</div>

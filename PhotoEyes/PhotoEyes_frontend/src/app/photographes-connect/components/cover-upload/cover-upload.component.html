@@ -1,1 +1,27 @@
-<p>cover-upload works!</p>
+<div class="upload-card">
+
+
+    <h2><i class="fa-solid fa-camera"></i>Photos du profil</h2>
+    <div class="images-container">
+        <!-- PHOTO PROFIL -->
+        <div class="image-box">
+        <label>Photo de profil</label>
+        <div class="profile-image">
+            <img [src]="profilePreview ||dashboard.imageUrl ||'assets/default-user.png'">
+            <label class="change">
+                <i class="fa-solid fa-pen"></i>
+                <input type="file" hidden accept="image/*" (change)="selectProfile($event)">
+            </label>
+        </div>
+    </div>
+    <!-- COUVERTURE -->
+    <div class="image-box cover">
+        <label>Photo couverture</label>
+        <div class="cover-image">
+             <img [src]="coverPreview ||dashboard.photoCouverture ||'assets/default-cover.jpg'">
+            <label class="change-cover"><i class="fa-solid fa-camera"></i>
+                <input type="file" hidden accept="image/*"(change)="selectCover($event)">
+            </label>
+        </div>
+    </div>
+</div>
