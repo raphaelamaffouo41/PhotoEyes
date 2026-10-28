@@ -37,7 +37,7 @@
                 </div>
             </div>
             <label>Délai de livraison souhaité</label>
-            <input placeholder="14 jours (défaut)" [(ngModel)]="reservation.delaiLivraison" name="delaiLivraison" (ngModelChange)="saveDraft()">
+            <input placeholder="14 jours (défaut)" [(ngModel)]="reservation.delaiLivraison" name="delaiLivraison" (ngModelChange)="saveDraft()" class="full">
             <label>Instructions particulières</label>
             <textarea [(ngModel)]="reservation.message" name="message" placeholder="Décrivez votre demande" (ngModelChange)="saveDraft()"></textarea>
             <div class="info">

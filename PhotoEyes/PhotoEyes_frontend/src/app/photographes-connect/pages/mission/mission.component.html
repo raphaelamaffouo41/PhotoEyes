@@ -1,0 +1,63 @@
+<div class="missions-container">
+  
+  <!-- En-tête -->
+  <div class="missions-header">
+    <h1>{{ title }}</h1>
+    <p>{{ subtitle }}</p>
+  </div>
+
+  <!-- Liste des missions -->
+  <div class="missions-list">
+    <div *ngFor="let m of missions" class="mission-card" [class.highlight-border]="m.isNew">
+      
+      <!-- Infos principales à gauche -->
+      <div class="mission-info">
+        <div class="mission-title-row">
+          <span class="m-title">{{ m.title }}</span>
+          <span class="m-ref">{{ m.reference }}</span>
+          <span class="badge-new" *ngIf="m.isNew">NOUVELLE</span>
+        </div>
+
+        <div class="mission-details-row">
+          <span>📅 {{ m.date }} · {{ m.time }}</span>
+          <span>📍 {{ m.location }}</span>
+          <span class="net-price">💳 Net : <strong>{{ m.netPrice }}</strong></span>
+        </div>
+      </div>
+
+      <!-- Actions / Statuts à droite -->
+      <div class="mission-action">
+        
+        <!-- Cas 1 : Mission Confirmée -->
+        <div *ngIf="m.typeAction === 'confirmed'" class="status-badge confirmed">
+          Confirmée
+        </div>
+
+        <!-- Cas 2 : Nouvelle mission (Accepter / Empêchement) -->
+        <div *ngIf="m.typeAction === 'accept_refuse'" class="action-buttons-group">
+          <button (click)="acceptMission(m)" class="btn-accept">
+            ✓ Accepter
+          </button>
+          <button (click)="reportObstacle(m)" class="btn-obstacle">
+            Empêchement
+          </button>
+        </div>
+
+        <!-- Cas 3 : Livrer les photos -->
+        <div *ngIf="m.typeAction === 'deliver'" class="action-buttons-group">
+          <button (click)="deliverPhotos(m)" class="btn-deliver">
+            ↑ Livrer les photos
+          </button>
+        </div>
+
+        <!-- Cas 4 : Mission Livrée -->
+        <div *ngIf="m.typeAction === 'delivered'" class="status-badge delivered">
+          Livrée
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

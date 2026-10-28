@@ -1,1 +1,49 @@
-<p>disponibiliter works!</p>
+
+<div class="availability-container">
+  
+  <!-- En-tête -->
+  <div class="availability-header">
+    <h1>{{ title }}</h1>
+    <p>{{ subtitle }}</p>
+  </div>
+
+  <!-- Carte Calendrier -->
+  <div class="calendar-card">
+    
+    <!-- En-têtes des jours de la semaine -->
+    <div class="weekdays-grid">
+      <div *ngFor="let w of weekDays" class="weekday-header">{{ w }}</div>
+    </div>
+
+    <!-- Grille des jours du mois -->
+    <div class="days-grid">
+      <div *ngFor="let slot of calendarDays" 
+           class="day-box" 
+           [class.empty]="slot.day === null"
+           [class.status-available]="slot.status === 'available'"
+           [class.status-confirmed]="slot.status === 'confirmed'"
+           [class.status-blocked]="slot.status === 'blocked'"
+           (click)="toggleDay(slot)">
+        <span *ngIf="slot.day !== null">{{ slot.day }}</span>
+      </div>
+    </div>
+
+    <!-- Légende en bas -->
+    <div class="legend-container">
+      <div class="legend-item">
+        <span class="legend-dot dot-available"></span>
+        <span>Disponible</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot dot-confirmed"></span>
+        <span>Mission confirmée</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot dot-blocked"></span>
+        <span>Bloqué</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>

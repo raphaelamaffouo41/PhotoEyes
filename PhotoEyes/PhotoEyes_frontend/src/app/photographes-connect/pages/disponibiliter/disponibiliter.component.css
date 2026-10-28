@@ -1,0 +1,128 @@
+.availability-container {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.availability-header {
+  margin-bottom: 24px;
+}
+
+.availability-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.availability-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.calendar-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  max-width: 650px;
+}
+
+.weekdays-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.weekday-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.day-box {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.day-box:hover:not(.empty) {
+  transform: scale(1.03);
+}
+
+.day-box.empty {
+  background: transparent;
+  cursor: default;
+}
+
+/* Couleurs des états des jours */
+.status-available {
+  background-color: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.status-confirmed {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.status-blocked {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+}
+
+/* Légende */
+.legend-container {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.dot-available {
+  background-color: #a7f3d0;
+  border: 1px solid #059669;
+}
+
+.dot-confirmed {
+  background-color: #2563eb;
+}
+
+.dot-blocked {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+}

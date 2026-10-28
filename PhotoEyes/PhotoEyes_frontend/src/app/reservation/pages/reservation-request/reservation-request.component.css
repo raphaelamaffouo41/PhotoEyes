@@ -1,25 +1,19 @@
 .page{
 
     background:#f6f8fc;
-
     min-height:100vh;
-
     padding:30px;
 
 }
 
 
 .back{
-
     color:#2563eb;
     font-weight:600;
     display:block;
     margin-bottom:20px;
     cursor: pointer;
-
 }
-
-
 
 .card{
 
@@ -32,14 +26,10 @@
 
 }
 
-
-
 h1{
     font-size:32px;
     color:#152238;
 }
-
-
 
 .photographer{
     display:flex;
@@ -50,14 +40,11 @@ h1{
 
 }
 
-
 .photographer img{
     width:60px;
     height:60px;
     border-radius:50%;
 }
-
-
 
 .photographer p{
     color:#718096;
@@ -69,32 +56,28 @@ h1{
     gap:20px;
 }
 
-
-
 label{
     display:block;
     font-weight:600;
     margin:20px 0 8px;
 }
 
-
-
 input,
 textarea{
-    width:100%;
+    width:90%;
     padding:15px;
     border-radius:15px;
     border:1px solid #dbe3f0;
     font-size:16px;
 }
 
-
-
 textarea{
     height:100px;
 }
-
-
+.flex{
+    display:flex;
+    gap:20px;
+}
 
 .info{
     margin-top:20px;
@@ -104,15 +87,11 @@ textarea{
     border-radius:15px;
 }
 
-
-
 .buttons{
     display:flex;
     gap:15px;
     margin-top:25px;
 }
-
-
 
 button{
     flex:1;
@@ -123,14 +102,13 @@ button{
     font-weight:bold;
     cursor:pointer;
 }
-
-
-
+.full{
+    width:95.7%;
+}
 button:first-child{
     background:#2563eb;
     color:white;
 }
-
 
 button:last-child{
     background:#edf2ff;
@@ -142,21 +120,14 @@ button:last-child{
     gap: 30px;
 }
 
-
-
 @media(max-width:700px){
 
-.grid{
+    .grid{
+        grid-template-columns:1fr;
+    }
 
-    grid-template-columns:1fr;
-
-}
-
-
-.card{
-
-    padding:20px;
-
-}
+    .card{
+        padding:20px;
+    }
 
 }

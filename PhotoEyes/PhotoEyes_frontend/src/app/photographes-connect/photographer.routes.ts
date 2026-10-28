@@ -33,10 +33,10 @@ export const PHOTOGRAPHER_ROUTES: Routes = [
         },
 
         {
-            path:'portfolio',
+            path:'mission',
             loadComponent:()=>
-                import('./pages/portfolio/portfolio.component')
-                .then(c=>c.PortfolioComponent)
+                import('./pages/mission/mission.component')
+                .then(c=>c.MissionsComponent)
         },
 
         {
@@ -44,13 +44,6 @@ export const PHOTOGRAPHER_ROUTES: Routes = [
             loadComponent:()=>
                 import('./pages/disponibiliter/disponibiliter.component')
                 .then(c=>c.DisponibiliterComponent)
-        },
-
-        {
-            path:'reviews',
-            loadComponent:()=>
-                import('./pages/reviews/reviews.component')
-                .then(c=>c.ReviewsComponent)
         },
 
         {

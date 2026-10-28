@@ -1,0 +1,182 @@
+.missions-container {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.missions-header {
+  margin-bottom: 24px;
+}
+
+.missions-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.missions-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mission-card {
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.mission-card.highlight-border {
+  border: 1.5px solid #2563eb;
+}
+
+.mission-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mission-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.m-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.m-ref {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.badge-new {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.mission-details-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.net-price {
+  color: #0f172a;
+}
+
+.mission-action {
+  display: flex;
+  align-items: center;
+}
+
+/* Badges de statuts */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge.confirmed {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.status-badge.delivered {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+/* Boutons d'action */
+.action-buttons-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-accept {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-accept:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-obstacle {
+  background-color: #eff6ff;
+  color: #2563eb;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-obstacle:hover {
+  background-color: #dbeafe;
+}
+
+.btn-deliver {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+
+.btn-deliver:hover {
+  background-color: #1d4ed8;
+}
+
+@media (max-width: 768px) {
+  .mission-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .mission-action {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
