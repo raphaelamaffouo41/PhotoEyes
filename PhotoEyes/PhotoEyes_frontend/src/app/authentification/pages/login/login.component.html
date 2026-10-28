@@ -37,7 +37,7 @@
       <div class="retourne">
         <div class="tabs">
           <button routerLink ="/auth/login"class="active">Se connecter</button>
-          <button routerLink="/auth/register" >Créer un compte</button>
+          <button routerLink="/auth/register" [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }">Créer un compte</button>
         </div>
         <div class="close-btn">
           <button class="close-btn" (click)="close()"><i class="fa-solid fa-xmark"></i></button>
@@ -79,7 +79,7 @@
         </p>
       </form>
       <p class="signup">
-        Pas encore de compte ? <a href="#" routerLink="/auth/register">Créer un compte</a>
+        Pas encore de compte ? <a href="#" routerLink="/auth/register" [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }">Créer un compte</a>
       </p>
     </div>
   </div>

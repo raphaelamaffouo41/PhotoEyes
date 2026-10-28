@@ -1,6 +1,94 @@
-<div class="reservation-page">
-    <h1>Ici verifier vos informations</h1>
-    <p>
-        Cette page sera développée dans la prochaine étape.
-    </p>
+<div class="matching-container">
+  
+  <!-- En-tête -->
+  <div class="matching-header">
+    <h1>Matching — Demande {{ demand.reference }}</h1>
+    <p>Identifiez et assignez le photographe le plus adapté.</p>
+  </div>
+
+  <div class="matching-grid">
+    
+    <!-- Colonne de gauche : Détails de la demande -->
+    <div class="demand-card">
+      <div class="badge-status">{{ demand.status }}</div>
+      <h2>Détails de la demande</h2>
+
+      <div class="demand-info-list">
+        <div class="info-row">
+          <span class="info-label">Client</span>
+          <span class="info-value">{{ demand.client }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Type</span>
+          <span class="info-value">{{ demand.type }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Date</span>
+          <span class="info-value">{{ demand.date }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Créneau</span>
+          <span class="info-value">{{ demand.creneau }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Ville</span>
+          <span class="info-value">{{ demand.ville }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Budget indicatif</span>
+          <span class="info-value budget-text">{{ demand.budget }}</span>
+        </div>
+      </div>
+
+      <!-- Alerte de sécurité -->
+      <div class="security-box">
+        <span class="lock-icon">🔒</span>
+        <p>{{ demand.securityNote }}</p>
+      </div>
+    </div>
+
+    <!-- Colonne de droite : Photographes suggérés -->
+    <div class="photographers-section">
+      <h3>Photographes suggérés</h3>
+
+      <div class="photographers-list">
+        <div *ngFor="let p of photographers" class="photographer-card" [class.unavailable]="!p.available">
+          
+          <div class="photographer-main-info">
+            <div class="avatar-placeholder"></div>
+            <div class="photographer-details">
+              <div class="name-row">
+                <span class="p-name">{{ p.name }}</span>
+                <span class="verified-badge">✔</span>
+              </div>
+              <div class="p-sub">
+                ⭐ {{ p.rating }} &nbsp;·&nbsp; {{ p.specialty }} &nbsp;·&nbsp; {{ p.location }}
+              </div>
+              <div class="availability-status" [class.text-green]="p.available" [class.text-red]="!p.available">
+                {{ p.available ? '✓ ' : '✕ ' }} {{ p.availabilityText }}
+              </div>
+            </div>
+          </div>
+
+          <div class="photographer-action">
+            <div class="compatibility-block">
+              <span class="comp-label">Compatibilité</span>
+              <span class="comp-value" [class.high-match]="p.available">{{ p.compatibility }}</span>
+            </div>
+
+            <button *ngIf="p.available" (click)="assignMission(p.name)" class="btn-assign">
+              Assigner la mission &rarr;
+            </button>
+            
+            <button *ngIf="!p.available" disabled class="btn-indisponible">
+              Indisponible
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>

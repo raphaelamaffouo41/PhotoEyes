@@ -1,6 +1,7 @@
 package raphel.test.sa_backend.model.dtos.dtoResponses;
 
 import raphel.test.sa_backend.model.enums.Role;
+import raphel.test.sa_backend.model.enums.AccountStatut;
 
 public class LoginDtoRespons {
     private String token;
@@ -12,6 +13,15 @@ public class LoginDtoRespons {
     private Role role;
 
     private String message;
+    private Integer userId;
+    private Integer photographerId;
+    private AccountStatut accountStatut;
+    public Integer getUserId() { return userId; }
+    public void setUserId(Integer userId) { this.userId = userId; }
+    public Integer getPhotographerId() { return photographerId; }
+    public void setPhotographerId(Integer photographerId) { this.photographerId = photographerId; }
+    public AccountStatut getAccountStatut() { return accountStatut; }
+    public void setAccountStatut(AccountStatut accountStatut) { this.accountStatut = accountStatut; }
 
     public String getToken() {
         return token;

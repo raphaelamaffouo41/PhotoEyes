@@ -7,7 +7,7 @@
         <div class="image-box">
         <label>Photo de profil</label>
         <div class="profile-image">
-            <img [src]="profilePreview ||dashboard.imageUrl ||'assets/default-user.png'">
+            <img [src]="profilePreview ||dashboard.imageUrl ">
             <label class="change">
                 <i class="fa-solid fa-pen"></i>
                 <input type="file" hidden accept="image/*" (change)="selectProfile($event)">
@@ -18,10 +18,11 @@
     <div class="image-box cover">
         <label>Photo couverture</label>
         <div class="cover-image">
-             <img [src]="coverPreview ||dashboard.photoCouverture ||'assets/default-cover.jpg'">
+             <img [src]="coverPreview ||dashboard.photoCouverture ">
             <label class="change-cover"><i class="fa-solid fa-camera"></i>
                 <input type="file" hidden accept="image/*"(change)="selectCover($event)">
             </label>
         </div>
     </div>
 </div>
+<button type="button" (click)="saveImages()" [disabled]="!profileFile && !coverFile">Enregistrer les photos</button>

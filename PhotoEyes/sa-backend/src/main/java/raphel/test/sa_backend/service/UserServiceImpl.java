@@ -13,17 +13,21 @@ import raphel.test.sa_backend.model.enums.AccountStatut;
 import raphel.test.sa_backend.model.enums.Role;
 import raphel.test.sa_backend.model.enums.AuthProvider;
 import raphel.test.sa_backend.model.repository.UserRepository;
+import raphel.test.sa_backend.model.repository.PhotographerRepository;
+import raphel.test.sa_backend.model.entities.Photographer;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private UserRepository userRepository;
+    private final PhotographerRepository photographerRepository;
 
-    public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder, JwtService jwtService ) {
+    public UserServiceImpl(UserRepository userRepository,PasswordEncoder passwordEncoder, JwtService jwtService, PhotographerRepository photographerRepository ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.photographerRepository = photographerRepository;
     }
     @Override
     public void creerUser(UserRequestDto userRequestDto){
@@ -77,6 +81,18 @@ public class UserServiceImpl implements UserService {
         user.setMotDePasse(passwordEncoder.encode(registerDtoRequest.getMotdepasse()));
         user.setAuthProvider(registerDtoRequest.getAuthProvider() == null ? AuthProvider.LOCAL : registerDtoRequest.getAuthProvider());
         userRepository.save(user);
+        if (user.getRole() == Role.PHOTOGRAPHE) {
+            Photographer profile = new Photographer();
+            profile.setUser(user);
+            profile.setVisible(false);
+            profile.setProfilComplet(false);
+            profile.setDescription("");
+            profile.setVille("");
+            profile.setSpecialites(new java.util.ArrayList<>());
+            profile.setNoteMoyenne(0.0);
+            profile.setCertifie(false);
+            photographerRepository.save(profile);
+        }
 
         RegisterDtoRespons registerDtoRespons = new RegisterDtoRespons();
         registerDtoRespons.setId(user.getIdUser());
@@ -108,6 +124,25 @@ public class UserServiceImpl implements UserService {
         loginDtoRespons.setEmail(user.getEmail());
 
         loginDtoRespons.setRole(user.getRole());
+        loginDtoRespons.setUserId(user.getIdUser());
+        if (user.getRole() == Role.PHOTOGRAPHE && user.getAccountStatut() == AccountStatut.PENDING_VALIDATION) {
+            Photographer profile = photographerRepository.findByUser(user).orElseGet(() -> {
+                Photographer pending = new Photographer();
+                pending.setUser(user);
+                pending.setVisible(false);
+                pending.setProfilComplet(false);
+                pending.setDescription("");
+                pending.setVille("");
+                pending.setSpecialites(new java.util.ArrayList<>());
+                pending.setNoteMoyenne(0.0);
+                pending.setCertifie(false);
+                return photographerRepository.save(pending);
+            });
+            loginDtoRespons.setPhotographerId(profile.getId());
+        } else {
+            photographerRepository.findByUser(user).ifPresent(p -> loginDtoRespons.setPhotographerId(p.getId()));
+        }
+        loginDtoRespons.setAccountStatut(user.getAccountStatut());
 
         loginDtoRespons.setToken(jwtService.generateToken(user));
 

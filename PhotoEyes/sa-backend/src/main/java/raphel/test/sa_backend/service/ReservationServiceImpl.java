@@ -18,6 +18,7 @@ import raphel.test.sa_backend.model.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -40,7 +41,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationDtoResponse createReservation(ReservationDtoRequest request) {
 
-            User client = userRepository.findById(request.getClientId()).orElseThrow(()-> new RuntimeException("Client introuvable"));
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            User client = userRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("Client introuvable"));
             Photographer photographer = photographerRepository.findById(request.getPhotographerId()).orElseThrow(()-> new RuntimeException("Photographer introuvable"));
             if (!Boolean.TRUE.equals(photographer.getVisible())) {
                 throw new RuntimeException("Ce photographe n'est pas disponible sur la plateforme");

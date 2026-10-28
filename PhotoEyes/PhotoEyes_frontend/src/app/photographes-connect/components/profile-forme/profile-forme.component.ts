@@ -28,7 +28,7 @@ export class ProfileFormeComponent {
     "Corporate",
     "Mode",
     "Grossesse",
-    "Ã‰vÃ©nementiel",
+    "Événementiel",
     "Immobilier",
     "Produit"
 
@@ -56,7 +56,12 @@ export class ProfileFormeComponent {
 
       this.form.ville = this.dashboard.ville || '';
 
-      this.form.specialites = this.dashboard.specialites || [];
+            const enumToLabel: Record<string, string> = {
+        MARIAGE: 'Mariage', PORTRAIT: 'Portrait', CORPORATE: 'Corporate',
+        MODE: 'Mode', GROSSESSE: 'Grossesse', EVENEMENT: 'Événementiel',
+        IMMOBILIER: 'Immobilier', PRODUIT: 'Produit'
+      };
+      this.form.specialites = (this.dashboard.specialites || []).map(value => enumToLabel[value] ?? value);
 
     }
 
@@ -81,6 +86,8 @@ export class ProfileFormeComponent {
 
     }
 
+    this.emitChanges();
+
 
   }
 
@@ -91,7 +98,10 @@ export class ProfileFormeComponent {
   }
 
   save(){
+    this.emitChanges();
+  }
 
+  emitChanges(){
   this.profileChange.emit({
 
         description: this.form.description,

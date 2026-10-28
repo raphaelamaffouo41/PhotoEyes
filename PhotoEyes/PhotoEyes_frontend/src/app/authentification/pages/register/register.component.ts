@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule,Location } from "@angular/common";
-import { RouterLink,Router  } from '@angular/router';
+import { ActivatedRoute, RouterLink,Router  } from '@angular/router';
 import { AuthService } from "../../services/auth.service";
+import { AuthState } from '../../services/auth-state.service';
 import {FormBuilder, FormGroup,ReactiveFormsModule,Validators,AbstractControl,ValidationErrors} from "@angular/forms";
 import { MessageModalComponent } from "../../../shared/message-modal/message-modal.component";
 
@@ -26,7 +27,7 @@ export class RegisterComponent {
   showSuccess = false;
   showError = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private location: Location, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private authState: AuthState, public route: ActivatedRoute, private location: Location, private router: Router) {
     this.registerForm = this.fb.group({
       nom: ['',Validators.required],
       prenom: ['',Validators.required],
@@ -137,6 +138,14 @@ export class RegisterComponent {
       };
 
       const response = await this.authService.register(data);
+
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      if (returnUrl) {
+        const login = await this.authService.login({ email: formValue.email, motDePasse: formValue.motdepasse });
+        this.authState.setRole(login.role, login.userId, login.photographerId);
+        await this.router.navigateByUrl(login.role === 'PHOTOGRAPHE' ? '/photographer/profile' : returnUrl);
+        return;
+      }
 
       this.successMessage = response.message;
 

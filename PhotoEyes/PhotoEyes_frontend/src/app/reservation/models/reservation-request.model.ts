@@ -1,7 +1,5 @@
 export interface ReservationRequest{
 
-    clientId:number;
-
     photographerId:number;
 
     date:string;
@@ -11,4 +9,7 @@ export interface ReservationRequest{
     heureFin:string;
 
     message:string;
+    typePrestation?: string;
+    lieu?: string;
+    delaiLivraison?: string;
 }

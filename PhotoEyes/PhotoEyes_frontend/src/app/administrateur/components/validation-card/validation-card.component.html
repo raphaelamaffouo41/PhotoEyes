@@ -1,14 +1,14 @@
 <div class="card">
     <div class="left_img">
         <div class="left">
-            <img [src]="photographer.imageurl">
+            <img [src]="photographer.imageUrl" [alt]="photographer.prenom + ' ' + photographer.nom">
         </div>
     </div>
 
     <div class="description">
         <h3>{{photographer.nom}}</h3>
-        <p>📍 {{photographer.ville}}•📷 {{photographer.categorie}}</p>
-        <span>✔ CNI·Tél vérifié·{{photographer.nombrePhotos}} photos</span>
+        <p>📍 {{photographer.ville}}•📷 {{photographer.specialites?.join(', ')}}</p>
+        <span>Dossier complet · {{photographer.nombrePhotos}} photos</span>
     </div>
     <div class="actions">
         <button class="validate" (click)="onValidate()">Valider</button>

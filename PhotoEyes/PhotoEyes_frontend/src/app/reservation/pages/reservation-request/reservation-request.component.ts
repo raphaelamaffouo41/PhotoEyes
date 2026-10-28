@@ -33,14 +33,16 @@ export class ReservationRequestComponent {
 photographer!: Photographer
 reservation:ReservationRequest={
 
-    clientId: 1,
     photographerId: 1,
 
     date: '',
     heureDebut: '',
     heureFin: '',
 
-    message: ''
+    message: '',
+    typePrestation: '',
+    lieu: '',
+    delaiLivraison: ''
 
 
 };
@@ -79,10 +81,18 @@ constructor(
 
   async sendReservation(){
 
+    this.saveDraft();
+    if (!localStorage.getItem('token')) {
+      await this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url } });
+      return;
+    }
+
     try{
 
     const response = await this.reservationService
     .createReservation(this.reservation);
+
+    sessionStorage.removeItem('photoeyes.reservationDraft');
 
 
     this.openModal("Votre réservation a été envoyée avec succès","success");
@@ -93,7 +103,7 @@ constructor(
     console.error(error);
 
 
-    this.openModal(error.error.message,"error");
+    this.openModal(error?.error?.message ?? "Impossible d'envoyer la réservation.","error");
 
     }
 
@@ -104,11 +114,23 @@ constructor(
 
         this.photographer = await this.photographerService.getById(id);
 
+        try {
+          const draft = sessionStorage.getItem('photoeyes.reservationDraft');
+          if (draft) {
+            const saved = JSON.parse(draft);
+            if (saved.photographerId === id) this.reservation = { ...this.reservation, ...saved };
+          }
+        } catch { sessionStorage.removeItem('photoeyes.reservationDraft'); }
+
         this.reservation.photographerId = this.photographer.id;
 
         // this.reservation.clientId = utilisateurConnecte.id;
 
       }
+
+  saveDraft() {
+    sessionStorage.setItem('photoeyes.reservationDraft', JSON.stringify(this.reservation));
+  }
 
 
 }

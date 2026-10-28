@@ -1,5 +1,7 @@
 <div class="page">
 
+    <app-message-modal [show]="showModal" [message]="modalMessage" [type]="modalType"></app-message-modal>
+
     <main class="content">
 
         <h1>Compléter mon dossier</h1>
@@ -8,6 +10,13 @@
 
             Renseignez votre profil et joignez les pièces requises.
 
+        </p>
+
+        <p class="subtitle" *ngIf="dashboard && !dashboard.profilComplet">
+            Statut : dossier en attente de complétion. Votre profil reste invisible jusqu’à sa validation par l’administrateur.
+        </p>
+        <p class="subtitle" *ngIf="dashboard?.profilComplet">
+            Statut : dossier complet, en attente de validation par l’administrateur.
         </p>
 
         <app-dashboard-card

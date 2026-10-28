@@ -38,6 +38,17 @@ export class PhotographerService {
 
   }
 
+  async uploadProfileImage(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('image', file);
+    const url = await firstValueFrom(this.http.post(
+      `${this.API}/upload/profile`,
+      formData,
+      { responseType: 'text' }
+    ));
+    return url.startsWith('http') ? url : `${this.API}${url}`;
+  }
+
   async uploadPortfolioPhoto(photographerId:number,file:File){
 
     const formData=new FormData();

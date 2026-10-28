@@ -45,7 +45,7 @@ ngOnInit(): void {
 
 }
 
-constructor(private fb: FormBuilder, private authService: AuthService,  private authState: AuthState,  private router: Router, private route: ActivatedRoute,  private location: Location,) {
+constructor(private fb: FormBuilder, private authService: AuthService,  private authState: AuthState,  private router: Router, public route: ActivatedRoute,  private location: Location,) {
 
   this.loginForm = this.fb.group({
 
@@ -79,7 +79,7 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
 
       const response =await this.authService.login(this.loginForm.getRawValue());
 
-      this.authState.setRole(response.role);
+      this.authState.setRole(response.role, response.userId, response.photographerId);
       localStorage.removeItem('photoeyes.lastRegister');
 
       this.successMessage = response.message;
@@ -91,7 +91,7 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
 
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
     setTimeout(async () => {
-       this.authState.setRole(response.role);
+      this.authState.setRole(response.role, response.userId, response.photographerId);
 
       if(response.role === 'ADMIN'){
 
@@ -103,7 +103,9 @@ constructor(private fb: FormBuilder, private authService: AuthService,  private 
         const returnUrl =
             this.route.snapshot.queryParamMap.get('returnUrl');
 
-        if(returnUrl){
+        if (response.role === 'PHOTOGRAPHE' && response.accountStatut === 'PENDING_VALIDATION') {
+          await this.router.navigate(['/photographer/profile']);
+        } else if(returnUrl){
 
             await this.router.navigateByUrl(returnUrl);
 

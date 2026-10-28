@@ -5,13 +5,13 @@ export interface AdminPhotographer {
   photographerId?: number;
 
   nom: string;
-  imageurl:string;
+  imageUrl:string;
   prenom: string;
   nombrePhotos: number;
   email: string;
   ville:string
   accountStatut: string;
-  categorie:string;
+  specialites?: string[];
   message: string;
 
 }

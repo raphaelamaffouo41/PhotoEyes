@@ -261,7 +261,10 @@ public class PhotographerServiceImpl implements PhotographerService {
 
                         request.getPrixJournee()!=null;
 
+        complet = complet && portfolioService.getPortfolio(photographerId).size() >= 5;
+
         photographer.setProfilComplet(complet);
+        // Un dossier déjà complet reste modifiable, mais ne peut être soumis qu'une fois ses champs requis présents.
 
         photographerRepository.save(photographer);
 

@@ -11,41 +11,41 @@
             </div>
         </div>
 
-        <form>
+        <form (ngSubmit)="sendReservation()">
             <div class="grid">
                 <div>
                     <label> Date souhaitée</label>
-                    <input type="date"[(ngModel)]="reservation.date"name="date">
+                    <input type="date" [(ngModel)]="reservation.date" name="date" (ngModelChange)="saveDraft()">
                 </div>
                 <div class="crenneaux"> 
                     <div>
                         <label>Heur de debut</label>
-                        <input type="time"[(ngModel)]="reservation.heureDebut"name="heureDebut" >                      
+                        <input type="time" [(ngModel)]="reservation.heureDebut" name="heureDebut" (ngModelChange)="saveDraft()">
                     </div>                 
                     <div>
                         <label>Heure de fin</label>
-                        <input type="time"[(ngModel)]="reservation.heureFin"name="heureFin">
+                        <input type="time" [(ngModel)]="reservation.heureFin" name="heureFin" (ngModelChange)="saveDraft()">
                     </div>                        
                 </div>
                 <div>
                     <label>Type de prestation</label>
-                    <input placeholder="Mariage">
+                    <input placeholder="Mariage" [(ngModel)]="reservation.typePrestation" name="typePrestation" (ngModelChange)="saveDraft()">
                 </div>
                 <div>
                     <label>Lieu</label>
-                    <input placeholder="Yaoundé, Bastos">
+                    <input placeholder="Yaoundé, Bastos" [(ngModel)]="reservation.lieu" name="lieu" (ngModelChange)="saveDraft()">
                 </div>
             </div>
             <label>Délai de livraison souhaité</label>
-            <input placeholder="14 jours (défaut)">
+            <input placeholder="14 jours (défaut)" [(ngModel)]="reservation.delaiLivraison" name="delaiLivraison" (ngModelChange)="saveDraft()">
             <label>Instructions particulières</label>
-            <textarea [(ngModel)]="reservation.message"name="message"placeholder="Décrivez votre demande"></textarea>
+            <textarea [(ngModel)]="reservation.message" name="message" placeholder="Décrivez votre demande" (ngModelChange)="saveDraft()"></textarea>
             <div class="info">
                 🔒 Votre demande est transmise à l'administrateur.
                 Réponse sous 24h ouvrées.
             </div>
             <div class="buttons">
-                <button type="button" (click)="sendReservation()">Envoyer ma demande →</button>
+                <button type="submit">Envoyer ma demande →</button>
 
                 <button type="button">Annuler</button>
             </div>

@@ -7,7 +7,7 @@
     </h2>
 
     <label>Description</label>
-    <textarea [(ngModel)]="form.description"placeholder="Présentez votre expérience"></textarea>
+    <textarea [(ngModel)]="form.description" (ngModelChange)="emitChanges()" placeholder="Présentez votre expérience"></textarea>
     <div class="label-row">
 
         <label>Spécialités</label>
@@ -24,5 +24,5 @@
     </div>
 
     <label>Ville</label>
-    <input type="text" [(ngModel)]="form.ville"placeholder="Votre ville">
+    <input type="text" [(ngModel)]="form.ville" (ngModelChange)="emitChanges()" placeholder="Votre ville">
 </div>

@@ -10,7 +10,7 @@
         <div class="price-box">
             <label>Portrait</label>
             <div class="input-group">
-                <input type="number"[(ngModel)]="form.prixPortrait"placeholder="Ex: 25000">
+                <input type="number"[(ngModel)]="form.prixPortrait" (ngModelChange)="emitChanges()" placeholder="Ex: 25000">
                 <span>FCFA</span>
             </div>
             <p>{{format(form.prixPortrait)}}</p>
@@ -19,7 +19,7 @@
         <div class="price-box">
             <label>Demi-journée</label>
             <div class="input-group">
-                <input type="number" [(ngModel)]="form.prixDemiJournee"placeholder="Ex: 80000">
+                <input type="number" [(ngModel)]="form.prixDemiJournee" (ngModelChange)="emitChanges()" placeholder="Ex: 80000">
                 <span>FCFA</span>
             </div>
             <p>{{format(form.prixDemiJournee)}}</p>
@@ -28,7 +28,7 @@
         <div class="price-box">
             <label>Journée complète</label>
             <div class="input-group">
-                <input type="number" [(ngModel)]="form.prixJournee"placeholder="Ex: 150000">
+                <input type="number" [(ngModel)]="form.prixJournee" (ngModelChange)="emitChanges()" placeholder="Ex: 150000">
                 <span>FCFA</span>
             </div>
             <p>{{format(form.prixJournee)}}</p>

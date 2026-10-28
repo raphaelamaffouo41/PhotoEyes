@@ -69,7 +69,7 @@ get checks(){
     label:'Portfolio',
     valid:
     !!this.dashboard?.portfolio &&
-    this.dashboard.portfolio.length >=3
+    this.dashboard.portfolio.length >=5
     }
    ];
   }

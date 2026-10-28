@@ -36,7 +36,7 @@
     <div class="right-panel">
       <div class="retourne">
         <div class="tabs">
-          <button routerLink ="/auth/login">Se connecter</button>
+          <button routerLink ="/auth/login" [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }">Se connecter</button>
           <button routerLink="/auth/register" class="active">Créer un compte</button>
         </div>
         <div class="close-btn">
@@ -130,7 +130,7 @@
           }
         </div>
       </form>
-      <p class="signup">Vous avez déjà un compte ? <a href="#" routerLink="/auth/login">Se connecter </a></p>
+      <p class="signup">Vous avez déjà un compte ? <a href="#" routerLink="/auth/login" [queryParams]="{ returnUrl: route.snapshot.queryParamMap.get('returnUrl') }">Se connecter </a></p>
     </div>
   </div>
 </div>

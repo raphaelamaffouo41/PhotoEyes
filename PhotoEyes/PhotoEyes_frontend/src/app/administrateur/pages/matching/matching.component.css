@@ -1,20 +1,245 @@
-
-.reservation-page{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-
+.matching-container {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
-h1{
-    color:#7c3aed;
-    margin-bottom:20px;
+.matching-header {
+  margin-bottom: 24px;
 }
 
-p{
-    color:#666;
-    font-size:18px;
+.matching-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.matching-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.matching-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .matching-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Carte Détails de la demande */
+.demand-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+}
+
+.badge-status {
+  background-color: #fef3c7;
+  color: #d97706;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.demand-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 20px 0;
+}
+
+.demand-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  border-bottom: 1px dashed #f1f5f9;
+  padding-bottom: 10px;
+}
+
+.info-label {
+  color: #64748b;
+}
+
+.info-value {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.budget-text {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.security-box {
+  background-color: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.security-box p {
+  font-size: 12px;
+  color: #1e40af;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lock-icon {
+  font-size: 14px;
+}
+
+/* Section Photographes Suggérés */
+.photographers-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 16px 0;
+}
+
+.photographers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.photographer-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.photographer-card.unavailable {
+  opacity: 0.8;
+}
+
+.photographer-main-info {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.avatar-placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background-color: #dbeafe;
+  flex-shrink: 0;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.p-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.verified-badge {
+  color: #16a34a;
+  font-size: 12px;
+}
+
+.p-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin: 4px 0;
+}
+
+.availability-status {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.text-green {
+  color: #16a34a;
+}
+
+.text-red {
+  color: #dc2626;
+}
+
+.photographer-action {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.compatibility-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.comp-label {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.comp-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: #16a34a;
+}
+
+.btn-assign {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-assign:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-indisponible {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: not-allowed;
 }

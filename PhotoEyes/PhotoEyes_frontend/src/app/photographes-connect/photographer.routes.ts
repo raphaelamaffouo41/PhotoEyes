@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
+import { photographerGuard } from './guards/photographer.guard';
 
 export const PHOTOGRAPHER_ROUTES: Routes = [
 
 {
     path:'',
+    canActivate: [photographerGuard],
     loadComponent:()=>
         import('./layout/layout.component')
         .then(c=>c.LayoutComponent),

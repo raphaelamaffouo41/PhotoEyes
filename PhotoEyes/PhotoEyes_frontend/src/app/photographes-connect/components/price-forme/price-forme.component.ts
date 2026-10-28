@@ -45,7 +45,10 @@ ngOnChanges(){
 }
 
   save(){
+    this.emitChanges();
+  }
 
+  emitChanges(){
   this.PriceForme.emit({
 
   prixPortrait:this.form.prixPortrait,

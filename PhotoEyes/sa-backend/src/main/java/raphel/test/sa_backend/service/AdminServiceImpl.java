@@ -24,9 +24,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public List<AdminUserDtoResponse> getPendingPhotographers() {
         return users.findByRoleAndAccountStatut(Role.PHOTOGRAPHE, AccountStatut.PENDING_VALIDATION)
-                .stream().map(user -> response(user, null, "Demande de validation en attente")).toList();
+                .stream().map(user -> photographers.findByUser(user).orElse(null))
+                .filter(p -> p != null && Boolean.TRUE.equals(p.getProfilComplet()))
+                .map(p -> response(p.getUser(), p, "Dossier complet, en attente de validation")).toList();
     }
 
     @Override
@@ -35,22 +38,11 @@ public class AdminServiceImpl implements AdminService {
         User user = photographerUser(userId);
         if (user.getAccountStatut() == AccountStatut.ACTIVE) throw new IllegalStateException("Ce photographe est déjà validé");
         if (user.getAccountStatut() != AccountStatut.PENDING_VALIDATION) throw new IllegalStateException("Seul un photographe en attente peut être validé");
-        if (photographers.existsByUser(user)) throw new IllegalStateException("Un profil photographe existe déjà pour cet utilisateur");
-
-        Photographer photographer = new Photographer();
-        photographer.setUser(user);
-        photographer.setDescription("");
-        photographer.setVille("");
-        photographer.setPrixPortrait(0.0);
-
-        photographer.setPrixDemiJournee(0.0);
-
-        photographer.setPrixJournee(0.0);
-
-        photographer.setSpecialites(new ArrayList<>());
-        photographer.setNoteMoyenne(0.0);
-        photographer.setCertifie(false);
+        Photographer photographer = photographers.findByUser(user)
+                .orElseThrow(() -> new IllegalStateException("Le dossier photographe est introuvable"));
+        if (!Boolean.TRUE.equals(photographer.getProfilComplet())) throw new IllegalStateException("Le dossier photographe doit être complet avant validation");
         photographer.setVisible(true);
+        photographer.setCertifie(true);
         photographer.setDateValidation(LocalDateTime.now());
         user.setAccountStatut(AccountStatut.ACTIVE);
         photographers.save(photographer);
@@ -103,6 +95,12 @@ public class AdminServiceImpl implements AdminService {
         dto.setPhotographerId(photographer == null ? null : photographer.getId());
         dto.setNom(user.getNom()); dto.setPrenom(user.getPrenom()); dto.setEmail(user.getEmail());
         dto.setAccountStatut(user.getAccountStatut()); dto.setMessage(message);
+        if (photographer != null) {
+            dto.setVille(photographer.getVille());
+            dto.setImageUrl(photographer.getImageUrl());
+            dto.setSpecialites(photographer.getSpecialites());
+            dto.setNombrePhotos(photographer.getPortfolio() == null ? 0 : photographer.getPortfolio().size());
+        }
         return dto;
     }
 }
